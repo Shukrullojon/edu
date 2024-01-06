@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label
                         for="type"><strong>Type:</strong></label> {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type', \App\Helpers\TypeHelper::$groupDayType,null, ['id'=>'type','class' => 'form-control']) !!}
+                    {!! Form::select('type', $day_type,null, ['id'=>'type','class' => 'form-control']) !!}
                 </div>
             </div>
 

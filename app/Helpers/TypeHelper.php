@@ -30,6 +30,17 @@ class TypeHelper{
         3 => 'Se-Pa-Sha',
     ];
 
+    public static $weekDays = [
+        1 => 'Dushanba',
+        2 => 'Seshanba',
+        3 => 'Chorshanba',
+        4 => 'Payshanba',
+        5 => 'Juma',
+        6 => 'Shanba',
+        0 => 'Yakshanba',
+        // hafta kunlarini soni boyicha => date('w',strtotime("YYYY-MM-DD"));
+    ];
+
     public static function getGroupDayType($index){
         return self::$groupDayType[$index] ?? 'Undefined';
     }

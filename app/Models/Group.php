@@ -65,4 +65,8 @@ class Group extends Model
             ->where('status',1)
             ->select(DB::raw("count(id) as number"));
     }
+
+    public function dayType(){
+        return $this->hasOne(DayType::class,'id','type');
+    }
 }

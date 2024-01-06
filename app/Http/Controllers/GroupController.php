@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cource;
+use App\Models\DayType;
 use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupDetail;
@@ -37,10 +38,13 @@ class GroupController extends Controller
         $groups = $groups->latest()->paginate(20);
         $filials = Filial::all()->pluck('name','id');
         $cources = Cource::all()->pluck('name','id');
+        $day_type = DayType::all()->pluck('name', 'id');
+
         return view('group.index', [
             'groups' => $groups,
             'filials' => $filials,
             'cources' => $cources,
+            'day_type' => $day_type,
         ]);
     }
 
@@ -51,9 +55,12 @@ class GroupController extends Controller
     {
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $day_type = DayType::all()->pluck('name', 'id');
+
         return view('group.create', [
             'cources' => $cources,
             'filials' => $filials,
+            'day_type' => $day_type,
         ]);
     }
 
@@ -149,6 +156,7 @@ class GroupController extends Controller
             ->latest('users.updated_at')
             ->get()->pluck('name', 'id');
         $group = Group::find($id);
+
         return view('group.show', [
             'group' => $group,
             'rooms' => $rooms,
@@ -165,10 +173,13 @@ class GroupController extends Controller
         $group = Group::find($id);
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $day_type = DayType::all()->pluck('name', 'id');
+
         return view('group.edit', [
             'group' => $group,
             'cources' => $cources,
             'filials' => $filials,
+            'day_type' => $day_type,
         ]);
     }
 

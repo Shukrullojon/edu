@@ -10,7 +10,7 @@
         <div class="card card-xl-stretch mb-12 mb-xl-12">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label fw-bolder fs-3 mb-1">Groups: {{ $groups->total() }}</span>
+                    {{-- <span class="card-label fw-bolder fs-3 mb-1">Groups: {{ $groups->total() }}</span> --}}
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Filter">
                     <a href="#" class="btn btn-sm btn-active-primary" data-bs-toggle="modal"
@@ -22,45 +22,33 @@
                 </div>
             </div>
             <div class="card-body py-0">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-row-bordered">
                     <tr>
                         <th class="">#</th>
                         <th>Name</th>
-                        <th>Type</th>
-                        <th>Start Time</th>
-                        <th>Cource</th>
-                        <th>Max</th>
-                        <th>Filial</th>
-                        <th>Status</th>
+                        <th>Days</th>
                         <th>Action</th>
                     </tr>
                     @php $i = (!empty(request()->get('page')) ? (request()->get('page') -1) * 20 : 0) + 1; @endphp
-                    @foreach ($groups as $key => $group)
+                    @foreach ($day_types as $key => $day)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>{{ $group->name }}</td>
+                            <td>{{ $day->name }}</td>
                             <td>
-                                @if (isset($group->dayType->name))
-                                {{$group->dayType->name}}
-
-                                @endif
-                                {{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}
+                                @foreach (json_decode($day->days) as $item)
+                                    <p>{{ \App\Helpers\TypeHelper::$weekDays[$item] }}</p>
+                                @endforeach
                             </td>
-                            <td>{{ date('Y-m-d H:i',strtotime($group->start_time)) }}</td>
-                            <td>{{ $group->cource->name }}</td>
-                            <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
-                            <td>@if(!empty($group->filial->name)) {{ $group->filial->name }} @endif</td>
-                            <td>{{ \App\Helpers\StatusHelper::groupStatusGet($group->status) }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="" style="margin-right: 10px" href="{{ route('group.show',$group->id) }}">
+                                    {{-- <a class="" style="margin-right: 10px" href="{{ route('group.show',$day->id) }}">
                                         <span class="fa fa-eye"></span>
-                                    </a>
-                                    <a class="" style="margin-right: 2px" href="{{ route('group.edit',$group->id) }}">
+                                    </a> --}}
+                                    <a class="" style="margin-right: 2px" href="{{ route('day-type.edit',$day->id) }}">
                                         <span class="fa fa-edit" style="color: #562bb0"></span>
                                     </a>
 
-                                    <form action="{{ route("group.destroy", $group->id) }}" method="POST">
+                                    <form action="{{ route("day-type.destroy", $day->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <input name="_method" type="hidden" value="DELETE">
@@ -75,8 +63,8 @@
                     <tr>
                         <td colspan="9">
 
-                            {{
-                                $groups->appends([
+                            {{-- {{
+                                $day_types->appends([
                                     'page' => request()->get('page'),
                                     'name' => request()->get('name'),
                                     'filial_id' => request()->get('filial_id'),
@@ -84,7 +72,7 @@
                                     'type' => request()->get('type'),
                                     'cource_id' => request()->get('cource_id'),
                                 ])
-                            }}
+                            }} --}}
                         </td>
                     </tr>
                 </tfooter>
@@ -92,7 +80,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="group_filter" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal fade" id="group_filter" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered mw-900px">
             <div class="modal-content">
                 <div class="modal-header pb-0 border-0 justify-content-end">
@@ -158,5 +146,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

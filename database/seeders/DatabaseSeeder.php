@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DayType;
 use App\Models\GroupDetail;
 use App\Models\GroupTeacher;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomTaskSeeder::class);
         $this->call(RoomTask_Seeder::class);
         $this->call(CourceSeeder::class);
+        $this->call(DayTypeSeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(GroupStudentSeeder::class);
         $this->call(GroupDetailsSeeder::class);

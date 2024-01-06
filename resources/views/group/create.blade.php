@@ -43,7 +43,7 @@
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group"><label for="type"><strong>Type:</strong></label>
                     {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type', \App\Helpers\TypeHelper::$groupDayType,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2"]) !!}
+                    {!! Form::select('type',$day_type,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2"]) !!}
                 </div>
             </div>
 

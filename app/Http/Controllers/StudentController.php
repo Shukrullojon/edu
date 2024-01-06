@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\TypeHelper;
 use App\Models\Comment;
+use App\Models\Cource;
+use App\Models\DayType;
 use App\Models\Event;
 use App\Models\EventUser;
+use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupStudent;
 use App\Models\PC;
@@ -63,10 +66,11 @@ class StudentController extends Controller
             ->paginate(40);
         $events = Event::where('status', 1)->get()->pluck('name', 'id');
         $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
         return view('student.all', [
             'students' => $students,
             'events' => $events,
-            'groups' => $groups,
+            'groups' => $groups
         ]);
     }
 
@@ -75,6 +79,7 @@ class StudentController extends Controller
         $events = Event::where('status', 1)->get()->pluck('name', 'id');
         $pcs = PC::where('status', 1)->get()->pluck('name', 'id');
         $groups = Group::whereIn('status', [1, 2])->get()->pluck('name', 'id');
+        dd(4);
         return view('student.create', [
             'events' => $events,
             'pcs' => $pcs,
@@ -290,10 +295,18 @@ class StudentController extends Controller
             ->paginate(40);
         $events = Event::where('status', 1)->get()->pluck('name', 'id');
         $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $day_type = DayType::all()->pluck('name', 'id');
+
         return view('student.waiting', [
             'students' => $students,
             'events' => $events,
             'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+            'day_type' => $day_type,
         ]);
     }
 
@@ -585,5 +598,64 @@ Guruh: ".$up->group->name.' Oy: '.date('Y-m',strtotime($up->month))." To'landi: 
             'status' => 1,
         ]);
         return back()->with('success', 'Group updated successfully');
+    }
+
+    public function addGroup(Request $request){
+
+        $this->validate($request, [
+            'group_id' => 'required',
+            'student_id' => 'required',
+        ]);
+        $student_id = explode(',', $request->student_id);
+
+        $group_id = $request->group_id;
+
+        foreach ($student_id as $key => $id) {
+            $exists = GroupStudent::where('group_id', $group_id)->where('student_id',$id)->exists();
+
+            if(!$exists)
+            {
+                GroupStudent::create([
+                    'group_id' => $group_id,
+                    'student_id' => $id,
+                ]);
+            }
+
+        }
+
+        return back()->with('success', 'Student add group successfully');
+
+    }
+
+    public function addNewGroup(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string|max:100',
+            'start_time' => 'required|date_format:Y-m-d H:i:s',
+            'type' => 'required|numeric|in:1,2,3',
+            'max_student' => 'required|numeric|min:0',
+            'cource_id' => 'required|exists:cources,id',
+            'filial_id' => 'required|exists:filials,id',
+            'status' => 'required|in:1,2,3',
+            'student_id' => 'required',
+        ]);
+
+        $request->request->add([
+            'color' => rand(100000,999999),
+        ]);
+
+        $group = Group::create($request->all());
+
+        $student_id = explode(',', $request->student_id);
+
+        foreach ($student_id as $key => $id) {
+                GroupStudent::create([
+                    'group_id' => $group->id,
+                    'student_id' => $id,
+                ]);
+        }
+
+        return back()->with('success', 'Student add new group successfully');
+
     }
 }

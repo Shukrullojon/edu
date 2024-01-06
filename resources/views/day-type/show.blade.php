@@ -31,9 +31,7 @@
                                             <i>{{ $group->name }}</i></a>
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Type:
-                                            <i>{{ $group->dayType->name }}
-                                                {{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}
-                                            </i></a>
+                                            <i>{{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }}</i></a>
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Max Student:
                                             <i>{{ $group->max_student }} ({{ $group->stdCount->number }})</i></a>

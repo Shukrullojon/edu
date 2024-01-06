@@ -9,6 +9,7 @@ use App\Http\Controllers\FilialController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTaskController;
 use App\Http\Controllers\CourceController;
+use App\Http\Controllers\DayTypeController;
 use App\Http\Controllers\GroupController;
 
 
@@ -54,6 +55,8 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/user/change/update', 'UserController@changeupdate')->name('userchangeupdate');
     });
 
+    Route::resource('day-type',DayTypeController::class);
+
     Route::resource('group',GroupController::class);
     Route::group(['prefix' => 'group', 'namespace' => '\App\Http\Controllers'], function () {
         Route::post('detailstore', 'GroupController@detailstore')->name('groupdetailstore');
@@ -84,6 +87,9 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/studentNoattend','StudentController@noattend')->name('studentNoattend');
         Route::patch('/noattendupdate/{id}','StudentController@noattendupdate')->name('noattendupdate');
         Route::patch('/updategroup/{id}','StudentController@updategroup')->name('updateGroup');
+        Route::post('/add/group', 'StudentController@addGroup')->name('studentAddGroup');
+        Route::post('/add/new-group', 'StudentController@addNewGroup')->name('studentAddNewGroup');
+
     });
 
     Route::group(['prefix' => 'teacher', 'namespace' => '\App\Http\Controllers'], function () {
