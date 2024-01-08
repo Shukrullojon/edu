@@ -88,6 +88,34 @@
                     {!! Form::select('status', \App\Helpers\StatusHelper::$studentStatus,null, ['class' => 'form-control', 'data-control'=>"select2"]) !!}
                 </div>
             </div>
+            <hr style="color: #0c66ea; margin: 5px">
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group">
+                    <strong>Cource:</strong>
+                    {!! Form::select('cource_id', $cources,null, ['placeholder' => 'Select a cource','class' => 'form-control','data-control'=>"select2"]) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group">
+                    <strong>Language:</strong>
+                    {!! Form::select('langs[]', $langs,[], ['placeholder' => 'Select a language','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group">
+                    <strong>Day:</strong>
+                    {!! Form::select('days[]', $days,[], ['placeholder' => 'Select a day','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="form-group">
+                    <strong>Interes Time(18:00):</strong>
+                    {!! Form::text('interes_time', null, ['id' => 'interes_time','placeholder' => "xx:xx",'class' => 'form-control']) !!}
+                </div>
+            </div>
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <br>

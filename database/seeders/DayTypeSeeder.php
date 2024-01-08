@@ -33,6 +33,9 @@ class DayTypeSeeder extends Seeder
                 'name' => 'Shanba-Yakashanba',
                 'days' => json_encode([6,0]),
             ],
+            [
+                'name' => 'Seshanba'
+            ],
         ];
         foreach ($data as $d){
             DayType::create($d);

@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 class CreateAdminUserSeeder extends Seeder
 {
     /**
@@ -25,8 +26,22 @@ class CreateAdminUserSeeder extends Seeder
             'status' => 1,
         ]);
         $role = Role::create(['name' => 'Admin']);
-        $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
+
+        $user1 = User::create([
+            'name' => "Jamshidxo'ja",
+            'surname' => 'Nasriddinov',
+            'email' => 'cityeducation@gmail.com',
+            'phone' => '977555551',
+            'password' => Hash::make('977555551'),
+            'status' => 1,
+        ]);
+        $role1 = Role::create(['name' => 'Admin']);
+        $permissions1 = Permission::pluck('id', 'id')->all();
+        $role1->syncPermissions($permissions1);
+        $user1->assignRole([$role1->id]);
+
     }
 }

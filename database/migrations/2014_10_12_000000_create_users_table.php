@@ -29,6 +29,8 @@ return new class extends Migration {
             $table->bigInteger('hourly')->nullable();
             $table->bigInteger('add_student')->nullable();
             $table->bigInteger('active_student')->nullable();
+            $table->unsignedBigInteger('cource_id')->nullable();
+            $table->time('interes_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

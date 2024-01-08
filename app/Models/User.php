@@ -52,6 +52,9 @@ class User extends Authenticatable
         'active_student',
         'start',
         'end',
+        'cource_id',
+        'day_id',
+        'interes_time',
     ];
 
     public function directions()
@@ -66,6 +69,22 @@ class User extends Authenticatable
 
     public function reception(){
         return $this->belongsTo(User::class,'reception_id','id');
+    }
+
+    public function cource(){
+        return $this->belongsTo(Cource::class,'cource_id','id');
+    }
+
+    public function helperDay(){
+        return $this->hasMany(Helper::class,'table_id','id')
+            ->where('model',Day::class)
+            ->where('table',User::class);
+    }
+
+    public function helperLang(){
+        return $this->hasMany(Helper::class,'table_id','id')
+            ->where('model',Lang::class)
+            ->where('table',User::class);
     }
 
     public function groupList(){

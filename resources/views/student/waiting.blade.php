@@ -16,48 +16,52 @@
                     <span class="text-muted mt-1 fw-bold fs-7">{{ $students->total() }} students</span>
                 </h3>
                 <div style="display: flex">
-                    <div class="card-toolbar m-3 for-add-group" style="display: none;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                    title="">
-                   <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
-                      data-bs-target="#add_exists_group">
-                       <span class="svg-icon svg-icon-3"></span>
-                       <span class="fa fa-plus"></span>
-                       Add Group</a>
-               </div>
-               <div class="card-toolbar m-3 for-add-group" style="display: none;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                    title="">
-                   <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
-                      data-bs-target="#add_new_group">
-                       <span class="svg-icon svg-icon-3"></span>
-                       <span class="fa fa-plus"></span>
-                       Add New Group</a>
-               </div>
-               <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
-                    title="Filter">
-                   <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
-                      data-bs-target="#active_student_filter">
-                       <span class="svg-icon svg-icon-3"></span>
-                       <span class="fa fa-filter"></span>
-                       Filter</a>
-               </div>
+                    <div class="card-toolbar m-3 for-add-group" style="display: none;" data-bs-toggle="tooltip"
+                         data-bs-placement="top" data-bs-trigger="hover"
+                         title="">
+                        <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
+                           data-bs-target="#add_exists_group">
+                            <span class="svg-icon svg-icon-3"></span>
+                            <span class="fa fa-plus"></span>
+                            Add Group</a>
+                    </div>
+                    <div class="card-toolbar m-3 for-add-group" style="display: none;" data-bs-toggle="tooltip"
+                         data-bs-placement="top" data-bs-trigger="hover"
+                         title="">
+                        <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
+                           data-bs-target="#add_new_group">
+                            <span class="svg-icon svg-icon-3"></span>
+                            <span class="fa fa-plus"></span>
+                            Add New Group</a>
+                    </div>
+                    <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover"
+                         title="Filter">
+                        <a href="#" class="btn btn-sm btn-light btn-active-primary" data-bs-toggle="modal"
+                           data-bs-target="#active_student_filter">
+                            <span class="svg-icon svg-icon-3"></span>
+                            <span class="fa fa-filter"></span>
+                            Filter</a>
+                    </div>
                 </div>
 
             </div>
             <!--end::Header-->
             <!--begin::Body-->
-            <div class="card-body py-3">
+            <div class="card-body">
                 <!--begin::Table container-->
                 <div class="table-responsive">
                     <!--begin::Table-->
-                    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+                    <table class="table table-row-dashed  align-middle">
                         <!--begin::Table head-->
                         <thead>
                         <tr class="fw-bolder text-muted">
-                            <th class="min-w-200px">Name</th>
-                            <th class="min-w-150px">Phone</th>
-                            <th class="min-w-150px">Event</th>
-                            <th class="min-w-150px">Group</th>
-                            <th class="min-w-150px">Status</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Event</th>
+                            <th>Group</th>
+                            <th>Interes</th>
+                            <th>Status</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -65,24 +69,47 @@
                             <tr>
                                 <td>
                                     <input type="checkbox" name="student_id_for_group[]" value="{{$student->id}}" onclick="getStudentId()">
-
                                     <i>{{ $student->name }} {{ $student->surname }}</i>
                                 </td>
                                 <td><i>{{ \App\Helpers\MaskHelper::changePhoneMask($student->phone) }}</i></td>
                                 <td><i>{{ $student->event->event->name ?? '' }}</i></td>
                                 <td>
                                     @foreach ($student->groupAllList as $group_list)
-                                    <p>
-                                        <i>{{ $group_list->group->name ?? '' }}({{ $group_list->group->cource->name ?? '' }})</i>
+                                        <p>
+                                            <i>{{ $group_list->group->name ?? '' }}
+                                                ({{ $group_list->group->cource->name ?? '' }})</i>
 
-                                    </p>
+                                        </p>
                                     @endforeach
                                 </td>
+                                <td>
+                                    <ul>
+                                        @if($student->cource)
+                                            <li>Cource: {{ $student->cource->name }}</li>
+                                        @endif
+
+                                        @foreach($student->helperDay as $d)
+                                            @if(isset($d->day->name))
+                                                <li>{{ $d->day->name }}</li>
+                                            @endif
+                                        @endforeach
+
+                                        @foreach($student->helperLang as $d)
+                                            @if(isset($d->lang->name))
+                                                <li>{{ $d->lang->name }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+
+                                </td>
                                 <td><i>{{ \App\Helpers\StatusHelper::studentStatusGet($student->status) }}</i></td>
+
                                 <td>
                                     <div class="btn-group">
 
-                                        <a style="margin-right:10px; color:green" data-bs-toggle="modal" data-bs-target="#student_payment{{ $student->id }}" style="margin-right: 2px" href="">
+                                        <a style="margin-right:10px; color:green" data-bs-toggle="modal"
+                                           data-bs-target="#student_payment{{ $student->id }}" style="margin-right: 2px"
+                                           href="">
                                             <span class="fa fa-credit-card"></span>
                                         </a>
 
@@ -97,20 +124,22 @@
                                         </a>
                                     </div>
                                 </td>
-
-
                             </tr>
 
-                            <div class="modal fade" id="student_payment{{ $student->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal fade" id="student_payment{{ $student->id }}" tabindex="-1"
+                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered mw-900px">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h2></h2>
-                                            <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                            <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                 data-bs-dismiss="modal">
                                                 <span class="svg-icon svg-icon-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24"
                                                          fill="none">
-                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                        <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                              rx="1"
                                                               transform="rotate(-45 6 17.3137)" fill="currentColor"/>
                                                         <rect x="7.41422" y="6" width="16" height="2" rx="1"
                                                               transform="rotate(45 7.41422 6)" fill="currentColor"/>
@@ -119,38 +148,46 @@
                                             </div>
                                         </div>
                                         <div class="modal-body py-lg-10 px-lg-10">
-                                            <div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid" id="kt_modal_create_app_stepper">
+                                            <div
+                                                class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid"
+                                                id="kt_modal_create_app_stepper">
                                                 <form action="{{ route('studentPayUpdate') }}" method="POST">
                                                     @csrf
                                                     @method('patch')
                                                     <div class="row">
                                                         <input type="hidden" name="user_id" value="{{ $student->id }}">
-                                                        <input type="hidden" name="group_id" value="{{ $student->groupList->group_id ?? 0 }}">
+                                                        <input type="hidden" name="group_id"
+                                                               value="{{ $student->groupList->group_id ?? 0 }}">
                                                         <div class="col-xs-4 col-sm-4 col-md-4">
                                                             <div class="form-group">
                                                                 <label><strong>Amount:</strong></label>
-                                                                <input type="number" min="1" name="amount" value="{{ $student->groupList->group->cource->price ?? 0 }}" placeholder="Amount" class="form-control">
+                                                                <input type="number" min="1" name="amount"
+                                                                       value="{{ $student->groupList->group->cource->price ?? 0 }}"
+                                                                       placeholder="Amount" class="form-control">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xs-4 col-sm-4 col-md-4">
                                                             <div class="form-group">
                                                                 <label><strong>Pay Amount:</strong></label>
-                                                                <input type="number" min="1" name="pay_amount" value="0" placeholder="Pay Amount" class="form-control">
+                                                                <input type="number" min="1" name="pay_amount" value="0"
+                                                                       placeholder="Pay Amount" class="form-control">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xs-4 col-sm-4 col-md-4">
                                                             <div class="form-group">
                                                                 <label><strong>Month(202312):</strong></label>
-                                                                <input type="text" min="1" name="month" value="" placeholder="Month" class="form-control">
+                                                                <input type="text" min="1" name="month" value=""
+                                                                       placeholder="Month" class="form-control">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xs-4 col-sm-4 col-md-4">
                                                             <div class="form-group">
                                                                 <label><strong>Days:</strong></label>
-                                                                <input type="number" min="1" name="days" value="0" placeholder="Days" class="form-control">
+                                                                <input type="number" min="1" name="days" value="0"
+                                                                       placeholder="Days" class="form-control">
                                                             </div>
                                                         </div>
 
@@ -175,7 +212,9 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary form-control" style="margin-left: 10px; margin-top:10px">Save</button>
+                                                        <button type="submit" class="btn btn-primary form-control"
+                                                                style="margin-left: 10px; margin-top:10px">Save
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -290,7 +329,7 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <br>
-                                <button type="submit" class="btn btn-primary form-control" >Submit</button>
+                                <button type="submit" class="btn btn-primary form-control">Submit</button>
                             </div>
                         </div>
                         {!! Form::close() !!}
@@ -333,9 +372,11 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <label><strong>Start Time</strong></label>
-                                    <div class="input-group" id="kt_td_picker_custom_icons2" data-td-target-input="nearest"
+                                    <div class="input-group" id="kt_td_picker_custom_icons2"
+                                         data-td-target-input="nearest"
                                          data-td-target-toggle="nearest">
-                                        <input name="start_time" id="kt_td_picker_custom_icons2_input" type="text" class="form-control"
+                                        <input name="start_time" id="kt_td_picker_custom_icons2_input" type="text"
+                                               class="form-control"
                                                data-td-target="#kt_td_picker_custom_icons2"/>
                                         <span class="input-group-text" data-td-target="#kt_td_picker_custom_icons2"
                                               data-td-toggle="datetimepicker">
@@ -364,7 +405,8 @@
 
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <label for="max_teacher"><strong>Max Teacher:</strong></label> {!! Form::label('max_teacher',"*",['style'=>"color:red"]) !!}
+                                    <label for="max_teacher"><strong>Max
+                                            Teacher:</strong></label> {!! Form::label('max_teacher',"*",['style'=>"color:red"]) !!}
                                     {!! Form::text('max_teacher', null, ['id'=>'max_teacher','placeholder' => 'Max Teacher','class' => 'form-control']) !!}
                                 </div>
                             </div>
@@ -413,18 +455,16 @@
     <script>
         $('#phone').inputmask("(99)999-99-99");
 
-        function getStudentId()
-        {
-            var values=[];
+        function getStudentId() {
+            var values = [];
             $('input[name="student_id_for_group[]"]:checked').each(function () {
-            values[values.length] = (this.checked ? $(this).val() : "");
+                values[values.length] = (this.checked ? $(this).val() : "");
             });
 
-            if(values.length > 0)
-            {
-                $('.for-add-group').css('display','');
-            }else{
-                $('.for-add-group').css('display','none');
+            if (values.length > 0) {
+                $('.for-add-group').css('display', '');
+            } else {
+                $('.for-add-group').css('display', 'none');
             }
 
             $('#hidden_check').val(values);

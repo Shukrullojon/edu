@@ -1,22 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-left">
-                    <h2>Show Group</h2>
-                </div>
-            </div>
-        </div>
+    {{--<div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">--}}
 
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
-
-        <div class="row">
+        {{--<div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="row gy-5 g-xl-8">
                     <div class="col-xl-4">
@@ -32,14 +19,15 @@
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Type:
                                             <i>{{ $group->dayType->name }}
-                                                {{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}
+                                                --}}{{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}{{--
                                             </i></a>
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Max Student:
                                             <i>{{ $group->max_student }} ({{ $group->stdCount->number }})</i></a>
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Max Teacher:
-                                            <i>{{ $group->max_teacher }} ({{ $group->teacherCount->number ?? 0 }})</i></a>
+                                            <i>{{ $group->max_teacher }} ({{ $group->teacherCount->number ?? 0 }}
+                                                )</i></a>
                                         <br>
                                         <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Start:
                                             <i>{{ $group->start_time }}</i></a>
@@ -64,7 +52,8 @@
                             <div class="card-header border-0">
                                 <h3 class="card-title fw-bolder text-dark">Details ({{ count($group->detail) }})</h3>
                                 <div class="card-toolbar">
-                                    <a href="{{ route('groupDetail', $group->id) }}" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
+                                    <a href="{{ route('groupDetail', $group->id) }}"
+                                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
                                         <span class="fa fa-plus-circle"></span>
                                     </a>
                                 </div>
@@ -72,7 +61,8 @@
 
                             <div class="card-body pt-2">
                                 @foreach($group->detail as $d)
-                                    <div class="d-flex align-items-center @if($d->status == 1) bg-light-primary @else bg-light-warning @endif rounded p-5 mb-7">
+                                    <div
+                                        class="d-flex align-items-center @if($d->status == 1) bg-light-primary @else bg-light-warning @endif rounded p-5 mb-7">
                                         <div class="flex-grow-1 me-2">
                                             <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Room:
                                                 <i>{{ $d->room->name }}</i></a>
@@ -113,7 +103,8 @@
                             <div class="card-header border-0">
                                 <h3 class="card-title fw-bolder text-dark">Students ({{ count($group->student) }})</h3>
                                 <div class="card-toolbar">
-                                    <a href="{{ route('groupStdAdd', $group->id) }}" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
+                                    <a href="{{ route('groupStdAdd', $group->id) }}"
+                                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
                                         <span class="fa fa-plus-circle"></span>
                                     </a>
                                 </div>
@@ -123,9 +114,11 @@
                                 <div class="row">
                                     @foreach($group->student as $s)
                                         <div class="col-md-6">
-                                            <div class="d-flex align-items-center bg-light-danger rounded p-5 mb-7" style="padding: 0">
+                                            <div class="d-flex align-items-center bg-light-danger rounded p-5 mb-7"
+                                                 style="padding: 0">
                                                 <div class="flex-grow-1 me-2">
-                                                    <a href="{{ route('studentShow',$s->student->id ?? 0) }}" class="fw-bolder text-gray-800 text-hover-primary fs-6">
+                                                    <a href="{{ route('studentShow',$s->student->id ?? 0) }}"
+                                                       class="fw-bolder text-gray-800 text-hover-primary fs-6">
                                                         {{ $i++ }}. {{ $s->student->name }}
                                                     </a>
                                                     <p><b>Event:</b>{{ $s->student->event->event->name ?? '' }}</p>
@@ -139,6 +132,142 @@
                     </div>
 
                 </div>
+            </div>
+        </div>--}}
+    {{--</div>--}}
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    
+    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
+        <div class="card card-xl-stretch mb-12 mb-xl-12">
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Info: </span>
+                </h3>
+            </div>
+            <div class="card-body py-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Max Student</th>
+                        <th>Max Teacher</th>
+                        <th>Start</th>
+                        <th>Cource</th>
+                        <th>Filial</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>{{ $group->name }}</td>
+                        <td>
+                            @if (isset($group->dayType->name))
+                                {{$group->dayType->name}}
+                            @endif
+                        </td>
+                        <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
+                        <td>{{ $group->max_teacher }} ({{ $group->teacherCount->number ?? 0 }})</td>
+                        <td>{{ date('Y-m-d H:i',strtotime($group->start_time)) }}</td>
+
+                        <td>{{ $group->cource->name ?? '' }}</td>
+                        <td>{{ $group->filial->name ?? '' }}</td>
+                        <td>{{ \App\Helpers\StatusHelper::groupStatusGet($group->status) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
+        <div class="card card-xl-stretch mb-12 mb-xl-12">
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Details: ({{ count($group->detail) }})</span>
+                </h3>
+
+                <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Details Add">
+                    <a href="{{ route('groupDetail', $group->id) }}"
+                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Room</th>
+                        <th>Teacher</th>
+                        <th>Begin</th>
+                        <th>End</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Comment</th>
+                        <th>Status</th>
+                    </tr>
+                    @foreach($group->detail as $d)
+                        <tr>
+                            <td>{{ $d->room->name ?? '' }}</td>
+                            <td>{{ $d->teacher->name ?? '' }}</td>
+                            <td>{{ date('H:i', strtotime($d->begin_time)) }}</td>
+                            <td>{{ date('H:i', strtotime($d->end_time)) }}</td>
+                            <td>{{ \App\Helpers\TypeHelper::getDetailType($d->type) }}</td>
+                            <td>
+                                @if(!empty($d->amount))
+                                    {{ number_format($d->amount,0,' ',' ') }} UZS
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($d->comment))
+                                    {!! $d->comment !!}
+                                @endif
+                            </td>
+                            <td>{{ \App\Helpers\StatusHelper::roomVsTeacherStatusGet($d->status) }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
+        <div class="card card-xl-stretch mb-12 mb-xl-12">
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Students: ({{ count($group->student) }})</span>
+                </h3>
+
+                <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Student Add">
+                    <a href="{{ route('groupStdAdd', $group->id) }}"
+                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
+                        <span class="fa fa-plus-circle"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body py-0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>№</th>
+                        <th>Name</th>
+                        <th>Event</th>
+                    </tr>
+                    @php $i=1; @endphp
+                    @foreach($group->student as $s)
+                        <tr>
+                            <td>{{ $i++ }}</td>
+                            <td>
+                                <a href="{{ route('studentShow',$s->student->id ?? 0) }}"
+                                   class="fw-bolder text-gray-800 text-hover-primary fs-6">
+                                    {{ $s->student->name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ $s->student->event->event->name ?? '' }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>

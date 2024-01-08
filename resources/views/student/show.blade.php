@@ -118,8 +118,8 @@
                                     <th>Group</th>
                                     <th>Cource</th>
                                     <th>Type</th>
-                                    <th>Start</th>
-                                    <th>End</th>
+                                    <th>Add</th>
+                                    <th>Close</th>
                                     <th></th>
                                 </tr>
                                 @foreach ($student->groupLists as $key => $list)
