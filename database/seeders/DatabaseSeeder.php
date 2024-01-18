@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomTask_Seeder::class);
         $this->call(CourceSeeder::class);
         $this->call(DayTypeSeeder::class);
+        $this->call(DaySeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(GroupStudentSeeder::class);
         $this->call(GroupDetailsSeeder::class);
@@ -40,6 +41,5 @@ class DatabaseSeeder extends Seeder
         $this->call(PUSeeder::class);
         $this->call(PURSeeder::class);
         $this->call(BookSeeder::class);
-        $this->call(DaySeeder::class);
     }
 }

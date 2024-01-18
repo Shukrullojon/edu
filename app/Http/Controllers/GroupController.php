@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cource;
+use App\Models\Day;
 use App\Models\DayType;
 use App\Models\Filial;
 use App\Models\Group;
@@ -19,7 +20,7 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        $groups = Group::select('id','name','type','start_time','cource_id','filial_id','max_student','status','color');
+        $groups = Group::select('id','name','type','start_date','start_hour','cource_id','filial_id','max_student','status','color');
         if (isset($request->name)){
             $groups->where('name','LIKE','%'.$request->name.'%');
         }
@@ -56,11 +57,12 @@ class GroupController extends Controller
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
         $day_type = DayType::all()->pluck('name', 'id');
-
+        $days = Day::latest()->get()->pluck('name', 'id');
         return view('group.create', [
             'cources' => $cources,
             'filials' => $filials,
             'day_type' => $day_type,
+            'days' => $days,
         ]);
     }
 
@@ -71,8 +73,9 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:100',
-            'start_time' => 'required|date_format:Y-m-d H:i:s',
-            'type' => 'required|numeric|in:1,2,3',
+            'start_date' => 'nullable|date_format:Y-m-d',
+            'start_hour' => 'nullable|date_format:H:i',
+            'type' => 'required|array',
             'max_student' => 'required|numeric|min:0',
             'cource_id' => 'required|exists:cources,id',
             'filial_id' => 'required|exists:filials,id',
@@ -82,7 +85,9 @@ class GroupController extends Controller
         $request->request->add([
             'color' => rand(100000,999999),
         ]);
-        $group = Group::create($request->all());
+        $inputs = $request->all();
+        $inputs['type'] = json_encode((array)$inputs['type']);
+        $group = Group::create($inputs);
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
     }
 
@@ -190,7 +195,8 @@ class GroupController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:100',
-            'start_time' => 'required|date_format:Y-m-d H:i:s',
+            'start_date' => 'nullable|date_format:Y-m-d',
+            'start_hour' => 'nullable|date_format:H:i:s',
             'type' => 'required|numeric|in:1,2,3',
             'max_student' => 'required|numeric|min:0',
             'cource_id' => 'required|exists:cources,id',
@@ -293,6 +299,36 @@ class GroupController extends Controller
             'teachers' => $teachers,
             'group' => $group,
         ]);
+    }
 
+    public function find(Request $request){
+        $teachers = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.start as start',
+            'users.end as end',
+
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Teacher')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 1)
+            ->where(function ($query) use ($request){
+                if (isset($request->start) and !empty($request->start)){
+                    $query->where('start','=<',date("H:i:s", strtotime($request->start)));
+                }
+                if (isset($request->end) and !empty($request->end)){
+                    $query->where('end','>=',$request->end);
+                }
+            })
+            ->latest('users.updated_at')
+            ->get()->pluck('name', 'id')->toArray();
+        return [
+            'teachers' => $teachers,
+        ];
     }
 }

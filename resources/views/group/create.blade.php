@@ -15,35 +15,31 @@
 
         {!! Form::open(array('route' => 'group.store','method'=>'POST')) !!}
         <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label
-                        for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                    <label for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
                     {!! Form::text('name', null, ['autocomplete'=>'off','placeholder' => 'Name','class' => 'form-control']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label><strong>Start Time</strong></label>
-                    <div class="input-group" id="kt_td_picker_custom_icons" data-td-target-input="nearest"
-                         data-td-target-toggle="nearest">
-                        <input name="start_time" id="kt_td_picker_custom_icons_input" type="text" class="form-control"
-                               data-td-target="#kt_td_picker_custom_icons"/>
-                        <span class="input-group-text" data-td-target="#kt_td_picker_custom_icons"
-                              data-td-toggle="datetimepicker">
-                            <i class="ki-duotone ki-calendar fs-2"><span class="path1"></span><span
-                                    class="path2"></span></i>
-                        </span>
-                    </div>
+                    <label><strong>Start Date(2024-01-01)</strong></label>
+                    {!! Form::text('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
+                </div>
+            </div>
 
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <label><strong>Start Hour(18:00)</strong></label>
+                    {!! Form::text('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group"><label for="type"><strong>Type:</strong></label>
                     {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type',$day_type,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2"]) !!}
+                    {!! Form::select('type[]',$days,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
                 </div>
             </div>
 

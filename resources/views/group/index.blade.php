@@ -27,7 +27,8 @@
                         <th class="">#</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Start Time</th>
+                        <th>Start Date</th>
+                        <th>Start Hour</th>
                         <th>Cource</th>
                         <th>Max</th>
                         <th>Filial</th>
@@ -46,7 +47,8 @@
                                 @endif
                                 {{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}
                             </td>
-                            <td>{{ date('Y-m-d H:i',strtotime($group->start_time)) }}</td>
+                            <td>{{ date('Y-m-d',strtotime($group->start_date)) }}</td>
+                            <td>{{ date('H:i',strtotime($group->start_hour)) }}</td>
                             <td>{{ $group->cource->name }}</td>
                             <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
                             <td>@if(!empty($group->filial->name)) {{ $group->filial->name }} @endif</td>

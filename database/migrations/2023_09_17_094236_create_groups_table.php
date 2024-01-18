@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyInteger('type')->default(0)->comment('1 -> every day, 2 - toq kun, 3 - juft kun');
-            $table->timestamp('start_time');
+            $table->json('type')->nullable();
+            $table->date('start_date')->nullable();
+            $table->time('start_hour')->nullable();
             $table->unsignedBigInteger('cource_id');
             $table->unsignedBigInteger('filial_id');
             $table->tinyInteger('max_student')->nullable();

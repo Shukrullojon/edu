@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Cource;
+use App\Models\Day;
 use App\Models\DayType;
 use App\Models\Filial;
 use App\Models\Group;
@@ -19,8 +20,9 @@ class GroupSeeder extends Seeder
         $data = [
             [
                 'name' => '1-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -29,8 +31,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '2-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -39,8 +42,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '3-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -49,8 +53,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '4-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -59,8 +64,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '5-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -69,8 +75,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '6-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -79,8 +86,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '7-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -89,8 +97,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '8-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -99,8 +108,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '9-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
@@ -109,8 +119,9 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '10-group',
-                'type' => DayType::select('id')->inRandomOrder()->first()->id,
-                'start_time' => date('Y-m-d H:i:s', strtotime("+".rand(1,10).' days'),),
+                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
+                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
+                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,

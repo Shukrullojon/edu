@@ -38,10 +38,9 @@ class CreateAdminUserSeeder extends Seeder
             'password' => Hash::make('977555551'),
             'status' => 1,
         ]);
-        $role1 = Role::create(['name' => 'Admin']);
-        $permissions1 = Permission::pluck('id', 'id')->all();
-        $role1->syncPermissions($permissions1);
-        $user1->assignRole([$role1->id]);
-
+        //$role1 = Role::create(['name' => 'Admin']);
+        //$permissions1 = Permission::pluck('id', 'id')->all();
+        //$role->syncPermissions($permissions1);
+        $user1->assignRole([$role->id]);
     }
 }

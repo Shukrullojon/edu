@@ -26,7 +26,8 @@ class Group extends Model
     protected $fillable = [
         'name',
         'type',
-        'start_time',
+        'start_date',
+        'start_hour',
         'cource_id',
         'filial_id',
         'max_student',

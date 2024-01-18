@@ -174,40 +174,40 @@
                 </div>
             @endcanany
 
-            <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('day-type*') or Request::is('day-type*')) ? 'here show' : '' }} menu-accordion">
+            {{--<div data-kt-menu-trigger="click"
+                 class="menu-item {{ (Request::is('day-type*') or Request::is('day-type*')) ? 'here show' : '' }} menu-accordion">
                     <span class="menu-link">
                                             <i class="fa fa-layer-group" style="margin-right: 7px"></i>
                                             <span class="menu-title">Day Type</span>
                                             <span class="menu-arrow"></span>
                                         </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        {{-- @can('day-type-create') --}}
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('day-type/create') ? 'active' : '' }}"
-                                   href="{{ route('day-type.create') }}">
+                <div class="menu-sub menu-sub-accordion menu-active-bg">
+                    --}}{{-- @can('day-type-create') --}}{{--
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::is('day-type/create') ? 'active' : '' }}"
+                           href="{{ route('day-type.create') }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                    <span class="menu-title"><i class="fa fa-plus"
-                                                                style="margin-right: 7px"></i>Add</span>
-                                </a>
-                            </div>
-                        {{-- @endcan --}}
-
-                        {{-- @can('day-type-index') --}}
-                            <div class="menu-item">
-                                <a class="menu-link {{ (Request::is('day-type*') and !Request::is('day-type/create')) ? 'active' : '' }}"
-                                   href="{{ route('day-type.index') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                    <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Day Type</span>
-                                </a>
-                            </div>
-                        {{-- @endcan --}}
+                            <span class="menu-title"><i class="fa fa-plus"
+                                                        style="margin-right: 7px"></i>Add</span>
+                        </a>
                     </div>
-            </div>
+                    --}}{{-- @endcan --}}{{--
+
+                    --}}{{-- @can('day-type-index') --}}{{--
+                    <div class="menu-item">
+                        <a class="menu-link {{ (Request::is('day-type*') and !Request::is('day-type/create')) ? 'active' : '' }}"
+                           href="{{ route('day-type.index') }}">
+                                                        <span class="menu-bullet">
+                                                            <span class="bullet bullet-dot"></span>
+                                                        </span>
+                            <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Day Type</span>
+                        </a>
+                    </div>
+                    --}}{{-- @endcan --}}{{--
+                </div>
+            </div>--}}
 
             @canany(['student-add','student-payment','student-waiting','student-active','student-all','student-archive','student-event-index'])
                 <div data-kt-menu-trigger="click"
@@ -450,9 +450,9 @@
                 </div>
             @endcan
 
-            @canany(['filial-index','permission-index','role-index','user-index','direction-index', 'lang-index'])
+            @canany(['filial-index','permission-index','role-index','user-index','direction-index', 'lang-index', 'day-index'])
                 <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('roles*') or Request::is('users*') or Request::is('permissions*') or Request::is('tags*') or Request::is('filial*') or Request::is('direction*') or Request::is('lang*')) ? 'here show' : '' }}  menu-accordion">
+                     class="menu-item {{ (Request::is('roles*') or Request::is('users*') or Request::is('permissions*') or Request::is('tags*') or Request::is('filial*') or Request::is('direction*') or Request::is('lang*') or Request::is('day*')) ? 'here show' : '' }}  menu-accordion">
                                         <span class="menu-link">
                                             <i class="fa fa-cog" style="margin-right: 7px"></i>
                                             <span class="menu-title">Settings</span>
@@ -532,6 +532,18 @@
                             </span>
                                     <span class="menu-title"><i class="fa fa-language"
                                                                 style="margin-right: 7px"></i> Languages</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('lang-index')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('day*') ? 'active' : '' }}"
+                                   href="{{ route('day.index') }}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                                    <span class="menu-title"><i class="fa fa-calendar-day" style="margin-right: 7px"></i> Days</span>
                                 </a>
                             </div>
                         @endcan

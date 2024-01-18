@@ -140,7 +140,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-    
+
     <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
         <div class="card card-xl-stretch mb-12 mb-xl-12">
             <div class="card-header border-0 pt-5">
@@ -155,7 +155,8 @@
                         <th>Type</th>
                         <th>Max Student</th>
                         <th>Max Teacher</th>
-                        <th>Start</th>
+                        <th>Start Date</th>
+                        <th>Start Hour</th>
                         <th>Cource</th>
                         <th>Filial</th>
                         <th>Status</th>
@@ -169,8 +170,8 @@
                         </td>
                         <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
                         <td>{{ $group->max_teacher }} ({{ $group->teacherCount->number ?? 0 }})</td>
-                        <td>{{ date('Y-m-d H:i',strtotime($group->start_time)) }}</td>
-
+                        <td>{{ date('Y-m-d',strtotime($group->start_date)) }}</td>
+                        <td>{{ date('h:i',strtotime($group->start_hour)) }}</td>
                         <td>{{ $group->cource->name ?? '' }}</td>
                         <td>{{ $group->filial->name ?? '' }}</td>
                         <td>{{ \App\Helpers\StatusHelper::groupStatusGet($group->status) }}</td>

@@ -15,19 +15,24 @@
 
         {!! Form::model($group, ['method' => 'PATCH','route' => ['group.update', $group->id]]) !!}
         <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label
-                        for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                    <label for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
                     {!! Form::text('name', null, ['autocomplete'=>'off','placeholder' => 'Name','class' => 'form-control']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label for="start_time"><strong>Start
-                            Time:</strong></label> {!! Form::label('start_time',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('start_time', null, ['placeholder' => 'YYYY-mm-dd HH:mm:ss','class' => 'form-control','id' => 'start_time']) !!}
+                    <label><strong>Start Date(2024-01-01)</strong></label>
+                    {!! Form::text('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4">
+                <div class="form-group">
+                    <label><strong>Start Hour(18:00)</strong></label>
+                    {!! Form::text('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
                 </div>
             </div>
 

@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('direction',\App\Http\Controllers\DirectionController::class);
     Route::resource('lang',\App\Http\Controllers\LangController::class);
     Route::resource('book',\App\Http\Controllers\BookController::class);
+    Route::resource('day',\App\Http\Controllers\DayController::class);
     Route::group(['prefix' => 'book', 'namespace' => '\App\Http\Controllers'], function () {
         Route::patch('/count/add', 'BookController@bookcount')->name('bookCountAdd');
         Route::any('/give/student', 'BookController@give')->name('bookGive');
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/detail/update/{id}', 'GroupController@detailupdate')->name('groupdetailupdate');
         Route::any('add/{id}','GroupController@add')->name('groupStdAdd');
         Route::any('detail/{id}','GroupController@detail')->name('groupDetail');
+        Route::post('change', 'GroupController@find')->name('findTeacher');
     });
 
     Route::get('/search', '\App\Http\Controllers\StudentController@search')->name('search');
