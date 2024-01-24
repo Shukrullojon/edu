@@ -28,6 +28,7 @@
                 <th>Status</th>
                 <th>Roles</th>
                 <th>Directions</th>
+                <th>Days</th>
                 <th>Action</th>
             </tr>
             @foreach ($data as $key => $user)
@@ -38,16 +39,29 @@
                     <td>{{ \App\Helpers\StatusHelper::adminStatusGet($user->status) }}</td>
                     <td>
                         @if(!empty($user->getRoleNames()))
-                            @foreach($user->getRoleNames() as $v)
-                                <label class="badge badge-success">{{ $v }}</label>
-                            @endforeach
+                            <ul>
+                                @foreach($user->getRoleNames() as $v)
+                                    <li>{{ $v }}</li>
+                                @endforeach
+                            </ul>
                         @endif
                     </td>
                     <td>
                         @if(!empty($user->directions()))
-                            @foreach($user->directions as $direction)
-                                <label class="badge badge-success">{{ $direction->name }}</label>
-                            @endforeach
+                            <ul>
+                                @foreach($user->directions as $direction)
+                                    <li>{{ $direction->name }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </td>
+                    <td>
+                        @if(!empty($user->days()))
+                            <ul>
+                                @foreach($user->days as $day)
+                                    <li class="">{{ $day->name }}</li>
+                                @endforeach
+                            </ul>
                         @endif
                     </td>
                     <td>

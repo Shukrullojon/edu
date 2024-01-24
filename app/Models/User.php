@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Direction::class, 'user_direction', 'user_id', 'direction_id');
     }
 
+    public function days()
+    {
+        return $this->belongsToMany(Day::class, 'user_day', 'user_id', 'day_id');
+    }
+
     public function langs()
     {
         return $this->belongsToMany(Lang::class, 'user_lang', 'user_id', 'lang_id');

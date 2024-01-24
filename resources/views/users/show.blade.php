@@ -13,6 +13,7 @@
                 <th>Salary List</th>
                 <th>Roles</th>
                 <th>Directions</th>
+                <th>Days</th>
                 <th>Languages</th>
             </tr>
             <tr>
@@ -37,24 +38,40 @@
                 </td>
                 <td>
                     @if(!empty($user->getRoleNames()))
-                        @foreach($user->getRoleNames() as $v)
-                            <label class="badge badge-success">{{ $v }}</label>
-                        @endforeach
+                        <ul>
+                            @foreach($user->getRoleNames() as $v)
+                                <li>{{ $v }}</li>
+                            @endforeach
+                        </ul>
                     @endif
                 </td>
                 <td>
                     @if(!empty($user->directions))
-                        @foreach($user->directions as $direction)
-                            <label class="badge badge-success">{{ $direction->name }}</label>
-                        @endforeach
+                        <ul>
+                            @foreach($user->directions as $direction)
+                                <li>{{ $direction->name }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </td>
+
+                <td>
+                    @if(!empty($user->days))
+                        <ul>
+                            @foreach($user->days as $day)
+                                <li>{{ $day->name }}</li>
+                            @endforeach
+                        </ul>
                     @endif
                 </td>
 
                 <td>
                     @if(!empty($user->langs))
-                        @foreach($user->langs as $lang)
-                            <label class="badge badge-success">{{ $lang->name }}</label>
-                        @endforeach
+                        <ul>
+                            @foreach($user->langs as $lang)
+                                <li>{{ $lang->name }}</li>
+                            @endforeach
+                        </ul>
                     @endif
                 </td>
             </tr>

@@ -59,14 +59,21 @@
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="day"><strong>Days:</strong></label>
+                    {!! Form::select('days[]', $days,$user->days, ['id'=>'day','required'=>true,'data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="start"><strong>Start Time: (08:00)</strong></label>
                     {!! Form::text('start', null, ['id' => 'start','placeholder' => "", 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="end"><strong>End Time: (16:00)</strong></label>
                     {!! Form::text('end', null, ['id' => 'end', 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}

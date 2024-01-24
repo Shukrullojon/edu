@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Day;
 use App\Models\Direction;
 use App\Models\Lang;
 use App\Models\Sms;
@@ -54,10 +55,12 @@ class UserController extends Controller
         $roles = Role::pluck('name', 'name')->all();
         $directions = Direction::pluck('name', 'id')->all();
         $langs = Lang::pluck('name', 'id')->all();
+        $days = Day::pluck('name', 'id')->all();
         return view('users.create', [
             'roles' => $roles,
             'directions' => $directions,
-            'langs' => $langs
+            'langs' => $langs,
+            'days' => $days,
         ]);
     }
 
@@ -95,6 +98,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
+        $user->days()->sync($request->input('days'));
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
     }
@@ -124,12 +128,14 @@ class UserController extends Controller
         $userRole = $user->roles->pluck('name','name')->all();
         $directions = Direction::pluck('name', 'id')->all();
         $langs = Lang::pluck('name', 'id')->all();
+        $days = Day::pluck('name', 'id')->all();
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
             'userRole' => $userRole,
             'directions' => $directions,
             'langs' => $langs,
+            'days' => $days,
         ]);
     }
 
@@ -175,6 +181,7 @@ class UserController extends Controller
         }
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
+        $user->days()->sync($request->input('days'));
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }
