@@ -28,6 +28,8 @@ class UserPayment extends Model
         'month',
         'days',
         'status',
+        'info',
+        'pay_date',
         'type',
     ];
 

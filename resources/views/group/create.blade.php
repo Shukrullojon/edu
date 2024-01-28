@@ -17,22 +17,23 @@
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                    <label
+                        for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
                     {!! Form::text('name', null, ['autocomplete'=>'off','placeholder' => 'Name','class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label><strong>Start Date(2024-01-01)</strong></label>
-                    {!! Form::text('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
+                    <label><strong>Start Date(01.01.2024)</strong></label>
+                    {!! Form::date('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <label><strong>Start Hour(18:00)</strong></label>
-                    {!! Form::text('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
+                    {!! Form::time('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -53,7 +54,8 @@
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label for="max_teacher"><strong>Max Teacher:</strong></label> {!! Form::label('max_teacher',"*",['style'=>"color:red"]) !!}
+                    <label for="max_teacher"><strong>Max
+                            Teacher:</strong></label> {!! Form::label('max_teacher',"*",['style'=>"color:red"]) !!}
                     {!! Form::text('max_teacher', null, ['id'=>'max_teacher','placeholder' => 'Max Teacher','class' => 'form-control']) !!}
                 </div>
             </div>

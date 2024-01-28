@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DayType extends Model
+class DayPilot extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'days'
-    ];
+    protected $table = 'day_pilot';
+
+    protected $guarded = [];
 }

@@ -24,15 +24,15 @@
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
-                    <label><strong>Start Date(2024-01-01)</strong></label>
-                    {!! Form::text('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
+                    <label><strong>Start Date(01.01.2024)</strong></label>
+                    {!! Form::date('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <label><strong>Start Hour(18:00)</strong></label>
-                    {!! Form::text('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
+                    {!! Form::time('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <label
                         for="type"><strong>Type:</strong></label> {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type', $day_type,null, ['id'=>'type','class' => 'form-control']) !!}
+                    {!! Form::select('type[]', $days,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
                 </div>
             </div>
 

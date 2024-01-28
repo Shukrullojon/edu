@@ -325,6 +325,8 @@
                                 <th>Month</th>
                                 <th>Days</th>
                                 <th>Type</th>
+                                <th>Info</th>
+                                <th>Date</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -342,7 +344,10 @@
                                     <td>
                                         @if(!empty($payment->type))<i>{{ \App\Helpers\TypeHelper::getPaymentType($payment->type) }}</i>@endif
                                     </td>
+                                    <td>{{ $payment->info }}</td>
+                                    <td>{{ $payment->pay_date }}</td>
                                     <td><i>{{ \App\Helpers\StatusHelper::payStatusGet($payment->status) }}</i></td>
+
                                     <td>
                                         <button onclick="" info="
                                         Student: {{ $payment->user->name ?? '' }} {{ $payment->user->surname ?? '' }} <br>

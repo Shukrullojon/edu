@@ -18,8 +18,10 @@ return new class extends Migration {
             $table->bigInteger('pay_amount');
             $table->string('month');
             $table->tinyInteger('days')->nullable();
+            $table->string('info')->nullable();
+            $table->date('pay_date')->nullable();
             $table->tinyInteger('type')->nullable()->comment('1 -> Naqt, 2 -> Plastik Karta, 3 -> Perevod');
-            $table->tinyInteger('status')->comment("0->remain pay, 1->full pay");
+            $table->tinyInteger('status')->comment("0 -> no pay, 1 -> later, 2 -> payed");
             $table->timestamps();
         });
     }

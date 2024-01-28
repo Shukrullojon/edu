@@ -56,6 +56,14 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/user/change/update', 'UserController@changeupdate')->name('userchangeupdate');
     });
 
+    Route::group(['prefix' => 'payment', 'namespace' => '\App\Http\Controllers'], function () {
+        Route::get('/nopay', 'PaymentController@nopay')->name('nopay');
+        Route::get('/pay', 'PaymentController@pay')->name('pay');
+        Route::get('/later', 'PaymentController@later')->name('later');
+        Route::patch('/payupdate', 'PaymentController@payupdate')->name('paymentPayUpdate');
+        Route::get('/report', 'PaymentController@report')->name('report');
+    });
+
     Route::resource('day-type',DayTypeController::class);
 
     Route::resource('group',GroupController::class);

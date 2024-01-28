@@ -56,12 +56,10 @@ class GroupController extends Controller
     {
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
-        $day_type = DayType::all()->pluck('name', 'id');
         $days = Day::latest()->get()->pluck('name', 'id');
         return view('group.create', [
             'cources' => $cources,
             'filials' => $filials,
-            'day_type' => $day_type,
             'days' => $days,
         ]);
     }
@@ -84,10 +82,12 @@ class GroupController extends Controller
 
         $request->request->add([
             'color' => rand(100000,999999),
+            'start_date' => date('Y-m-d', strtotime($request->start_date),),
+            'start_hour' => date('H:i:s', strtotime($request->start_hour),),
+            'type' => json_encode((array) $request->type),
         ]);
-        $inputs = $request->all();
-        $inputs['type'] = json_encode((array)$inputs['type']);
-        $group = Group::create($inputs);
+        $group = Group::create($request->all());
+        $group->types()->syncWithPivotValues($request->input('type'),['model', Group::class]);
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
     }
 
@@ -178,13 +178,12 @@ class GroupController extends Controller
         $group = Group::find($id);
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
-        $day_type = DayType::all()->pluck('name', 'id');
-
+        $days = Day::latest()->get()->pluck('name', 'id');
         return view('group.edit', [
             'group' => $group,
             'cources' => $cources,
             'filials' => $filials,
-            'day_type' => $day_type,
+            'days' => $days,
         ]);
     }
 
@@ -196,8 +195,8 @@ class GroupController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'start_date' => 'nullable|date_format:Y-m-d',
-            'start_hour' => 'nullable|date_format:H:i:s',
-            'type' => 'required|numeric|in:1,2,3',
+            'start_hour' => 'nullable|date_format:H:i',
+            'type' => 'required|array|',
             'max_student' => 'required|numeric|min:0',
             'cource_id' => 'required|exists:cources,id',
             'filial_id' => 'required|exists:filials,id',

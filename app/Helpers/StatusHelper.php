@@ -99,8 +99,9 @@ class StatusHelper
     }
 
     public static $payStatus = [
-        '0' => '❌ Remain',
-        '1' => '✅ Full',
+        '0' => '❌ No Pay',
+        '1' => '❕ Later',
+        '2' => '✅ Pay',
     ];
 
     public static function payStatusGet($index)

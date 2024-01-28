@@ -67,7 +67,9 @@ class Group extends Model
             ->select(DB::raw("count(id) as number"));
     }
 
-    public function dayType(){
-        return $this->hasOne(DayType::class,'id','type');
+    public function types(){
+        return $this->belongsToMany(Day::class, 'day_pilot', 'model_id', 'day_id')
+            ->where('model',Group::class)
+            ->withTimestamps();
     }
 }

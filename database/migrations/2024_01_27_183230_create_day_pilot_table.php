@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('day_types', function (Blueprint $table) {
+        Schema::create('day_pilot', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->json('days');
+            $table->string('model');
+            $table->unsignedBigInteger('model_id');
+            $table->unsignedBigInteger('day_id');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('day_types');
+        Schema::dropIfExists('day_pilot_tables');
     }
 };

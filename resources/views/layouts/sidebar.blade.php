@@ -49,12 +49,6 @@
                                 <span class="menu-title"><i class="fa fa-user-lock" style="margin-right: 7px"></i>No Attend</span>
                             </a>
 
-                            <a class="menu-link" href="{{ route('additional.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title"><i class="fa fa-funnel-dollar" style="margin-right: 7px"></i>Moliya</span>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -218,7 +212,7 @@
                                             <span class="menu-arrow"></span>
                                         </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        @can('student-payment')
+                        {{--@can('student-payment')
                             <div class="menu-item">
                                 <a class="menu-link {{ Request::is('student/pay') ? 'active' : '' }}"
                                    href="{{ route('studentPay') }}">
@@ -228,7 +222,7 @@
                                     <span class="menu-title">💰 Payment</span>
                                 </a>
                             </div>
-                        @endcan
+                        @endcan--}}
 
                         @can('student-add')
                             <div class="menu-item">
@@ -304,6 +298,52 @@
                     </div>
                 </div>
             @endcanany
+
+
+            <div data-kt-menu-trigger="click"
+                 class="menu-item {{ (Request::is('payment*')) ? 'here show' : '' }} menu-accordion">
+                <span class="menu-link">
+                                        <i class="fa fa-money-bill" style="margin-right: 7px"></i>
+                                        <span class="menu-title">Finance</span>
+                                        <span class="menu-arrow"></span>
+                                    </span>
+                <div class="menu-sub menu-sub-accordion menu-active-bg">
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Request::is('payment/report') ? 'active' : '' }}"
+                           href="{{ route('report') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                            <span class="menu-title">Report</span>
+                        </a>
+
+                        <a class="menu-link {{ Request::is('payment/nopay') ? 'active' : '' }}"
+                           href="{{ route('nopay') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                            <span class="menu-title">No Pay</span>
+                        </a>
+
+                        <a class="menu-link {{ Request::is('payment/later') ? 'active' : '' }}"
+                           href="{{ route('later') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                            <span class="menu-title">Later</span>
+                        </a>
+
+                        <a class="menu-link {{ Request::is('payment/pay') ? 'active' : '' }}" href="{{ route('pay') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                            <span class="menu-title">Pay</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
 
             @canany(['placement-result-index','placement-category-index','placement-test-index'])
                 <div data-kt-menu-trigger="click"
@@ -543,7 +583,8 @@
                             <span class="menu-bullet">
                                 <span class="bullet bullet-dot"></span>
                             </span>
-                                    <span class="menu-title"><i class="fa fa-calendar-day" style="margin-right: 7px"></i> Days</span>
+                                    <span class="menu-title"><i class="fa fa-calendar-day"
+                                                                style="margin-right: 7px"></i> Days</span>
                                 </a>
                             </div>
                         @endcan
