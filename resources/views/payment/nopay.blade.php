@@ -120,10 +120,12 @@
                         <td><i>{{ $pay->days }}</i></td>
                         <td><i>{{ \App\Helpers\StatusHelper::payStatusGet($pay->status) }}</i></td>
                         <td>
-                            <a data-bs-toggle="modal" data-bs-target="#kt_modal_create_app{{ $pay->id }}"
-                               style="margin-right: 2px" href="">
-                                <span class="fa fa-edit" style="color: #562bb0"></span>
-                            </a>
+                            @can('finance-update')
+                                <a data-bs-toggle="modal" data-bs-target="#kt_modal_create_app{{ $pay->id }}"
+                                   style="margin-right: 2px" href="">
+                                    <span class="fa fa-edit" style="color: #562bb0"></span>
+                                </a>
+                            @endcan
                         </td>
                     </tr>
 

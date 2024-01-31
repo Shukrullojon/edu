@@ -14,6 +14,13 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissionList = [
+            ['name' => 'finance-index'],
+            ['name' => 'finance-report'],
+            ['name' => 'finance-nopay'],
+            ['name' => 'finance-later'],
+            ['name' => 'finance-pay'],
+            ['name' => 'finance-update'],
+
             ['name' => 'book-show'],
             ['name' => 'book-index'],
             ['name' => 'book-create'],

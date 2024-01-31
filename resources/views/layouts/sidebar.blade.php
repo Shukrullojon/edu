@@ -300,50 +300,60 @@
             @endcanany
 
 
-            <div data-kt-menu-trigger="click"
-                 class="menu-item {{ (Request::is('payment*')) ? 'here show' : '' }} menu-accordion">
-                <span class="menu-link">
-                                        <i class="fa fa-money-bill" style="margin-right: 7px"></i>
-                                        <span class="menu-title">Finance</span>
-                                        <span class="menu-arrow"></span>
-                                    </span>
-                <div class="menu-sub menu-sub-accordion menu-active-bg">
+            @canany(['finance-index'])
+                <div data-kt-menu-trigger="click"
+                     class="menu-item {{ (Request::is('payment*')) ? 'here show' : '' }} menu-accordion">
+                    <span class="menu-link">
+                                            <i class="fa fa-money-bill" style="margin-right: 7px"></i>
+                                            <span class="menu-title">Finance</span>
+                                            <span class="menu-arrow"></span>
+                                        </span>
+                    <div class="menu-sub menu-sub-accordion menu-active-bg">
 
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::is('payment/report') ? 'active' : '' }}"
-                           href="{{ route('report') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                            <span class="menu-title">Report</span>
-                        </a>
+                        <div class="menu-item">
+                            @can('finance-report')
+                                <a class="menu-link {{ Request::is('payment/report') ? 'active' : '' }}"
+                                   href="{{ route('report') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Report</span>
+                                </a>
+                            @endcan
 
-                        <a class="menu-link {{ Request::is('payment/nopay') ? 'active' : '' }}"
-                           href="{{ route('nopay') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                            <span class="menu-title">No Pay</span>
-                        </a>
+                            @can('finance-nopay')
+                                <a class="menu-link {{ Request::is('payment/nopay') ? 'active' : '' }}"
+                                   href="{{ route('nopay') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">No Pay</span>
+                                </a>
+                            @endcan
 
-                        <a class="menu-link {{ Request::is('payment/later') ? 'active' : '' }}"
-                           href="{{ route('later') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                            <span class="menu-title">Later</span>
-                        </a>
+                            @can('finance-later')
+                                <a class="menu-link {{ Request::is('payment/later') ? 'active' : '' }}"
+                                   href="{{ route('later') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Later</span>
+                                </a>
+                            @endcan
 
-                        <a class="menu-link {{ Request::is('payment/pay') ? 'active' : '' }}" href="{{ route('pay') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                            <span class="menu-title">Pay</span>
-                        </a>
+                            @can('finance-pay')
+                                <a class="menu-link {{ Request::is('payment/pay') ? 'active' : '' }}" href="{{ route('pay') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Pay</span>
+                                </a>
+                            @endcan
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
+            @endcanany
 
             @canany(['placement-result-index','placement-category-index','placement-test-index'])
                 <div data-kt-menu-trigger="click"

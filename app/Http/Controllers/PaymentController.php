@@ -106,7 +106,7 @@ class PaymentController extends Controller
         if (isset($request->month) and !empty($request->month)) {
             $pays->where('user_payment.month', $request->month);
         }
-        $pays = $pays->latest('user_payment.id')->paginate(50);
+        $pays = $pays->orderBy('user_payment.pay_date')->paginate(50);
 
         $groups = Group::whereIn('status', [1, 2])->get()->pluck('name', 'id');
         return view('payment.later', [
