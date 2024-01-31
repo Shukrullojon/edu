@@ -331,7 +331,6 @@ class StudentController extends Controller
 
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
-        $day_type = DayType::all()->pluck('name', 'id');
 
         return view('student.waiting', [
             'students' => $students,
@@ -339,7 +338,6 @@ class StudentController extends Controller
             'groups' => $groups,
             'cources' => $cources,
             'filials' => $filials,
-            'day_type' => $day_type,
         ]);
     }
 

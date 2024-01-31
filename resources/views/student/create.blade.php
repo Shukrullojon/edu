@@ -113,7 +113,7 @@
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Interes Time(18:00):</strong>
-                    {!! Form::text('interes_time', null, ['id' => 'interes_time','placeholder' => "xx:xx",'class' => 'form-control']) !!}
+                    {!! Form::time('interes_time', null, ['id' => 'interes_time','placeholder' => "xx:xx",'class' => 'form-control']) !!}
                 </div>
             </div>
 

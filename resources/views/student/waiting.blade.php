@@ -391,7 +391,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group"><label for="type"><strong>Type:</strong></label>
                                     {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                                    {!! Form::select('type', $day_type,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2"]) !!}
+                                    {{--{!! Form::select('type', $day_type,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2"]) !!}--}}
                                 </div>
                             </div>
 
