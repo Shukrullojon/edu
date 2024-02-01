@@ -39,13 +39,11 @@ class GroupController extends Controller
         $groups = $groups->latest()->paginate(20);
         $filials = Filial::all()->pluck('name','id');
         $cources = Cource::all()->pluck('name','id');
-        $day_type = DayType::all()->pluck('name', 'id');
 
         return view('group.index', [
             'groups' => $groups,
             'filials' => $filials,
             'cources' => $cources,
-            'day_type' => $day_type,
         ]);
     }
 
