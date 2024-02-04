@@ -98,7 +98,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
-        $user->days()->sync($request->input('days'));
+        $user->day_create($request->get('days'));
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
     }
@@ -181,7 +181,8 @@ class UserController extends Controller
         }
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
-        $user->days()->sync($request->input('days'));
+        $user->day_create($request->get('days'));
+
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully');
     }

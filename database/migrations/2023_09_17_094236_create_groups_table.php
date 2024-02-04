@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('type')->nullable();
             $table->date('start_date')->nullable();
             $table->time('start_hour')->nullable();
             $table->unsignedBigInteger('cource_id');

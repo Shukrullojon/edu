@@ -62,14 +62,14 @@
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="start"><strong>Start Time: (08:00)</strong></label>
-                    {!! Form::text('start', null, ['id' => 'start','placeholder' => "", 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
+                    {!! Form::time('start', null, ['id' => 'start','placeholder' => "", 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="end"><strong>End Time: (16:00)</strong></label>
-                    {!! Form::text('end', null, ['id' => 'end', 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
+                    {!! Form::time('end', null, ['id' => 'end', 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -133,14 +133,14 @@
             <div class="col-xs-2 col-sm-3 col-md-3">
                 <div class="form-group">
                     <label for="direction"><strong>Directions:</strong></label>
-                    {!! Form::select('directions[]', $directions,[], ['id'=>'direction','required'=>true,'data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
+                    {!! Form::select('directions[]', $directions,[], ['id'=>'direction','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
                 </div>
             </div>
 
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <label for="lang"><strong>Langs:</strong></label>
-                    {!! Form::select('langs[]', $langs,[], ['id'=>'lang','required'=>true,'data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
+                    {!! Form::select('langs[]', $langs,[], ['id'=>'lang','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
                 </div>
             </div>
 

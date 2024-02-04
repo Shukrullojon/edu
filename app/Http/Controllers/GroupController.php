@@ -20,26 +20,32 @@ class GroupController extends Controller
      */
     public function index(Request $request)
     {
-        $groups = Group::select('id','name','type','start_date','start_hour','cource_id','filial_id','max_student','status','color');
-        if (isset($request->name)){
-            $groups->where('name','LIKE','%'.$request->name.'%');
+        $groups = Group::select(
+            'id',
+            'name',
+            'start_date',
+            'start_hour',
+            'cource_id',
+            'filial_id',
+            'max_student',
+            'max_teacher',
+            'status',
+            'color');
+        if (isset($request->name)) {
+            $groups->where('name', 'LIKE', '%' . $request->name . '%');
         }
-        if (isset($request->type)){
-            $groups->where('type',$request->type);
+        if (isset($request->cource_id)) {
+            $groups->where('cource_id', $request->cource_id);
         }
-        if (isset($request->cource_id)){
-            $groups->where('cource_id',$request->cource_id);
+        if (isset($request->filial_id)) {
+            $groups->where('filial_id', $request->filial_id);
         }
-        if (isset($request->filial_id)){
-            $groups->where('filial_id',$request->filial_id);
-        }
-        if (isset($request->status)){
-            $groups->where('status',$request->status);
+        if (isset($request->status)) {
+            $groups->where('status', $request->status);
         }
         $groups = $groups->latest()->paginate(20);
-        $filials = Filial::all()->pluck('name','id');
-        $cources = Cource::all()->pluck('name','id');
-
+        $filials = Filial::all()->pluck('name', 'id');
+        $cources = Cource::all()->pluck('name', 'id');
         return view('group.index', [
             'groups' => $groups,
             'filials' => $filials,
@@ -73,19 +79,19 @@ class GroupController extends Controller
             'start_hour' => 'nullable|date_format:H:i',
             'type' => 'required|array',
             'max_student' => 'required|numeric|min:0',
+            'max_teacher' => 'required|numeric|min:0',
             'cource_id' => 'required|exists:cources,id',
             'filial_id' => 'required|exists:filials,id',
             'status' => 'required|in:1,2,3',
         ]);
 
         $request->request->add([
-            'color' => rand(100000,999999),
+            'color' => rand(100000, 999999),
             'start_date' => date('Y-m-d', strtotime($request->start_date),),
             'start_hour' => date('H:i:s', strtotime($request->start_hour),),
-            'type' => json_encode((array) $request->type),
         ]);
         $group = Group::create($request->all());
-        $group->types()->syncWithPivotValues($request->input('type'),['model', Group::class]);
+        $group->day_create($request->get('type'));
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
     }
 
@@ -129,6 +135,7 @@ class GroupController extends Controller
      */
     public function show($id)
     {
+        $group = Group::find($id);
         $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
         $teachers = User::select(
             'users.id as id',
@@ -158,7 +165,6 @@ class GroupController extends Controller
             ->whereIn('users.status', [2, 3])
             ->latest('users.updated_at')
             ->get()->pluck('name', 'id');
-        $group = Group::find($id);
 
         return view('group.show', [
             'group' => $group,
@@ -188,21 +194,32 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'start_date' => 'nullable|date_format:Y-m-d',
-            'start_hour' => 'nullable|date_format:H:i',
+            'start_hour' => 'nullable|date_format:H:i:s',
             'type' => 'required|array|',
             'max_student' => 'required|numeric|min:0',
+            'max_teacher' => 'required|numeric|min:0',
             'cource_id' => 'required|exists:cources,id',
             'filial_id' => 'required|exists:filials,id',
             'status' => 'required|in:1,2,3',
         ]);
-        $request->request->remove('_method');
-        $request->request->remove('_token');
-        Group::where('id', $id)->update($request->all());
+        $group = Group::where('id',$id)->first();
+        $group->update($request->only(
+            'name',
+                'start_date',
+                'start_hour',
+                'cource_id',
+                'filial_id',
+                'max_student',
+                'max_teacher',
+                'status',
+            )
+        );
+        $group->day_create($request->type);
         return redirect()->route('group.show', $id)->with('success', 'Group updated successfully');
     }
 
@@ -223,9 +240,10 @@ class GroupController extends Controller
         return back()->with('success', 'Details updated successfully');
     }
 
-    public function add(Request $request, $id){
-        if ($request->post()){
-            GroupStudent::where('group_id',$id)->where('student_id',$request->student_id)->where('status',1)->update([
+    public function add(Request $request, $id)
+    {
+        if ($request->post()) {
+            GroupStudent::where('group_id', $id)->where('student_id', $request->student_id)->where('status', 1)->update([
                 'closed_at' => date('Y-m-d H:i:s'),
                 'status' => 0,
             ]);
@@ -253,14 +271,15 @@ class GroupController extends Controller
             ->latest('users.updated_at')
             ->get()->pluck('name', 'id');
         $group = Group::find($id);
-        return view('group.add',[
+        return view('group.add', [
             'students' => $students,
             'group' => $group,
         ]);
     }
 
-    public function detail(Request $request, $id){
-        if ($request->post()){
+    public function detail(Request $request, $id)
+    {
+        if ($request->post()) {
             GroupDetail::create([
                 'group_id' => $id,
                 'room_id' => $request->room_id,
@@ -291,14 +310,15 @@ class GroupController extends Controller
             ->where('users.status', 1)
             ->latest('users.updated_at')
             ->get()->pluck('name', 'id');
-        return view('group.detail',[
+        return view('group.detail', [
             'rooms' => $rooms,
             'teachers' => $teachers,
             'group' => $group,
         ]);
     }
 
-    public function find(Request $request){
+    public function find(Request $request)
+    {
         $teachers = User::select(
             'users.id as id',
             'users.name as name',
@@ -314,12 +334,12 @@ class GroupController extends Controller
             ->where('roles.name', 'Teacher')
             ->where('model_has_roles.model_type', User::class)
             ->where('users.status', 1)
-            ->where(function ($query) use ($request){
-                if (isset($request->start) and !empty($request->start)){
-                    $query->where('start','=<',date("H:i:s", strtotime($request->start)));
+            ->where(function ($query) use ($request) {
+                if (isset($request->start) and !empty($request->start)) {
+                    $query->where('start', '=<', date("H:i:s", strtotime($request->start)));
                 }
-                if (isset($request->end) and !empty($request->end)){
-                    $query->where('end','>=',$request->end);
+                if (isset($request->end) and !empty($request->end)) {
+                    $query->where('end', '>=', $request->end);
                 }
             })
             ->latest('users.updated_at')

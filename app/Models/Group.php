@@ -25,7 +25,6 @@ class Group extends Model
 
     protected $fillable = [
         'name',
-        'type',
         'start_date',
         'start_hour',
         'cource_id',
@@ -36,6 +35,17 @@ class Group extends Model
         'color',
     ];
 
+    public function day_create($type){
+        DayPilot::where('model',Group::class)->where('model_id',$this->id)->whereNotIn('day_id',$type)->delete();
+        foreach ($type as $key => $t){
+            DayPilot::updateOrCreate([
+                'model' => Group::class,
+                'model_id' => $this->id,
+                'day_id' => $t
+            ]);
+        }
+        return true;
+    }
     public function cource(){
         return $this->belongsTo(Cource::class);
     }

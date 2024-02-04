@@ -20,7 +20,6 @@ class GroupSeeder extends Seeder
         $data = [
             [
                 'name' => '1-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -31,7 +30,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '2-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -42,7 +40,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '3-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -53,7 +50,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '4-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -64,7 +60,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '5-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -75,7 +70,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '6-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -86,7 +80,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '7-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -97,7 +90,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '8-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -108,7 +100,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '9-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -119,7 +110,6 @@ class GroupSeeder extends Seeder
             ],
             [
                 'name' => '10-group',
-                'type' => json_encode(Day::select('id')->inRandomOrder()->first()->id),
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
@@ -130,7 +120,8 @@ class GroupSeeder extends Seeder
             ],
         ];
         foreach ($data as $d){
-            Group::create($d);
+            $g = Group::create($d);
+            $g->day_create([Day::select('id')->inRandomOrder()->first()->id]);
         }
     }
 }

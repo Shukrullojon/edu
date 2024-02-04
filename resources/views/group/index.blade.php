@@ -30,7 +30,8 @@
                         <th>Start Date</th>
                         <th>Start Hour</th>
                         <th>Cource</th>
-                        <th>Max</th>
+                        <th>Max Std</th>
+                        <th>Max Teacher</th>
                         <th>Filial</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -41,16 +42,19 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $group->name }}</td>
                             <td>
-                                @if (isset($group->dayType->name))
-                                {{$group->dayType->name}}
-
+                                @if (isset($group->types))
+                                    <ul>
+                                        @foreach($group->types as $t)
+                                            <li>{{ $t->name }}</li>
+                                        @endforeach
+                                    </ul>
                                 @endif
-                                {{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}
                             </td>
                             <td>{{ date('Y-m-d',strtotime($group->start_date)) }}</td>
                             <td>{{ date('H:i',strtotime($group->start_hour)) }}</td>
                             <td>{{ $group->cource->name }}</td>
                             <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
+                            <td>{{ $group->max_teacher }} ({{ $group->teacherCount->number }})</td>
                             <td>@if(!empty($group->filial->name)) {{ $group->filial->name }} @endif</td>
                             <td>{{ \App\Helpers\StatusHelper::groupStatusGet($group->status) }}</td>
                             <td>
@@ -76,7 +80,6 @@
                 <tfooter>
                     <tr>
                         <td colspan="9">
-
                             {{
                                 $groups->appends([
                                     'page' => request()->get('page'),
@@ -115,35 +118,28 @@
                     <div class="mb-10">
                         {!! Form::open(array('method'=>'GET')) !!}
                         <div class="row">
-                            <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group">
                                     <strong>Name:</strong>
                                     {!! Form::text('name', request()->get('name'), ['placeholder' => 'Name','maxlength'=> 100,'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
-                            <div class="col-xs-4 col-sm-4 col-md-4">
-                                <div class="form-group">
-                                    <strong>Type:</strong>
-                                    {!! Form::select('type', \App\Helpers\TypeHelper::$groupDayType,request()->get('type'), ['placeholder' => 'Type','maxlength'=> 100,'class' => 'form-control']) !!}
-                                </div>
-                            </div>
-
-                            <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group">
                                     <strong>Status:</strong>
                                     {!! Form::select('status', \App\Helpers\StatusHelper::$groupStatus,request()->get('status'), ['placeholder' => 'Status','maxlength'=> 100,'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group">
                                     <strong>Cource:</strong>
                                     {!! Form::select('cource_id',$cources, request()->get('cource_id'), ['placeholder' => 'Cource','maxlength'=> 100,'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
                                 <div class="form-group">
                                     <strong>Filial:</strong>
                                     {!! Form::select('filial_id',$filials, request()->get('filial_id'), ['placeholder' => 'Filial','maxlength'=> 100,'class' => 'form-control']) !!}

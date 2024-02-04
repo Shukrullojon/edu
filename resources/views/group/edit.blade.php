@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <label
                         for="type"><strong>Type:</strong></label> {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type[]', $days,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
+                    {!! Form::select('type[]', $days,$group->types, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
                 </div>
             </div>
 

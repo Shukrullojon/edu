@@ -19,14 +19,14 @@
                 <div class="form-group">
                     <label for="begin_time"><strong>Begin
                             Time:(12:00)</strong></label>
-                    {!! Form::text('begin_time', null, ['id'=>'begin_time','placeholder' => 'xx:xx','class' => 'form-control']) !!}
+                    {!! Form::time('begin_time', null, ['id'=>'begin_time','placeholder' => 'xx:xx','class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <label for="end_time"><strong>End Time:(13:00)</strong></label>
-                    {!! Form::text('end_time', null, ['id'=>'end_time','placeholder' => 'xx:xx','class' => 'form-control']) !!}
+                    {!! Form::time('end_time', null, ['id'=>'end_time','placeholder' => 'xx:xx','class' => 'form-control']) !!}
                 </div>
             </div>
 

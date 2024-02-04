@@ -57,6 +57,18 @@ class User extends Authenticatable
         'interes_time',
     ];
 
+    public function day_create($type){
+        DayPilot::where('model',User::class)->where('model_id',$this->id)->whereNotIn('day_id',$type)->delete();
+        foreach ($type as $t){
+            DayPilot::updateOrCreate([
+                'model' => User::class,
+                'model_id' => $this->id,
+                'day_id' => $t
+            ]);
+        }
+        return true;
+    }
+
     public function directions()
     {
         return $this->belongsToMany(Direction::class, 'user_direction', 'user_id', 'direction_id');
@@ -64,7 +76,9 @@ class User extends Authenticatable
 
     public function days()
     {
-        return $this->belongsToMany(Day::class, 'user_day', 'user_id', 'day_id');
+        return $this->belongsToMany(Day::class, 'day_pilot', 'model_id', 'day_id')
+            ->where('model',User::class)
+            ->withTimestamps();
     }
 
     public function langs()

@@ -1,140 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    {{--<div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">--}}
-
-        {{--<div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="row gy-5 g-xl-8">
-                    <div class="col-xl-4">
-                        <div class="card card-xl-stretch mb-xl-8">
-                            <div class="card-header border-0">
-                                <h3 class="card-title fw-bolder text-dark">Info</h3>
-                            </div>
-                            <div class="card-body pt-0">
-                                <div class="d-flex align-items-center bg-light-info rounded p-5 mb-7">
-                                    <div class="flex-grow-1 me-2">
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Name:
-                                            <i>{{ $group->name }}</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Type:
-                                            <i>{{ $group->dayType->name }}
-                                                --}}{{-- {{ \App\Helpers\TypeHelper::getGroupDayType($group->type) }} --}}{{--
-                                            </i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Max Student:
-                                            <i>{{ $group->max_student }} ({{ $group->stdCount->number }})</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Max Teacher:
-                                            <i>{{ $group->max_teacher }} ({{ $group->teacherCount->number ?? 0 }}
-                                                )</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Start:
-                                            <i>{{ $group->start_time }}</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Cource:
-                                            <i>{{ $group->cource->name }}</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Filial:
-                                            <i>{{ $group->filial->name }}</i></a>
-                                        <br>
-                                        <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Status:
-                                            <i>{{ \App\Helpers\StatusHelper::groupStatusGet($group->status) }}</i></a>
-                                        <br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4">
-                        <div class="card card-xl-stretch mb-xl-8">
-                            <div class="card-header border-0">
-                                <h3 class="card-title fw-bolder text-dark">Details ({{ count($group->detail) }})</h3>
-                                <div class="card-toolbar">
-                                    <a href="{{ route('groupDetail', $group->id) }}"
-                                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
-                                        <span class="fa fa-plus-circle"></span>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="card-body pt-2">
-                                @foreach($group->detail as $d)
-                                    <div
-                                        class="d-flex align-items-center @if($d->status == 1) bg-light-primary @else bg-light-warning @endif rounded p-5 mb-7">
-                                        <div class="flex-grow-1 me-2">
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Room:
-                                                <i>{{ $d->room->name }}</i></a>
-                                            <br>
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Teacher:
-                                                <i>{{ $d->teacher->name }}</i></a>
-                                            <br>
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Begin:
-                                                <i>{{ $d->begin_time }}</i></a>
-                                            <br>
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">End:
-                                                <i>{{ $d->end_time }}</i></a>
-                                            <br>
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Type:
-                                                <i>{{ \App\Helpers\TypeHelper::getDetailType($d->type) }}</i></a>
-                                            @if(!empty($d->amount))
-                                                <br>
-                                                <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Amount:
-                                                    <i>{{ number_format($d->amount,0,' ',' ') }} UZS</i></a>
-                                            @endif
-                                            @if(!empty($d->comment))
-                                                <br>
-                                                <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Comment:
-                                                    <i>{!! $d->comment !!}</i></a>
-                                            @endif
-                                            <br>
-                                            <a class="fw-bolder text-gray-800 text-hover-primary fs-6">Status:
-                                                <i>{{ \App\Helpers\StatusHelper::roomVsTeacherStatusGet($d->status) }}</i></a>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4">
-                        <div class="card card-xl-stretch mb-xl-8">
-                            <div class="card-header border-0">
-                                <h3 class="card-title fw-bolder text-dark">Students ({{ count($group->student) }})</h3>
-                                <div class="card-toolbar">
-                                    <a href="{{ route('groupStdAdd', $group->id) }}"
-                                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
-                                        <span class="fa fa-plus-circle"></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                @php $i=1; @endphp
-                                <div class="row">
-                                    @foreach($group->student as $s)
-                                        <div class="col-md-6">
-                                            <div class="d-flex align-items-center bg-light-danger rounded p-5 mb-7"
-                                                 style="padding: 0">
-                                                <div class="flex-grow-1 me-2">
-                                                    <a href="{{ route('studentShow',$s->student->id ?? 0) }}"
-                                                       class="fw-bolder text-gray-800 text-hover-primary fs-6">
-                                                        {{ $i++ }}. {{ $s->student->name }}
-                                                    </a>
-                                                    <p><b>Event:</b>{{ $s->student->event->event->name ?? '' }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>--}}
-    {{--</div>--}}
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -164,8 +30,12 @@
                     <tr>
                         <td>{{ $group->name }}</td>
                         <td>
-                            @if (isset($group->dayType->name))
-                                {{$group->dayType->name}}
+                            @if (isset($group->types))
+                                <ul>
+                                    @foreach($group->types as $t)
+                                        <li>{{ $t->name }}</li>
+                                    @endforeach
+                                </ul>
                             @endif
                         </td>
                         <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
@@ -181,8 +51,8 @@
         </div>
     </div>
 
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
-        <div class="card card-xl-stretch mb-12 mb-xl-12">
+    <div class="card mb-6 mb-xl-6" id="kt_profile_details_view" style="">
+        <div class="card card-xl-stretch mb-6 mb-xl-6">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label fw-bolder fs-3 mb-1">Details: ({{ count($group->detail) }})</span>
@@ -232,8 +102,8 @@
         </div>
     </div>
 
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="">
-        <div class="card card-xl-stretch mb-12 mb-xl-12">
+    <div class="card mb-6 mb-xl-6" id="kt_profile_details_view" style="">
+        <div class="card card-xl-stretch mb-6 mb-xl-6">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label fw-bolder fs-3 mb-1">Students: ({{ count($group->student) }})</span>
