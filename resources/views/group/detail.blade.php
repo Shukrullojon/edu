@@ -86,7 +86,7 @@
 
 @section('scripts')
     <script>
-        $(document).on("change", "#begin_time", function () {
+        /*$(document).on("change", "#begin_time", function () {
             var start = $(this).val();
             var end = $("#end_time").val();
             if(start.length > 4){
@@ -112,6 +112,6 @@
 
         $(document).on("change", "#end_time", function () {
 
-        })
+        })*/
     </script>
 @endsection
