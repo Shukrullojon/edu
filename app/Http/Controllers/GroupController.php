@@ -280,6 +280,13 @@ class GroupController extends Controller
     public function detail(Request $request, $id)
     {
         if ($request->post()) {
+            $this->validate($request, [
+                'begin_time' => 'required',
+                'end_time' => 'required',
+                'room_id' => 'required',
+                'teacher_id' => 'required',
+                'status' => 'required',
+            ]);
             GroupDetail::create([
                 'group_id' => $id,
                 'room_id' => $request->room_id,
