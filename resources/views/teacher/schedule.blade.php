@@ -32,11 +32,11 @@
                         @foreach($schedules as $schedule)
                             <tr>
                                 <td><i>{{ $i++ }}</i></td>
-                                <td><i>{{ $schedule->group->name }} ({{ $schedule->group->cource->name }})</i></td>
-                                <td><i>{{ $schedule->room->name }}
+                                <td><i>{{ $schedule->group->name ?? '' }} ({{ $schedule->group->cource->name ?? '' }})</i></td>
+                                <td><i>{{ $schedule->room->name ?? '' }}
                                         ({{ \App\Helpers\TypeHelper::getGroupDayType($schedule->group->type) }})</i>
                                 </td>
-                                <td><i>{{ $schedule->teacher->name }} {{ $schedule->teacher->surname }}</i></td>
+                                <td><i>{{ $schedule->teacher->name ?? '' }} {{ $schedule->teacher->surname ?? '' }}</i></td>
                                 <td><i>{{ date('H:i', strtotime($schedule->begin_time)) }}</i></td>
                                 <td><i>{{ date('H:i', strtotime($schedule->end_time)) }}</i></td>
                                 <td><i>{{ \App\Helpers\StatusHelper::groupDetailStatusGet($schedule->status) }}</i></td>
