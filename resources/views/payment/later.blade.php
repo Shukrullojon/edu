@@ -115,7 +115,7 @@
                         <td>
                             <i><a href="{{ route('studentShow',$pay->user->id ?? '') }}">{{ $pay->user->name ?? '' }} {{ $pay->user->surname ?? '' }}</a></i>
                         </td>
-                        <td><i>{{ $pay->group->name }}</i></td>
+                        <td><i>{{ $pay->group->name ?? '' }}</i></td>
                         <td><i>{{ number_format($pay->amount,0,' ',' ') }} UZS</i></td>
                         <td><i>{{ number_format($pay->pay_amount,0,' ',' ') }} UZS</i></td>
                         <td><i>{{ date("Y-m", strtotime($pay->month)) }}</i></td>
