@@ -12,6 +12,7 @@
                 <th>Work Date</th>
                 <th>Salary List</th>
                 <th>Roles</th>
+                <th>Positions</th>
                 <th>Directions</th>
                 <th>Days</th>
                 <th>Languages</th>
@@ -41,6 +42,15 @@
                         <ul>
                             @foreach($user->getRoleNames() as $v)
                                 <li>{{ $v }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </td>
+                <td>
+                    @if(!empty($user->positions()))
+                        <ul>
+                            @foreach($user->positions as $position)
+                                <li>{{ $position->name }}</li>
                             @endforeach
                         </ul>
                     @endif

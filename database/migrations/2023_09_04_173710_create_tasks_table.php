@@ -19,11 +19,8 @@ return new class extends Migration {
             $table->tinyInteger('type')->comment('1 -> every day, 2 -> one time');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('attach_user_id');
-            $table->unsignedBigInteger('close_user_id')->nullable();
             $table->tinyInteger('status')->comment('1 -> active, 0 -> arxive');
             $table->timestamps();
-            /*$table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('attach_user_id')->references('id')->on('users');*/
         });
     }
 

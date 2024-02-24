@@ -41,5 +41,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PUSeeder::class);
         $this->call(PURSeeder::class);
         $this->call(BookSeeder::class);
+        $this->call(PositionSeeder::class);
     }
 }

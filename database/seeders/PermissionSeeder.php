@@ -14,6 +14,23 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissionList = [
+            ['name' => 'position-show'],
+            ['name' => 'position-index'],
+            ['name' => 'position-create'],
+            ['name' => 'position-store'],
+            ['name' => 'position-edit'],
+            ['name' => 'position-update'],
+            ['name' => 'position-destroy'],
+
+            ['name' => 'day-show'],
+            ['name' => 'day-index'],
+            ['name' => 'day-create'],
+            ['name' => 'day-store'],
+            ['name' => 'day-edit'],
+            ['name' => 'day-update'],
+            ['name' => 'day-destroy'],
+
+
             ['name' => 'finance-index'],
             ['name' => 'finance-report'],
             ['name' => 'finance-nopay'],

@@ -1,11 +1,12 @@
 @extends('layouts.admin')
 
+
 @section('content')
     <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h2>Create New Task</h2>
+                    <h2>Create New Position</h2>
                 </div>
             </div>
         </div>
@@ -24,7 +25,7 @@
         @endif
 
 
-        {!! Form::open(array('route' => 'task.store','method'=>'POST')) !!}
+        {!! Form::open(array('route' => 'position.store','method'=>'POST')) !!}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -35,36 +36,8 @@
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Comment:</strong>
-                    {!! Form::text('comment', null, array('placeholder' => 'Comment','class' => 'form-control')) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Time:</strong>
-                    {!! Form::time('time', null, array('placeholder' => 'Time','class' => 'form-control')) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Day:</strong>
-                    {!! Form::select('day', \App\Helpers\DayHelper::$dayList, null,['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Type:</strong>
-                    {!! Form::select('type',\App\Helpers\TypeHelper::$dayType ,null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>User:</strong>
-                    {!! Form::select('attach_user_id', $users,null, ['class' => 'form-control','data-control'=>"select2"]) !!}
+                    <label for="status"><strong>Status:</strong></label>{!! Form::label('status',"*",['style'=>"color:red"]) !!}
+                    {!! Form::select('status', \App\Helpers\StatusHelper::$positionStatus ,null, ['id'=>'status','class' => 'form-control']) !!}
                 </div>
             </div>
 

@@ -18,6 +18,7 @@ class FilialSeeder extends Seeder
             'address' => 'Shayhontohur',
             'phone' => '998991234567',
             'status' => 1,
+            'room_count' => 10,
         ];
         Filial::create($data);
     }

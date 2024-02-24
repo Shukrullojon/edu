@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h2>Edit Room</h2>
+                    <h2>Edit Payment</h2>
                 </div>
             </div>
         </div>
@@ -24,43 +24,32 @@
         @endif
 
 
-        {!! Form::model($room, ['method' => 'PATCH','route' => ['room.update', $room->id]]) !!}
+        {!! Form::model($payment, ['method' => 'PATCH','route' => ['payed.update', $payment->id]]) !!}
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <label
-                        for="name"><strong>Name:</strong></label>{!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                    <strong>Name:</strong> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
                     {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <label
-                        for="filial_id"><strong>Filial:</strong></label> {!! Form::label('filial_id',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('filial_id', $filials,null, ['class' => 'form-control']) !!}
+                    <strong>Percentage:</strong> {!! Form::label('percentage',"*",['style'=>"color:red"]) !!}
+                    {!! Form::number('percentage', null, array('placeholder' => 'Percentage','class' => 'form-control')) !!}
                 </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <label
                         for="status"><strong>Status:</strong></label>{!! Form::label('status',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('status', \App\Helpers\StatusHelper::$roomStatus,null, ['class' => 'form-control']) !!}
+                    {!! Form::select('status', \App\Helpers\StatusHelper::$paymentStatus,null, ['class' => 'form-control']) !!}
+                    @error('status')
+                    <p style="color: red" class="error">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
-
-            {{--<div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Tasks:</strong>
-                    <br/>
-                    @foreach($tasks as $task)
-                        <label>{{ Form::checkbox('tasks[]', $task->id, false, array('class' => 'name')) }}
-                            {{ $task->name }}</label>
-                        <br/>
-                    @endforeach
-                </div>
-            </div>--}}
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <br>

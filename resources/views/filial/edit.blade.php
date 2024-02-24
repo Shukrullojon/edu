@@ -49,6 +49,13 @@
 
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
+                    <strong>Room Count:</strong> {!! Form::label('room_count',"*",['style'=>"color:red"]) !!}
+                    {!! Form::number('room_count', null, ['required'=>true,'maxlength'=> 3, 'class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
                     <strong>Status:</strong>{!! Form::label('*',"*",['style'=>"color:red"]) !!}
                     {!! Form::select('status', \App\Helpers\StatusHelper::$filialStatus,null, ['required'=>true,'class' => 'form-control']) !!}
                 </div>

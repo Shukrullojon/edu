@@ -54,83 +54,6 @@
                 </div>
             @endcanany
 
-            @canany(['room-index','room-task-index'])
-                <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('room*') or Request::is('task-room*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                                            <i class="fa fa-inbox" style="margin-right: 7px"></i>
-                                            <span class="menu-title">Rooms</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        @can('room-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('room*') ? 'active' : '' }}"
-                                   href="{{ route('room.index') }}">
-                                                    <span class="menu-bullet">
-                                                        <span class="bullet bullet-dot"></span>
-
-                                                    </span>
-                                    <span class="menu-title"><i class="fa fa-inbox"
-                                                                style="margin-right: 7px"></i>Room</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('room-task-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('task-room*') ? 'active' : '' }}"
-                                   href="{{ route('task-room.index') }}">
-                                                    <span class="menu-bullet">
-                                                        <span class="bullet bullet-dot"></span>
-                                                    </span>
-                                    <span class="menu-title"><i class="fa fa-tasks"
-                                                                style="margin-right: 7px"></i>Task</span>
-                                </a>
-                            </div>
-                        @endcan
-                    </div>
-                </div>
-            @endcanany
-
-            @canany(['cource-index'])
-                <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('cource*') or Request::is('cource*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                        <i class="fa fa-database" style="margin-right: 7px"></i>
-                        <span class="menu-title">Cources</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        @can('cource-create')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('cource/create') ? 'active' : '' }}"
-                                   href="{{ route('cource.create') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                    <span class="menu-title"><i class="fa fa-plus"
-                                                                style="margin-right: 7px"></i>Add</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('cource-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ (Request::is('cource*') and !Request::is('cource/create')) ? 'active' : '' }}"
-                                   href="{{ route('cource.index') }}">
-                                                    <span class="menu-bullet">
-                                                        <span class="bullet bullet-dot"></span>
-                                                    </span>
-                                    <span class="menu-title"><i class="fa fa-database"
-                                                                style="margin-right: 7px"></i> Cource</span>
-                                </a>
-                            </div>
-                        @endcan
-                    </div>
-                </div>
-            @endcanany
-
             @canany(['group-index','group-create'])
                 <div data-kt-menu-trigger="click"
                      class="menu-item {{ (Request::is('group*') or Request::is('group*')) ? 'here show' : '' }} menu-accordion">
@@ -167,41 +90,6 @@
                     </div>
                 </div>
             @endcanany
-
-            {{--<div data-kt-menu-trigger="click"
-                 class="menu-item {{ (Request::is('day-type*') or Request::is('day-type*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                                            <i class="fa fa-layer-group" style="margin-right: 7px"></i>
-                                            <span class="menu-title">Day Type</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                <div class="menu-sub menu-sub-accordion menu-active-bg">
-                    --}}{{-- @can('day-type-create') --}}{{--
-                    <div class="menu-item">
-                        <a class="menu-link {{ Request::is('day-type/create') ? 'active' : '' }}"
-                           href="{{ route('day-type.create') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                            <span class="menu-title"><i class="fa fa-plus"
-                                                        style="margin-right: 7px"></i>Add</span>
-                        </a>
-                    </div>
-                    --}}{{-- @endcan --}}{{--
-
-                    --}}{{-- @can('day-type-index') --}}{{--
-                    <div class="menu-item">
-                        <a class="menu-link {{ (Request::is('day-type*') and !Request::is('day-type/create')) ? 'active' : '' }}"
-                           href="{{ route('day-type.index') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                            <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Day Type</span>
-                        </a>
-                    </div>
-                    --}}{{-- @endcan --}}{{--
-                </div>
-            </div>--}}
 
             @canany(['student-add','student-payment','student-waiting','student-active','student-all','student-archive','student-event-index'])
                 <div data-kt-menu-trigger="click"
@@ -299,7 +187,6 @@
                 </div>
             @endcanany
 
-
             @canany(['finance-index'])
                 <div data-kt-menu-trigger="click"
                      class="menu-item {{ (Request::is('payment*')) ? 'here show' : '' }} menu-accordion">
@@ -349,6 +236,15 @@
                                     <span class="menu-title">Pay</span>
                                 </a>
                             @endcan
+
+                            {{--@can('pay-index')--}}
+                                <a class="menu-link " href="{{ route('payed.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Payment</span>
+                                </a>
+                            {{--@endcan--}}
                         </div>
 
                     </div>
@@ -500,15 +396,55 @@
                 </div>
             @endcan
 
-            @canany(['filial-index','permission-index','role-index','user-index','direction-index', 'lang-index', 'day-index'])
+            @canany(['filial-index','permission-index','role-index','user-index','direction-index', 'lang-index', 'day-index','room-index','cource-index','position-index'])
                 <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('roles*') or Request::is('users*') or Request::is('permissions*') or Request::is('tags*') or Request::is('filial*') or Request::is('direction*') or Request::is('lang*') or Request::is('day*')) ? 'here show' : '' }}  menu-accordion">
+                     class="menu-item {{ (Request::is('roles*') or Request::is('users*') or Request::is('permissions*') or Request::is('day*') or Request::is('room*') or Request::is('cource*') or Request::is('tags*') or Request::is('filial*') or Request::is('direction*') or Request::is('lang*') or Request::is('day*') or Request::is('position*')) ? 'here show' : '' }}  menu-accordion">
                                         <span class="menu-link">
                                             <i class="fa fa-cog" style="margin-right: 7px"></i>
                                             <span class="menu-title">Settings</span>
                                             <span class="menu-arrow"></span>
                                         </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        @can('filial-index')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('filial*') ? 'active' : '' }}"
+                                   href="{{ route('filial.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title"><i class="fa fa-building"
+                                                                style="margin-right: 7px"></i> Filial</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('room-index')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('room*') ? 'active' : '' }}"
+                                   href="{{ route('room.index') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+
+                                                </span>
+                                    <span class="menu-title"><i class="fa fa-inbox"
+                                                                style="margin-right: 7px"></i>Room</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('cource-index')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('cource*') ? 'active' : '' }}"
+                                   href="{{ route('cource.index') }}">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                    <span class="menu-title"><i class="fa fa-database"
+                                                                style="margin-right: 7px"></i> Cource</span>
+                                </a>
+                            </div>
+                        @endcan
+
                         @can('user-index')
                             <div class="menu-item">
                                 <a class="menu-link {{ Request::is('users*') ? 'active' : '' }}"
@@ -534,6 +470,19 @@
                             </div>
                         @endcan
 
+                        @can('position-index')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('position*') ? 'active' : '' }}"
+                                   href="{{ route('position.index') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                    <span class="menu-title"><i class="fa fa-user-lock"
+                                                                style="margin-right: 7px"></i>Position</span>
+                                </a>
+                            </div>
+                        @endcan
+
                         @can('permission-index')
                             <div class="menu-item">
                                 <a class="menu-link {{ Request::is('permissions*') ? 'active' : '' }}"
@@ -543,19 +492,6 @@
                                     </span>
                                     <span class="menu-title"><i class="fa fa-key"
                                                                 style="margin-right: 7px"></i>Permissions</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('filial-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('filial*') ? 'active' : '' }}"
-                                   href="{{ route('filial.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title"><i class="fa fa-building"
-                                                                style="margin-right: 7px"></i> Filial</span>
                                 </a>
                             </div>
                         @endcan
@@ -586,7 +522,7 @@
                             </div>
                         @endcan
 
-                        @can('lang-index')
+                        @can('day-index')
                             <div class="menu-item">
                                 <a class="menu-link {{ Request::is('day*') ? 'active' : '' }}"
                                    href="{{ route('day.index') }}">

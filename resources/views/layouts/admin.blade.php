@@ -195,7 +195,7 @@
 
                                     @can('user-task')
                                         <div class="menu-item px-5">
-                                            <a href="" class="menu-link px-5">Tasks</a>
+                                            <a href="{{ route("task_list") }}" class="menu-link px-5">Tasks</a>
                                         </div>
                                     @endcan
 

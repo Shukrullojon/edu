@@ -7,9 +7,28 @@ use Illuminate\Http\Request;
 
 class FilialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $filials = Filial::latest()->paginate(20);
+        $filials = Filial::select('id','name','address','phone','status','room_count');
+        if (isset($request->name)){
+            $filials->where('name','LIKE','%'.$request->name.'%');
+        }
+        if (isset($request->address)){
+            $filials->where('address','LIKE','%'.$request->address.'%');
+        }
+        if (isset($request->phone)){
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $filials->where('phone','LIKE','%'.$request->phone.'%');
+        }
+        if (isset($request->status)){
+            $filials->where('status',$request->status);
+        }
+        if (isset($request->room_count)){
+            $filials->where('room_count',$request->room_count);
+        }
+        $filials = $filials->latest()->paginate(20);
         return view('filial.index', [
             'filials' => $filials
         ]);
@@ -27,6 +46,7 @@ class FilialController extends Controller
             'address' => 'required|string|max:100',
             'phone' => 'required|string|max:13',
             'status' => 'required|numeric|in:0,1',
+            'room_count' => 'required|integer|max:999|min:0'
         ]);
         $request->merge(
             ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
@@ -58,6 +78,7 @@ class FilialController extends Controller
             'address' => 'required|string|max:100',
             'phone' => 'required|string|max:13',
             'status' => 'required|numeric|in:0,1',
+            'room_count' => 'required|integer|max:999|min:0'
         ]);
         $request->merge(
             ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]

@@ -1,52 +1,58 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\FilialController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\RoomTaskController;
 use App\Http\Controllers\CourceController;
 use App\Http\Controllers\DayTypeController;
+use App\Http\Controllers\FilialController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\RoomTaskController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
 
 Route::post('/reset', '\App\Http\Controllers\UserController@reset')->name('userReset');
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [HomeController::class, 'index']);
 
     Route::group(['prefix' => 'home', 'namespace' => '\App\Http\Controllers'], function () {
-        Route::get('/','\App\Http\Controllers\HomeController@index')->name('home');
+        Route::get('/', '\App\Http\Controllers\HomeController@index')->name('home');
     });
 
     Route::resource('roles', RoleController::class);
-    Route::resource('permissions',PermissionController::class);
-    Route::resource('filial',FilialController::class);
-    Route::resource('room',RoomController::class);
-    Route::resource('roomtask',RoomTaskController::class);
-    Route::resource('room-task',RoomTaskController::class);
-    Route::resource('task-room',RoomTaskController::class);
-    Route::resource('cource',CourceController::class);
-    Route::resource('task',\App\Http\Controllers\TaskController::class);
-    Route::resource('pc',\App\Http\Controllers\PCController::class);
-    Route::resource('pt',\App\Http\Controllers\PTController::class);
-    Route::resource('event',\App\Http\Controllers\EventController::class);
-    Route::resource('additional',\App\Http\Controllers\AdditionalController::class);
-    Route::resource('direction',\App\Http\Controllers\DirectionController::class);
-    Route::resource('lang',\App\Http\Controllers\LangController::class);
-    Route::resource('book',\App\Http\Controllers\BookController::class);
-    Route::resource('day',\App\Http\Controllers\DayController::class);
+    Route::resource('position', \App\Http\Controllers\PositionController::class);
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('filial', FilialController::class);
+    Route::resource('room', RoomController::class);
+    Route::resource('roomtask', RoomTaskController::class);
+    Route::resource('room-task', RoomTaskController::class);
+    Route::resource('task-room', RoomTaskController::class);
+    Route::resource('cource', CourceController::class);
+    Route::resource('task', \App\Http\Controllers\TaskController::class);
+    Route::group(['prefix' => 'task', 'namespace' => '\App\Http\Controllers'], function () {
+        Route::get('user/list', 'TaskController@list')->name('task_list');
+        Route::delete('/task/finish/{id}','TaskController@finish')->name('task_finish');
+    });
+
+    Route::resource('pc', \App\Http\Controllers\PCController::class);
+    Route::resource('pt', \App\Http\Controllers\PTController::class);
+    Route::resource('event', \App\Http\Controllers\EventController::class);
+    Route::resource('additional', \App\Http\Controllers\AdditionalController::class);
+    Route::resource('direction', \App\Http\Controllers\DirectionController::class);
+    Route::resource('lang', \App\Http\Controllers\LangController::class);
+    Route::resource('book', \App\Http\Controllers\BookController::class);
+    Route::resource('day', \App\Http\Controllers\DayController::class);
     Route::group(['prefix' => 'book', 'namespace' => '\App\Http\Controllers'], function () {
         Route::patch('/count/add', 'BookController@bookcount')->name('bookCountAdd');
         Route::any('/give/student', 'BookController@give')->name('bookGive');
     });
 
-    Route::get('testresults/all','\App\Http\Controllers\PTController@results')->name('ptResult');
+    Route::get('testresults/all', '\App\Http\Controllers\PTController@results')->name('ptResult');
     Route::get('/start/time', '\App\Http\Controllers\UserController@start')->name('startTime');
     Route::get('/end/time', '\App\Http\Controllers\UserController@end')->name('endTime');
 
@@ -64,15 +70,17 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/report', 'PaymentController@report')->name('report');
     });
 
-    Route::resource('day-type',DayTypeController::class);
+    Route::resource('payed', \App\Http\Controllers\PayController::class);
 
-    Route::resource('group',GroupController::class);
+    Route::resource('day-type', DayTypeController::class);
+
+    Route::resource('group', GroupController::class);
     Route::group(['prefix' => 'group', 'namespace' => '\App\Http\Controllers'], function () {
         Route::post('detailstore', 'GroupController@detailstore')->name('groupdetailstore');
         Route::post('studentstore', 'GroupController@studentstore')->name('groupstudentstore');
         Route::patch('/detail/update/{id}', 'GroupController@detailupdate')->name('groupdetailupdate');
-        Route::any('add/{id}','GroupController@add')->name('groupStdAdd');
-        Route::any('detail/{id}','GroupController@detail')->name('groupDetail');
+        Route::any('add/{id}', 'GroupController@add')->name('groupStdAdd');
+        Route::any('detail/{id}', 'GroupController@detail')->name('groupDetail');
         Route::post('change', 'GroupController@find')->name('findTeacher');
     });
 
@@ -88,15 +96,15 @@ Route::group(['middleware' => ['auth']], function() {
         Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');
         Route::get('/show/{id}', 'StudentController@show')->name('studentShow');
         Route::get('/work', 'StudentController@work')->name('studentWork');
-        Route::get('/start/{id}','StudentController@start')->name('studentPTStart');
+        Route::get('/start/{id}', 'StudentController@start')->name('studentPTStart');
         Route::post('/work/store', 'StudentController@workStore')->name('studentWorkStore');
         Route::get('/work/result/{id}', 'StudentController@result')->name('studentWorkResult');
         Route::get('/pay', 'StudentController@pay')->name('studentPay');
         Route::get('/nopay', 'StudentController@nopay')->name('studentNoPay');
         Route::patch('/payupdate', 'StudentController@payupdate')->name('studentPayUpdate');
-        Route::get('/studentNoattend','StudentController@noattend')->name('studentNoattend');
-        Route::patch('/noattendupdate/{id}','StudentController@noattendupdate')->name('noattendupdate');
-        Route::patch('/updategroup/{id}','StudentController@updategroup')->name('updateGroup');
+        Route::get('/studentNoattend', 'StudentController@noattend')->name('studentNoattend');
+        Route::patch('/noattendupdate/{id}', 'StudentController@noattendupdate')->name('noattendupdate');
+        Route::patch('/updategroup/{id}', 'StudentController@updategroup')->name('updateGroup');
         Route::post('/add/group', 'StudentController@addGroup')->name('studentAddGroup');
         Route::post('/add/new-group', 'StudentController@addNewGroup')->name('studentAddNewGroup');
 

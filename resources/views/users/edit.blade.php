@@ -146,14 +146,21 @@
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="position"><strong>Positions:</strong></label>
+                    {!! Form::select('positions[]', $positions,$user->positions, ['id'=>'position','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="lang"><strong>Langs:</strong></label>
                     {!! Form::select('langs[]', $langs,$user->langs, ['id'=>'lang','required'=>true,'data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label
                         for="status"><strong>Status:</strong></label> {!! Form::label('status',"*",['style'=>"color:red"]) !!}

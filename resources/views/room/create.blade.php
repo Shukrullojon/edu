@@ -48,7 +48,7 @@
             </div>
 
             <h1></h1>
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            {{--<div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Tasks:</strong>
                     <br/>
@@ -58,7 +58,7 @@
                         <br/>
                     @endforeach
                 </div>
-            </div>
+            </div>--}}
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <br>
                 <button type="submit" class="btn btn-primary form-control">Submit</button>

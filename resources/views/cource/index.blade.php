@@ -13,6 +13,12 @@
                     <span class="card-label fw-bolder fs-3 mb-1">Cources: {{ $cources->total() }}</span>
                 </h3>
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Filter">
+                    <a class="btn btn-sm btn-active-success" href="{{ route('cource.create') }}">
+                        <span class="svg-icon svg-icon-3"></span>
+                        <span class="fa fa-plus"></span>
+                        Create
+                    </a>
+
                     <a href="#" class="btn btn-sm btn-active-primary" data-bs-toggle="modal"
                        data-bs-target="#cource_filter">
                         <span class="svg-icon svg-icon-3"></span>

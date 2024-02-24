@@ -4,6 +4,16 @@ namespace App\Helpers;
 
 class StatusHelper
 {
+    public static $positionStatus = [
+        '1' => '✅ Active',
+        '0' => '📦 Archive',
+    ];
+
+    public static function positionStatusGet($index)
+    {
+        return self::$positionStatus[$index] ?? 'Undefined';
+    }
+
     public static $taskStatus = [
         '1' => '✅ Active',
         '0' => '📦 Archive',
@@ -66,6 +76,16 @@ class StatusHelper
     public static function roomStatusGet($index)
     {
         return self::$roomStatus[$index] ?? 'Undefined';
+    }
+
+    public static $paymentStatus = [
+        '1' => '✅ Active',
+        '0' => '📦 Archive',
+    ];
+
+    public static function paymentStatusGet($index)
+    {
+        return self::$paymentStatus[$index] ?? 'Undefined';
     }
 
     public static $salaryStatus = [

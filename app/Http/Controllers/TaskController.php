@@ -102,4 +102,20 @@ class TaskController extends Controller
         ]);
         return back()->with('success','Task archived successfully');
     }
+
+    public function list(Request $request){
+        $tasks = Task::where('attach_user_id',auth()->user()->id)->paginate(30);
+        return view('task.list',[
+            'tasks' => $tasks,
+        ]);
+    }
+
+    public function finish($id){
+        $task = Task::where('id',$id)->first();
+        $task->update([
+            'close_user_id' => auth()->user()->id,
+            'status' => 0,
+        ]);
+        return back()->with('success','Task archived successfully');
+    }
 }

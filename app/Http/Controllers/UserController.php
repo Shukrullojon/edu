@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Day;
 use App\Models\Direction;
 use App\Models\Lang;
+use App\Models\Position;
 use App\Models\Sms;
 use App\Models\UserHourly;
 use App\Services\SmsService;
@@ -56,11 +57,13 @@ class UserController extends Controller
         $directions = Direction::pluck('name', 'id')->all();
         $langs = Lang::pluck('name', 'id')->all();
         $days = Day::pluck('name', 'id')->all();
+        $positions = Position::pluck('name','id')->all();
         return view('users.create', [
             'roles' => $roles,
             'directions' => $directions,
             'langs' => $langs,
             'days' => $days,
+            'positions' => $positions,
         ]);
     }
 
@@ -98,6 +101,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
+        $user->positions()->sync($request->input('positions'));
         $user->day_create($request->get('days'));
         return redirect()->route('users.index')
             ->with('success', 'User created successfully');
@@ -129,6 +133,7 @@ class UserController extends Controller
         $directions = Direction::pluck('name', 'id')->all();
         $langs = Lang::pluck('name', 'id')->all();
         $days = Day::pluck('name', 'id')->all();
+        $positions = Position::pluck('name','id')->all();
         return view('users.edit', [
             'user' => $user,
             'roles' => $roles,
@@ -136,6 +141,7 @@ class UserController extends Controller
             'directions' => $directions,
             'langs' => $langs,
             'days' => $days,
+            'positions' => $positions,
         ]);
     }
 
@@ -181,6 +187,7 @@ class UserController extends Controller
         }
         $user->directions()->sync($request->input('directions'));
         $user->langs()->sync($request->input('langs'));
+        $user->positions()->sync($request->input('positions'));
         $user->day_create($request->get('days'));
 
         return redirect()->route('users.index')

@@ -130,21 +130,28 @@
                 </div>
             </div>
 
-            <div class="col-xs-2 col-sm-3 col-md-3">
+            <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <label for="direction"><strong>Directions:</strong></label>
                     {!! Form::select('directions[]', $directions,[], ['id'=>'direction','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group">
+                    <label for="position"><strong>Positions:</strong></label>
+                    {!! Form::select('positions[]', $positions,[], ['id'=>'position','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="lang"><strong>Langs:</strong></label>
                     {!! Form::select('langs[]', $langs,[], ['id'=>'lang','data-control'=>'select2','class' => 'form-control form-select-solid','multiple']) !!}
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="status"><strong>Status:</strong></label> {!! Form::label('status',"*",['style'=>"color:red"]) !!}
                     {!! Form::select('status',\App\Helpers\StatusHelper::$adminStatus, null, ['id' => 'status','required'=>true, 'class' => 'form-control']) !!}

@@ -5,17 +5,15 @@
         <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
             <tr>
                 <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Room Count</th>
+                <th>Percentage</th>
+                <th>Balance</th>
                 <th>Status</th>
             </tr>
             <tr>
-                <td>{{ $filial->name }}</td>
-                <td>{{ $filial->address }}</td>
-                <td>{{ \App\Helpers\MaskHelper::changePhoneMask($filial->phone) }}</td>
-                <td>{{ $filial->room_count }}</td>
-                <td>{{ \App\Helpers\StatusHelper::filialStatusGet($filial->status) }}</td>
+                <td>{{ $pay->name }}</td>
+                <td>{{ $pay->percentage }} %</td>
+                <td>{{ number_format($pay->balance) }} UZS</td>
+                <td>{{ \App\Helpers\StatusHelper::paymentStatusGet($pay->status) }}</td>
             </tr>
         </table>
     </div>

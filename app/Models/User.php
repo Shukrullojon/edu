@@ -86,6 +86,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Lang::class, 'user_lang', 'user_id', 'lang_id');
     }
 
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class, 'user_position', 'user_id', 'position_id');
+    }
+
     public function reception(){
         return $this->belongsTo(User::class,'reception_id','id');
     }
