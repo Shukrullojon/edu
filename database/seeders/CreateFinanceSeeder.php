@@ -17,10 +17,10 @@ class CreateFinanceSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'name' => 'Finance',
-            'surname' => 'Finance',
-            'email' => 'finance@gmail.com',
-            'phone' => '993011700',
+            'name' => 'Suhrob',
+            'surname' => 'Hasanov',
+            'email' => 'suhrobhasanov@gmail.com',
+            'phone' => '996589912',
             'password' => Hash::make('123456'),
             'status' => 1,
         ]);

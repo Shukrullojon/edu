@@ -19,36 +19,36 @@ class GroupSeeder extends Seeder
     {
         $data = [
             [
-                'name' => '1-group',
-                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
-                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
+                'name' => 'c-1003',
+                'start_date' => '2024-01-05',
+                'start_hour' => '18:00:00',
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
-                'status' => rand(1,3),
+                'status' => 2,
                 'color' => rand(100000,999999),
             ],
             [
-                'name' => '2-group',
-                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
-                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
+                'name' => 'c-1005',
+                'start_date' => '2024-01-05',
+                'start_hour' => '18:30:00',
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
-                'status' => rand(1,3),
+                'status' => 2,
                 'color' => rand(100000,999999),
             ],
             [
-                'name' => '3-group',
-                'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
-                'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
+                'name' => 'c-1006',
+                'start_date' => '2024-01-05',
+                'start_hour' => '18:30:00',
                 'cource_id' => Cource::select('id')->inRandomOrder()->first()->id,
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'max_student' => 15,
-                'status' => rand(1,3),
+                'status' => 2,
                 'color' => rand(100000,999999),
             ],
-            [
+            /*[
                 'name' => '4-group',
                 'start_date' => date('Y-m-d', strtotime("+".rand(1,10).' days'),),
                 'start_hour' => date('H:i', strtotime("+".rand(1,10).' days'),),
@@ -117,7 +117,7 @@ class GroupSeeder extends Seeder
                 'max_student' => 15,
                 'status' => rand(1,3),
                 'color' => rand(100000,999999),
-            ],
+            ],*/
         ];
         foreach ($data as $d){
             $g = Group::create($d);

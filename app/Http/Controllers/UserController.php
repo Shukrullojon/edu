@@ -33,16 +33,58 @@ class UserController extends Controller
             'users.email as email',
             'users.phone as phone',
             'users.status as status',
-        )
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        );
+        if (isset($request->name)){
+            $data->where('users.name','LIKE','%'.$request->name.'%');
+        }
+        if (isset($request->email)){
+            $data->where('users.email','LIKE','%'.$request->email.'%');
+        }
+        if (isset($request->phone)){
+            $request->merge(
+                [
+                    'phone' => str_replace(['(', ')', '-'], '', $request->phone),
+                ]
+            );
+            $data->where('users.phone','LIKE','%'.$request->phone.'%');
+        }
+        if (isset($request->status)){
+            $data->where('users.status',$request->status);
+        }
+
+        if (isset($request->position_id)){
+            $data->whereHas('positions', function ($query) use ($request) {
+                $query->where('positions.id', $request->position_id);
+            });
+        }
+
+        if (isset($request->direction_id)){
+            $data->whereHas('directions', function ($query) use ($request) {
+                $query->where('directions.id', $request->direction_id);
+            });
+        }
+
+        if (isset($request->day_id)){
+            $data->whereHas('days', function ($query) use ($request) {
+                $query->where('days.id', $request->day_id);
+            });
+        }
+
+        $data = $data->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', '!=', 'Student')
             ->where('model_has_roles.model_type', User::class)
             ->latest('users.id')
             ->groupBy('users.id')
             ->paginate(20);
+        $positions = Position::pluck('name','id')->all();
+        $directions = Direction::pluck('name','id')->all();
+        $days = Day::pluck('name','id')->all();
         return view('users.index', [
             'data' => $data,
+            'positions' => $positions,
+            'directions' => $directions,
+            'days' => $days,
         ]);
     }
 

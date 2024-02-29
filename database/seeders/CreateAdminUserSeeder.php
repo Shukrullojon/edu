@@ -21,8 +21,8 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'Shukrullo',
             'surname' => 'Fatulloyev',
             'email' => 'admin@gmail.com',
-            'phone' => '993011799',
-            'password' => Hash::make('123456'),
+            'phone' => '997777777',
+            'password' => Hash::make('997777777'),
             'status' => 1,
         ]);
         $role = Role::create(['name' => 'Admin']);
@@ -34,8 +34,8 @@ class CreateAdminUserSeeder extends Seeder
             'name' => "Jamshidxo'ja",
             'surname' => 'Nasriddinov',
             'email' => 'cityeducation@gmail.com',
-            'phone' => '977555551',
-            'password' => Hash::make('977555551'),
+            'phone' => '977555550',
+            'password' => Hash::make('977555550'),
             'status' => 1,
         ]);
         //$role1 = Role::create(['name' => 'Admin']);

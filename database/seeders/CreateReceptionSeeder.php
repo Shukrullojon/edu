@@ -18,15 +18,27 @@ class CreateReceptionSeeder extends Seeder
         $role = Role::create(['name' => 'Reception']);
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
-        for ($i = 1; $i < 10; $i ++){
-            $user = User::create([
-                'name' => 'Reception '.$i,
-                'email' => "reception".$i."@gmail.com",
-                'phone' => '91123456'.$i,
-                'password' => bcrypt("reception".$i),
-                'status' => rand(0,3),
-            ]);
-            $user->assignRole([$role->id]);
-        }
+        $user = User::create([
+            'name' => 'Nigina',
+            'surname' => 'Hamroyeva',
+            'email' => "niginahamroyeva@gmail.com",
+            'phone' => "906552332",
+            'password' => bcrypt("reception"),
+            'status' => 1,
+        ]);
+        $user->assignRole([$role->id]);
+
+        $user1 = User::create([
+            'name' => 'Farangiz',
+            'surname' => '',
+            'email' => "farangizreception@gmail.com",
+            'phone' => "936507888",
+            'password' => bcrypt("reception2"),
+            'status' => 1,
+        ]);
+        $user1->assignRole([$role->id]);
+        //for ($i = 1; $i < 10; $i ++){
+
+        //}
     }
 }
