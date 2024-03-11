@@ -10,7 +10,10 @@
         <div class="col-md-4">
             <div class="card pt-2 mb-6 mb-xl-9" style="margin: 10px; padding: 10px">
                 <h2 style="margin-left: 10px">{{ $student->name }} {{ $student->surname }}</h2>
+                <p><img src="{{ asset('public/image/'.$student->image) }}" height="100px"> </p>
+                <p><b>Id Code:</b> {{ $student->id_code }} </p>
                 <p><b>Phone:</b> <a href="tel:{{ $student->phone }}">{{ \App\Helpers\MaskHelper::changePhoneMask($student->phone) }}</a></p>
+                <p><b>Parent Phone:</b> <a href="tel:{{ $student->parent_phone }}">{{ \App\Helpers\MaskHelper::changePhoneMask($student->parent_phone) }}</a></p>
                 <p><b>Email:</b> {{ $student->email }}</p>
                 <p><b>Group:</b> {{ $student->groupList->group->name ?? '' }} <i style="margin-left: 10px; color: blue" class="fa fa-edit" data-bs-toggle="modal" data-bs-target="#update_group"></i></p>
                 <p><b>Cource:</b> {{ $student->groupList->group->cource->name ?? '' }}</p>
@@ -247,12 +250,12 @@
                                                 <div class="row">
                                                     <input type="hidden" name="user_id" value="{{ $student->id }}">
                                                     <input type="hidden" name="group_id"
-                                                           value="{{ $student->groupList->group_id }}">
+                                                           value="{{ $student->groupList->group_id ?? '' }}">
                                                     <div class="col-xs-4 col-sm-4 col-md-4">
                                                         <div class="form-group">
                                                             <label><strong>Amount:</strong></label>
                                                             <input type="number" min="1" name="amount"
-                                                                   value="{{ $student->groupList->group->cource->price }}"
+                                                                   value="{{ $student->groupList->group->cource->price ?? '' }}"
                                                                    placeholder="Amount" class="form-control">
                                                         </div>
                                                     </div>

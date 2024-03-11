@@ -9,6 +9,7 @@ use App\Models\Day;
 use App\Models\DayType;
 use App\Models\Event;
 use App\Models\EventUser;
+use App\Models\File;
 use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupStudent;
@@ -24,6 +25,7 @@ use App\Models\UserPayment;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
 class StudentController extends Controller
@@ -107,10 +109,10 @@ class StudentController extends Controller
             'name' => 'required|min:3|max:50',
             'surname' => 'required|min:3|max:50',
             'email' => 'nullable|email',
-            'status' => 'required|in:0,1,2,3',
+            'status' => 'required|in:0,1,2,3,4,5,6',
             'phone' => 'required|max:9|unique:users,phone',
             'parent_phone' => 'nullable',
-            'event_id' => 'required|exists:events,id',
+            //'event_id' => 'required|exists:events,id',
         ]);
         $role = Role::where('name', 'Student')->first();
         $student = User::create([
@@ -118,16 +120,16 @@ class StudentController extends Controller
             'surname' => $request->surname,
             'status' => $request->status,
             'phone' => $request->phone,
-            'parent_phone' => $request->parent_phone,
-            'reception_id' => auth()->user()->id,
-            'password' => Hash::make($request->phone),
-            'is_payment' => ($request->status) ? 1 : 0,
-            'cource_id' => $request->cource_id,
-            'interes_time' => $request->interes_time,
+            //'parent_phone' => $request->parent_phone,
+            //'reception_id' => auth()->user()->id,
+            //'password' => Hash::make($request->phone),
+            //'is_payment' => ($request->status) ? 1 : 0,
+            //'cource_id' => $request->cource_id,
+            //'interes_time' => $request->interes_time,
         ]);
         // begin - id_code generatsiya
-        $filial_id = '01';
-        $this->service->createIdCode($student, $filial_id);
+        /*$filial_id = '01';
+        $this->service->createIdCode($student, $filial_id);*/
         // end - id_code generatsiya
 
         $student->assignRole([$role->id]);
@@ -187,12 +189,18 @@ class StudentController extends Controller
         if ($request->status == 0) {
             return redirect()->route('studentArchive')->with('success', 'Student archived successfully');
         } else if ($request->status == 1) {
-            return redirect()->route('studentWaiting')->with('success', 'Student waiting successfully');
+            return redirect()->route('studentAccept')->with('success', "Student qabul bo'limida!");
         } else if ($request->status == 2) {
-            return redirect()->route('studentActive')->with('success', 'Student active successfully');
+            return redirect()->route('studentFirst')->with('success', "Student 1 - dars bo'limida!");
         } else if ($request->status == 3) {
-            return redirect()->route('studentAll')->with('success', 'Student active successfully');
-        } else {
+            return redirect()->route('studentLeft')->with('success', "Student Ketgan bo'limida");
+        } else if($request->status == 4){
+            return redirect()->route('studentWaiting')->with('success', "Student Waiting bo'limida");
+        } else if($request->status == 5){
+            return redirect()->route('studentActive')->with('success', "Student Active bo'limida");
+        }else if($request->status == 6){
+            return redirect()->route('studentFroze')->with('success', "Student Muzlatilgan bo'limida");
+        }else {
             return back();
         }
     }
@@ -212,27 +220,31 @@ class StudentController extends Controller
         $events = Event::where('status', 1)->get()->pluck('name', 'id');
         $pcs = PC::where('status', 1)->get()->pluck('name', 'id');
         $groups = Group::whereIn('status', [1, 2])->get()->pluck('name', 'id');
+        $cources = Cource::where('status', 1)->pluck('name', 'id');
         $student = User::find($id);
         return view('student.edit', [
             'student' => $student,
             'events' => $events,
             'pcs' => $pcs,
             'groups' => $groups,
+            'cources' => $cources,
         ]);
     }
 
     public function update(Request $request, $id)
     {
         $request->merge(
-            ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            ['phone' => str_replace(['(', ')', '-'], '', $request->phone)],
+        );
+        $request->merge(
+            ['parent_phone' => str_replace(['(', ')', '-'], '', $request->phone)],
         );
         $this->validate($request, [
             'name' => 'required|min:3|max:50',
             'surname' => 'required|min:3|max:50',
             'email' => 'nullable|email',
-            'status' => 'required|in:0,1,2,3',
+            'status' => 'required|in:0,1,2,3,4,5,6',
             'phone' => 'required|unique:users,phone,' . $id,
-            'event_id' => 'required|exists:events,id',
         ]);
         $student = User::find($id);
         if ($request->pc_id) {
@@ -254,14 +266,14 @@ class StudentController extends Controller
                 'student_id' => $student->id,
                 'status' => 1,
             ]);
-            $group = Group::find($request->group_id);
+            /*$group = Group::find($request->group_id);
             $text = "Helloo)) " . $request->name ?? '' . " " . $request->surname ?? '' . " siz " . $group->name ?? '' . " gruhingiz o'zgartirildi sizning darsingiz " . TypeHelper::getGroupDayType($group->type ?? 0) . " dars vaqti " . date("H:i", strtotime($group->detailFirst->begin_time ?? '')) . " xona raqami: " . $group->detailFirst->room->name ?? '';
             Sms::create([
                 'phone' => $request->phone,
                 'type' => 2,
                 'text' => $text,
                 'status' => 0,
-            ]);
+            ]);*/
         }
 
         if ($request->event_id) {
@@ -272,27 +284,409 @@ class StudentController extends Controller
             ]);
         }
 
+        if ($request->hasFile('image')){
+            if (!empty($student->image)){
+                Storage::delete('public/image/'.$student->image);
+            }
+            $filenameWithExt = $request->file('image')->getClientOriginalName ();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $filename. '_'. time().'.'.$extension;
+            $request->image->move(public_path('image'), $fileNameToStore);
+            $student->update([
+                'image' => $fileNameToStore,
+            ]);
+        }
+
+        if ($request->hasFile('docs')){
+            File::where('model',User::class)
+                ->where('model_id',$student->id)
+                ->delete();
+            foreach ($request->docs as $doc){
+                $filenameWithExt = $doc->getClientOriginalName ();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $doc->getClientOriginalExtension();
+                $fileNameToStore = $filename. '_'. time().'.'.$extension;
+                $doc->move(public_path('image'), $fileNameToStore);
+                File::create([
+                    'model' => User::class,
+                    'model_id' => $student->id,
+                    'file' => $fileNameToStore,
+                    'type' => 0,
+                ]);
+            }
+        }
+
         $student->update([
+            'id_code' => $request->id_code,
             'name' => $request->name,
             'surname' => $request->surname,
             'status' => $request->status,
             'phone' => $request->phone,
             'parent_phone' => $request->parent_phone,
+            'cource_id' => $request->cource_id,
+            'interes_time' => $request->interes_time,
+            'comment' => $request->comment,
+            'series_number' => $request->series_number,
         ]);
+
         if ($request->status == 0) {
             return redirect()->route('studentArchive')->with('success', 'Student archived successfully');
         } else if ($request->status == 1) {
-            return redirect()->route('studentWaiting')->with('success', 'Student waiting successfully');
+            return redirect()->route('studentAccept')->with('success', "Student qabul bo'limida!");
         } else if ($request->status == 2) {
-            return redirect()->route('studentActive')->with('success', 'Student active successfully');
+            return redirect()->route('studentFirst')->with('success', "Student 1 - dars bo'limida!");
         } else if ($request->status == 3) {
-            return redirect()->route('studentAll')->with('success', 'Student active successfully');
-        } else {
+            return redirect()->route('studentLeft')->with('success', "Student Ketgan bo'limida");
+        } else if($request->status == 4){
+            return redirect()->route('studentWaiting')->with('success', "Student Waiting bo'limida");
+        } else if($request->status == 5){
+            return redirect()->route('studentActive')->with('success', "Student Active bo'limida");
+        }else if($request->status == 6){
+            return redirect()->route('studentFroze')->with('success', "Student Muzlatilgan bo'limida");
+        }else {
             return back();
         }
+
     }
 
-    public function waiting(Request $request)
+    public function archive(Request $request)
+    {
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 0);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+        return view('student.statuses.archive', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+        ]);
+    }
+
+    public function accept(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id',
+            'users.created_at as created_at'
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 1);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.accept', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    public function first(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id',
+            'users.interes_time as interes_time',
+            'users.created_at as created_at',
+            'users.comment as comment'
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 2);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.first', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    public function left(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id'
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 3);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.left', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    public function waiting(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id'
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 4);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.waiting', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    public function active(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id',
+            'users.image as image',
+            'users.id_code as id_code',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 5);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.active', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    public function froze(Request $request){
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+            'users.cource_id as cource_id'
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 6);
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+        $events = Event::where('status', 1)->get()->pluck('name', 'id');
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+
+        $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
+
+        return view('student.statuses.froze', [
+            'students' => $students,
+            'events' => $events,
+            'groups' => $groups,
+            'cources' => $cources,
+            'filials' => $filials,
+        ]);
+    }
+
+    /*public function waiting(Request $request)
     {
         $students = User::select(
             'users.id as id',
@@ -339,9 +733,9 @@ class StudentController extends Controller
             'cources' => $cources,
             'filials' => $filials,
         ]);
-    }
+    }*/
 
-    public function active(Request $request)
+    /*public function active(Request $request)
     {
 
         $students = User::select(
@@ -384,49 +778,7 @@ class StudentController extends Controller
             'events' => $events,
             'groups' => $groups,
         ]);
-    }
-
-    public function archive(Request $request)
-    {
-        $students = User::select(
-            'users.id as id',
-            'users.name as name',
-            'users.surname as surname',
-            'users.phone as phone',
-            'users.status as status',
-        )
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->where('roles.name', 'Student')
-            ->where('model_has_roles.model_type', User::class)
-            ->where('users.status', 0);
-        if (isset($request->name) and !empty($request->name)) {
-            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
-        }
-        if (isset($request->phone) and !empty($request->phone)) {
-            $request->merge(
-                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
-            );
-            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
-        }
-        if (isset($request->event_id) and !empty($request->event_id)) {
-            $students = $students->where('event_user.event_id', $request->event_id);
-        }
-        if (isset($request->group_id) and !empty($request->group_id)) {
-            $students = $students->where('group_student.group_id', $request->group_id);
-        }
-        $students = $students
-            ->latest('users.updated_at')
-            ->groupBy('users.phone')
-            ->paginate(40);
-        $events = Event::where('status', 1)->get()->pluck('name', 'id');
-        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
-        return view('student.archive', [
-            'students' => $students,
-            'events' => $events,
-            'groups' => $groups,
-        ]);
-    }
+    }*/
 
     public function work()
     {

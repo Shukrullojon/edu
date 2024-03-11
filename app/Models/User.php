@@ -23,6 +23,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property integer $hourly
  * @property integer $add_student
  * @property integer $active_student
+ * @property String $comment
  * */
 
 class User extends Authenticatable
@@ -55,6 +56,9 @@ class User extends Authenticatable
         'cource_id',
         'day_id',
         'interes_time',
+        'comment',
+        'image',
+        'series_number',
     ];
 
     public function day_create($type){

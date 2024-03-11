@@ -87,10 +87,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/search', '\App\Http\Controllers\StudentController@search')->name('search');
     Route::group(['prefix' => 'student', 'namespace' => '\App\Http\Controllers'], function () {
         Route::get('/create', 'StudentController@create')->name('studentCreate');
+
+        /*Student statuses*/
+        Route::get('/archive', 'StudentController@archive')->name('studentArchive');
+        Route::get('/accept', 'StudentController@accept')->name('studentAccept');
+        Route::get('/first', 'StudentController@first')->name('studentFirst');
+        Route::get('/left', 'StudentController@left')->name('studentLeft');
         Route::get('/waiting', 'StudentController@waiting')->name('studentWaiting');
         Route::get('/active', 'StudentController@active')->name('studentActive');
-        Route::get('/all', 'StudentController@all')->name('studentAll');
-        Route::get('/archive', 'StudentController@archive')->name('studentArchive');
+        Route::get('/froze', 'StudentController@froze')->name('studentFroze');
+
+        /*End Student Statuses*/
+
         Route::post('/store', 'StudentController@store')->name('studentStore');
         Route::get('/edit/{id}', 'StudentController@edit')->name('studentEdit');
         Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');

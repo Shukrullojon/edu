@@ -137,9 +137,13 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'student-add'],
             ['name' => 'student-payment'],
+
+            ['name' => 'student-accept'],
+            ['name' => 'student-first'],
+            ['name' => 'student-left'],
             ['name' => 'student-waiting'],
             ['name' => 'student-active'],
-            ['name' => 'student-all'],
+            ['name' => 'student-froze'],
             ['name' => 'student-archive'],
 
             ['name' => 'student-event-show'],

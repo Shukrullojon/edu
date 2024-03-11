@@ -25,9 +25,12 @@ class StatusHelper
     }
 
     public static $studentStatus = [
-        '1' => '⏳ Waiting',
-        '2' => '✅Active',
-        '3' => '👨‍🎓 All',
+        '1' => 'Qabul',
+        '2' => '1 - Dars',
+        '3' => 'Ketgan',
+        '4' => 'Waiting',
+        '5' => 'Active',
+        '6' => 'Muzlatilgan',
         '0' => '📦 Archive',
     ];
 

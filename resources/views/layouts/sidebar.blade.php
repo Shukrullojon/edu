@@ -100,17 +100,6 @@
                                             <span class="menu-arrow"></span>
                                         </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        {{--@can('student-payment')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/pay') ? 'active' : '' }}"
-                                   href="{{ route('studentPay') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">💰 Payment</span>
-                                </a>
-                            </div>
-                        @endcan--}}
 
                         @can('student-add')
                             <div class="menu-item">
@@ -124,46 +113,75 @@
                             </div>
                         @endcan
 
-                        @can('student-waiting')
+                        @can('student-accept')
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/waiting') ? 'active' : '' }}"
-                                   href="{{ route('studentWaiting') }}">
+                                <a class="menu-link {{ Request::is('student/accept') ? 'active' : '' }}" href="{{ route("studentAccept") }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">⏳ Waiting</span>
+                                    <span class="menu-title">Qabul</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('student-first')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('student/first') ? 'active' : '' }}" href="{{ route("studentFirst") }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">1 - Dars</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('student-left')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('student/left') ? 'active' : '' }}" href="{{ route("studentLeft") }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Ketgan</span>
+                                </a>
+                            </div>
+                        @endcan
+
+                        @can('student-waiting')
+                            <div class="menu-item">
+                                <a class="menu-link {{ Request::is('student/waiting') ? 'active' : '' }}" href="{{ route("studentWaiting") }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Waiting</span>
                                 </a>
                             </div>
                         @endcan
 
                         @can('student-active')
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/active') ? 'active' : '' }}"
-                                   href="{{ route('studentActive') }}">
+                                <a class="menu-link {{ Request::is('student/active') ? 'active' : '' }}" href="{{ route("studentActive") }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">✅ Active</span>
+                                    <span class="menu-title">Active</span>
                                 </a>
                             </div>
                         @endcan
 
-                        @canany('student-all')
+                        @can('student-froze')
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/all') ? 'active' : '' }}"
-                                   href="{{ route('studentAll') }}">
+                                <a class="menu-link {{ Request::is('student/froze') ? 'active' : '' }}" href="{{ route("studentFroze") }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">👨‍🎓 All</span>
+                                    <span class="menu-title">Muzlatilgan</span>
                                 </a>
                             </div>
                         @endcan
 
                         @can('student-archive')
                             <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/archive') ? 'active' : '' }}"
-                                   href="{{ route('studentArchive') }}">
+                                <a class="menu-link {{ Request::is('student/archive') ? 'active' : '' }}" href="{{ route('studentArchive') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -172,7 +190,7 @@
                             </div>
                         @endcan
 
-                        @can('student-event-index')
+                        {{--@can('student-event-index')
                             <div class="menu-item">
                                 <a class="menu-link {{ Request::is('event*') ? 'active' : '' }}"
                                    href="{{ route('event.index') }}">
@@ -182,7 +200,7 @@
                                     <span class="menu-title">✨ Event</span>
                                 </a>
                             </div>
-                        @endcan
+                        @endcan--}}
                     </div>
                 </div>
             @endcanany

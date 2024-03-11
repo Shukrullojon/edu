@@ -31,6 +31,9 @@ return new class extends Migration {
             $table->bigInteger('active_student')->nullable();
             $table->unsignedBigInteger('cource_id')->nullable();
             $table->time('interes_time')->nullable();
+            $table->text('comment')->nullable();
+            $table->string('image')->nullable();
+            $table->string('series_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

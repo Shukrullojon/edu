@@ -40,7 +40,6 @@
                     </a>
                     <h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #986923;">Welcome to CITY EDUCATION</h1>
                 </div>
-                <div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url({{ asset('demo/dist/assets/media/illustrations/sketchy-1/13.png') }}"></div>
             </div>
             <!--end::Wrapper-->
         </div>
