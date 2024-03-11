@@ -686,6 +686,22 @@ class StudentController extends Controller
         ]);
     }
 
+    public function doc($id){
+        $file = File::find($id);
+        $filePath = public_path('image/' . $file->file);
+        return response()->download($filePath);
+    }
+
+    public function doc_delete($id){
+        $file = File::find($id);
+        $filePath = public_path('image/' . $file->file);
+        if (file_exists($filePath)) {
+            unlink($filePath);
+            $file->delete();
+        }
+        return redirect()->back()->with('success', 'File delete ');
+    }
+
     /*public function waiting(Request $request)
     {
         $students = User::select(

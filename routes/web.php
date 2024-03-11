@@ -96,9 +96,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/waiting', 'StudentController@waiting')->name('studentWaiting');
         Route::get('/active', 'StudentController@active')->name('studentActive');
         Route::get('/froze', 'StudentController@froze')->name('studentFroze');
-
         /*End Student Statuses*/
 
+        Route::get('/doc/{id}', 'StudentController@doc')->name('studentDocDownload');
+        Route::get('/doc/delete/{id}', 'StudentController@doc_delete')->name('studentDocDelete');
         Route::post('/store', 'StudentController@store')->name('studentStore');
         Route::get('/edit/{id}', 'StudentController@edit')->name('studentEdit');
         Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');

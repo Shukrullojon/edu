@@ -160,6 +160,10 @@ class User extends Authenticatable
         return $this->hasMany(UserBook::class,'user_id','id');
     }
 
+    public function docs(){
+        return $this->hasMany(File::class,'model_id','id')->where('model',self::class);
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

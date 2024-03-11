@@ -17,7 +17,7 @@
                 <p><b>Email:</b> {{ $student->email }}</p>
                 <p><b>Group:</b> {{ $student->groupList->group->name ?? '' }} <i style="margin-left: 10px; color: blue" class="fa fa-edit" data-bs-toggle="modal" data-bs-target="#update_group"></i></p>
                 <p><b>Cource:</b> {{ $student->groupList->group->cource->name ?? '' }}</p>
-                <p><b>Event:</b> {{ $student->event->event->name ?? '' }}</p>
+                {{--<p><b>Event:</b> {{ $student->event->event->name ?? '' }}</p>--}}
                 <p><b>Status:</b> {{ \App\Helpers\StatusHelper::studentStatusGet($student->status) }}</p>
                 <p><b>Like:</b> {{ count($student->likes) }}</p>
             </div>
@@ -63,6 +63,40 @@
             <div class="card pt-2 mb-6 mb-xl-9">
                 <div class="card-header border-0">
                     <div class="card-title">
+                        <h2>Docs</h2>
+                    </div>
+                </div>
+
+                <div class="card-body pt-0">
+                    <table id="kt_customer_details_invoices_table_1" class="table align-middle table-row-dashed fs-6 fw-bolder gy-5">
+                        <thead class="border-bottom border-gray-200 fs-7 text-uppercase fw-bolder">
+                        <tr class="text-start text-muted gs-0">
+                            <th>#</th>
+                            <th>Doc</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        @php $i=1; @endphp
+                        <tbody class="fs-6 fw-bold text-gray-600">
+                        @foreach($student->docs as $doc)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>
+                                    <embed src="{{ asset("public/image/".$doc->file) }}" width="200px" height="200px" />
+                                </td>
+                                <td>
+                                    <a href="{{ route("studentDocDownload", $doc->id) }}"><i class="fa fa-download"></i></a>
+                                    <a href="{{ route("studentDocDelete", $doc->id) }}" style="margin-left: 15px"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{--<div class="card pt-2 mb-6 mb-xl-9">
+                <div class="card-header border-0">
+                    <div class="card-title">
                         <h2>Events</h2>
                     </div>
                 </div>
@@ -90,7 +124,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>--}}
         </div>
 
         <div class="col-md-8">
