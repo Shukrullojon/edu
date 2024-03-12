@@ -61,10 +61,47 @@ class GroupController extends Controller
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
         $days = Day::latest()->get()->pluck('name', 'id');
+
+        $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $teachers = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Teacher')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 1)
+            ->latest('users.updated_at')
+            ->get()->pluck('name', 'id');
+
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.id_code as id_code',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->whereIn('users.status', [2, 3])
+            ->latest('users.updated_at')
+            ->get();
+
+
         return view('group.create', [
             'cources' => $cources,
             'filials' => $filials,
             'days' => $days,
+            'rooms' => $rooms,
+            'teachers' => $teachers,
+            'students' => $students,
         ]);
     }
 
@@ -92,6 +129,21 @@ class GroupController extends Controller
         ]);
         $group = Group::create($request->all());
         $group->day_create($request->get('type'));
+
+        if (!empty($request->students)){
+            foreach ($request->students as $student){
+                if (!empty($student)){
+                    GroupStudent::where('student_id',$student)->where('status',1)->update([
+                        'status' => 0
+                    ]);
+                    GroupStudent::create([
+                        'group_id' => $group->id,
+                        'student_id' => $student,
+                        'status' => 1,
+                    ]);
+                }
+            }
+        }
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
     }
 
