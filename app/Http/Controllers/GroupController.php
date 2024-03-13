@@ -121,7 +121,6 @@ class GroupController extends Controller
             'filial_id' => 'required|exists:filials,id',
             'status' => 'required|in:1,2,3',
         ]);
-
         $request->request->add([
             'color' => rand(100000, 999999),
             'start_date' => date('Y-m-d', strtotime($request->start_date),),
@@ -142,6 +141,20 @@ class GroupController extends Controller
                         'status' => 1,
                     ]);
                 }
+            }
+        }
+
+        if(!empty($request->teacher)){
+            foreach ($request->teacher as $t){
+                GroupDetail::create([
+                    'group_id' => $group->id,
+                    'room_id' => $t['room_id'],
+                    'teacher_id' => $t['teacher_id'],
+                    'type' => 0,
+                    'begin_time' => date("H:i:s", strtotime($t['begin_time'])),
+                    'end_time' => date("H:i:s", strtotime($t['end_time'])),
+                    'status' => 1,
+                ]);
             }
         }
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');

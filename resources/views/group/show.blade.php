@@ -72,9 +72,9 @@
                         <th>Teacher</th>
                         <th>Begin</th>
                         <th>End</th>
-                        <th>Type</th>
+                        {{--<th>Type</th>
                         <th>Amount</th>
-                        <th>Comment</th>
+                        <th>Comment</th>--}}
                         <th>Status</th>
                     </tr>
                     @foreach($group->detail as $d)
@@ -83,7 +83,7 @@
                             <td>{{ $d->teacher->name ?? '' }}</td>
                             <td>{{ date('H:i', strtotime($d->begin_time)) }}</td>
                             <td>{{ date('H:i', strtotime($d->end_time)) }}</td>
-                            <td>{{ \App\Helpers\TypeHelper::getDetailType($d->type) }}</td>
+                            {{--<td>{{ \App\Helpers\TypeHelper::getDetailType($d->type) }}</td>
                             <td>
                                 @if(!empty($d->amount))
                                     {{ number_format($d->amount,0,' ',' ') }} UZS
@@ -93,7 +93,7 @@
                                 @if(!empty($d->comment))
                                     {!! $d->comment !!}
                                 @endif
-                            </td>
+                            </td>--}}
                             <td>{{ \App\Helpers\StatusHelper::roomVsTeacherStatusGet($d->status) }}</td>
                         </tr>
                     @endforeach
