@@ -26,15 +26,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(){
-        $schedules = GroupDetail::where('teacher_id', auth()->user()->id)
-            ->where('status', 1)
-            ->get();
-        return view('teacher.schedule', [
-            'schedules' => $schedules,
-        ]);
-    }
-    /*public function index()
+
+    public function index()
     {
         $grCount = Group::count();
         $rooms = Room::where('status',1)->get();
@@ -51,7 +44,7 @@ class HomeController extends Controller
             'pay' => $pay,
             'payC' => $payC,
         ]);
-    }*/
+    }
 
     public function finance(Request $request){
 

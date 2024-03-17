@@ -19,7 +19,7 @@
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                         <div class="menu-item">
-                            {{--@can('home-index')
+                            @can('home-index')
                                 <a class="menu-link {{ Request::is('home') ? 'active' : '' }}"
                                    href="{{ route('home') }}">
                                                         <span class="menu-bullet">
@@ -28,7 +28,7 @@
                                     <span class="menu-title"><i class="fa fa-home"
                                                                 style="margin-right: 7px"></i>Home</span>
                                 </a>
-                            @endcan--}}
+                            @endcan
 
                             @canany('teacher-schedule')
                                 <a class="menu-link {{ Request::is('teacher/schedule*') ? 'active' : '' }}"
@@ -40,6 +40,13 @@
                                 </a>
                             @endcan
 
+                            <a class="menu-link"
+                                href="">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title"><i class="fa fa-calendar-check" style="margin-right: 7px"></i>Attendance</span>
+                            </a>
 
                             <a class="menu-link {{ Request::is('student/studentNoattend*') ? 'active' : '' }}"
                                href="{{ route('studentNoattend') }}">

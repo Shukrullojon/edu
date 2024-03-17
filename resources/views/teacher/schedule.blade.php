@@ -1,6 +1,27 @@
 @extends('layouts.admin')
 
 @section('content')
+    <div class="card">
+        <!--begin::Card header-->
+        <div class="card-header">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bolder text-dark">My Calendar</span>
+                <span class="text-muted mt-1 fw-bold fs-7">Preview monthly events</span>
+            </h3>
+            <div class="card-toolbar">
+                <a href="" class="btn btn-primary">Manage Calendar</a>
+            </div>
+        </div>
+        <!--end::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body">
+            <!--begin::Calendar-->
+            <div id="kt_calendar_widget_1"></div>
+            <!--end::Calendar-->
+        </div>
+        <!--end::Card body-->
+    </div>
+
     <div class="card pt-2 mb-6 mb-xl-9" style="margin: 10px; padding: 10px">
         @if ($message = Session::get('success'))
             <div class="alert alert-success">

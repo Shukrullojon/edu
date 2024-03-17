@@ -267,6 +267,8 @@
 <script src="{{ asset('demo/dist/assets/js/custom/utilities/modals/users-search.js')}}"></script>
 <script src="{{ asset('jquery/jquery.min.js')}}"></script>
 <script src="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.js') }}"></script>
+<script src="{{ asset('demo/dist/assets/js/widgets.bundle.js')}}"></script>
+<script src="{{ asset('demo/dist/assets/js/custom/widgets.js')}}"></script>
 {{--<script src="{{ asset('jquery/jquery.min.js') }}"></script>--}}
 {{--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
 
