@@ -70,19 +70,6 @@
                                             <span class="menu-arrow"></span>
                                         </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        @can('group-create')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('group/create') ? 'active' : '' }}"
-                                   href="{{ route('group.create') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                    <span class="menu-title"><i class="fa fa-plus"
-                                                                style="margin-right: 7px"></i>Add</span>
-                                </a>
-                            </div>
-                        @endcan
-
                         @can('group-index')
                             <div class="menu-item">
                                 <a class="menu-link {{ (Request::is('group*') and !Request::is('group/create')) ? 'active' : '' }}"
@@ -90,7 +77,7 @@
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                    <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Group</span>
+                                    <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Groups</span>
                                 </a>
                             </div>
                         @endcan

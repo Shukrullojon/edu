@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cource;
 use App\Models\Day;
 use App\Models\DayType;
+use App\Models\Direction;
 use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupDetail;
@@ -61,7 +62,7 @@ class GroupController extends Controller
         $cources = Cource::where('status', 1)->latest()->get()->pluck('name', 'id');
         $filials = Filial::where('status', 1)->latest()->get()->pluck('name', 'id');
         $days = Day::latest()->get()->pluck('name', 'id');
-
+        $directions = Direction::latest()->get()->pluck('name', 'id');
         $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
         $teachers = User::select(
             'users.id as id',
@@ -88,10 +89,12 @@ class GroupController extends Controller
         )
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->join('group_student','users.id','=','group_student.student_id')
             ->where('roles.name', 'Student')
             ->where('model_has_roles.model_type', User::class)
             ->whereIn('users.status', [2, 3])
             ->latest('users.updated_at')
+            ->groupBy('users.id')
             ->get();
 
 
@@ -102,6 +105,7 @@ class GroupController extends Controller
             'rooms' => $rooms,
             'teachers' => $teachers,
             'students' => $students,
+            'directions' => $directions,
         ]);
     }
 
@@ -113,7 +117,7 @@ class GroupController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:100',
             'start_date' => 'nullable|date_format:Y-m-d',
-            'start_hour' => 'nullable|date_format:H:i',
+            /*'start_hour' => 'nullable|date_format:H:i',*/
             'type' => 'required|array',
             'max_student' => 'required|numeric|min:0',
             'max_teacher' => 'required|numeric|min:0',
@@ -124,7 +128,7 @@ class GroupController extends Controller
         $request->request->add([
             'color' => rand(100000, 999999),
             'start_date' => date('Y-m-d', strtotime($request->start_date),),
-            'start_hour' => date('H:i:s', strtotime($request->start_hour),),
+            'start_hour' => date('H:i:s', strtotime($request->start_hour.':'.$request->start_minute),),
         ]);
         $group = Group::create($request->all());
         $group->day_create($request->get('type'));
@@ -150,9 +154,10 @@ class GroupController extends Controller
                     'group_id' => $group->id,
                     'room_id' => $t['room_id'],
                     'teacher_id' => $t['teacher_id'],
+                    'direction_id' => $t['direction_id'],
                     'type' => 0,
-                    'begin_time' => date("H:i:s", strtotime($t['begin_time'])),
-                    'end_time' => date("H:i:s", strtotime($t['end_time'])),
+                    'begin_time' => date("H:i:s", strtotime($t['begin_hour'].':'.$t['begin_minute'])),
+                    'end_time' => date("H:i:s", strtotime($t['end_hour'].':'.$t['end_minute'])),
                     'status' => 1,
                 ]);
             }

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $group_id
  * @property int $room_id
  * @property int $teacher_id
+ * @property int $direction_id
  * @property Time $begin_time
  * @property Time $end_time
  * @property int $status
@@ -26,6 +27,7 @@ class GroupDetail extends Model
         'group_id',
         'room_id',
         'teacher_id',
+        'direction_id',
         'begin_time',
         'end_time',
         'status',
@@ -43,6 +45,10 @@ class GroupDetail extends Model
 
     public function teacher(){
         return $this->belongsTo(User::class,'teacher_id','id');
+    }
+
+    public function direction(){
+        return $this->belongsTo(Direction::class,'direction_id','id');
     }
 
     public function students(){

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('direction_id')->nullable();
             $table->tinyInteger('type')->nullable();
             $table->bigInteger('amount')->nullable();
             $table->time('begin_time');

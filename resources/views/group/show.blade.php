@@ -55,7 +55,7 @@
         <div class="card card-xl-stretch mb-6 mb-xl-6">
             <div class="card-header border-0 pt-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label fw-bolder fs-3 mb-1">Details: ({{ count($group->detail) }})</span>
+                    <span class="card-label fw-bolder fs-3 mb-1">Teachers: ({{ count($group->detail) }})</span>
                 </h3>
 
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Details Add">
@@ -70,6 +70,7 @@
                     <tr>
                         <th>Room</th>
                         <th>Teacher</th>
+                        <th>Direction</th>
                         <th>Begin</th>
                         <th>End</th>
                         {{--<th>Type</th>
@@ -81,6 +82,7 @@
                         <tr>
                             <td>{{ $d->room->name ?? '' }}</td>
                             <td>{{ $d->teacher->name ?? '' }}</td>
+                            <td>{{ $d->direction->name ?? '' }}</td>
                             <td>{{ date('H:i', strtotime($d->begin_time)) }}</td>
                             <td>{{ date('H:i', strtotime($d->end_time)) }}</td>
                             {{--<td>{{ \App\Helpers\TypeHelper::getDetailType($d->type) }}</td>
@@ -121,7 +123,7 @@
                     <tr>
                         <th>№</th>
                         <th>Name</th>
-                        <th>Event</th>
+                        {{--<th>Event</th>--}}
                     </tr>
                     @php $i=1; @endphp
                     @foreach($group->student as $s)
@@ -133,9 +135,9 @@
                                     {{ $s->student->name }}
                                 </a>
                             </td>
-                            <td>
+                            {{--<td>
                                 {{ $s->student->event->event->name ?? '' }}
-                            </td>
+                            </td>--}}
                         </tr>
                     @endforeach
                 </table>
