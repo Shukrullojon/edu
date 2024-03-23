@@ -19,6 +19,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Type</th>
+                        <th>Lang</th>
                         <th>Max Student</th>
                         <th>Max Teacher</th>
                         <th>Start Date</th>
@@ -36,6 +37,11 @@
                                         <li>{{ $t->name }}</li>
                                     @endforeach
                                 </ul>
+                            @endif
+                        </td>
+                        <td>
+                            @if (isset($group->lang))
+                                {{ $group->lang->name }}
                             @endif
                         </td>
                         <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>
@@ -112,8 +118,7 @@
                 </h3>
 
                 <div class="card-toolbar" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="hover" title="Student Add">
-                    <a href="{{ route('groupStdAdd', $group->id) }}"
-                       class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
+                    <a href="{{ route('groupStdAdd', $group->id) }}" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary">
                         <span class="fa fa-plus-circle"></span>
                     </a>
                 </div>

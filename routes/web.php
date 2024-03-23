@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/search', '\App\Http\Controllers\StudentController@search')->name('search');
     Route::group(['prefix' => 'student', 'namespace' => '\App\Http\Controllers'], function () {
+        Route::get('index','StudentController@index')->name('studentIndex');
         Route::get('/create', 'StudentController@create')->name('studentCreate');
 
         /*Student statuses*/

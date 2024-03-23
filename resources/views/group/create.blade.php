@@ -70,10 +70,17 @@
                 </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group"><label for="type"><strong>Type:</strong></label>
                     {!! Form::label('type',"*",['style'=>"color:red"]) !!}
                     {!! Form::select('type[]',$days,null, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
+                </div>
+            </div>
+
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group"><label for="Language"><strong>Language:</strong></label>
+                    {!! Form::label('Language',"*",['style'=>"color:red"]) !!}
+                    {!! Form::select('lang_id',$langs,null, ['id'=>'Language','class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -209,7 +216,7 @@
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="teacher"><strong>Direction</strong></label>
-                    {!! Form::select('teacher[0][direction_id]',$directions, null, ['id'=>'direction','class' => 'form-control', 'data-control'=>"select2"]) !!}
+                    {!! Form::select('teacher[0][direction_id]',$directions, null, ['id'=>'direction','class' => 'form-control direction_id_class', 'data-control'=>"select2"]) !!}
                 </div>
             </div>
 
@@ -391,6 +398,7 @@
             $('#teacher_append:last').find('.end_hour_class').attr('name', 'teacher[' + teacher_counter + '][end_hour]');
             $('#teacher_append:last').find('.end_minute_class').attr('name', 'teacher[' + teacher_counter + '][end_minute]');
             $('#teacher_append:last').find('.teacher_id_class').attr('name', 'teacher[' + teacher_counter + '][teacher_id]');
+            $('#teacher_append:last').find('.direction_id_class').attr('name', 'teacher[' + teacher_counter + '][direction_id]');
             $('#teacher_append:last').find('.room_id_class').attr('name', 'teacher[' + teacher_counter + '][room_id]');
 
             $('.teacher_id_class').select2();

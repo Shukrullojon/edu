@@ -24,6 +24,7 @@ use App\Models\UserAttend;
 use App\Models\UserPayment;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
@@ -37,6 +38,56 @@ class StudentController extends Controller
         $this->service = $service;
     }
 
+    public function index(Request $request)
+    {
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.phone as phone',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class);
+        if (isset($request->status) and !empty($request->status)){
+            $students = $students->where('users.status', $request->status);
+        }
+        if (isset($request->name) and !empty($request->name)) {
+            $students = $students->where('users.name', 'LIKE', '%' . $request->name . '%');
+        }
+        if (isset($request->phone) and !empty($request->phone)) {
+            $request->merge(
+                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
+            );
+            $students = $students->where('users.phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        if (isset($request->event_id) and !empty($request->event_id)) {
+            $students = $students->where('event_user.event_id', $request->event_id);
+        }
+        if (isset($request->group_id) and !empty($request->group_id)) {
+            $students = $students->where('group_student.group_id', $request->group_id);
+        }
+        $students = $students
+            ->latest('users.updated_at')
+            ->groupBy('users.phone')
+            ->paginate(40);
+
+        $groups = Group::whereIn('status', [1, 2, 3])->get()->pluck('name', 'id');
+        $cnt = User::select("users.status",DB::raw("count(users.id) as number"))
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->groupBy('users.status')
+            ->get()
+            ->pluck('number','status');
+        return view('student.index',[
+            'students' => $students,
+            'cnt' => $cnt,
+            'groups' => $groups
+        ]);
+    }
     public function all(Request $request)
     {
         $students = User::select(

@@ -29,6 +29,7 @@ class Group extends Model
         'start_hour',
         'cource_id',
         'filial_id',
+        'lang_id',
         'max_student',
         'max_teacher',
         'status',
@@ -52,6 +53,11 @@ class Group extends Model
 
     public function filial(){
         return $this->belongsTo(Filial::class);
+    }
+
+    public function lang()
+    {
+        return $this->belongsTo(Lang::class,);
     }
 
     public function detail(){

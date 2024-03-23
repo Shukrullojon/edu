@@ -34,6 +34,7 @@
                         <th class="">#</th>
                         <th>Name</th>
                         <th>Type</th>
+                        <th>Lang</th>
                         <th>Start Date</th>
                         <th>Start Hour</th>
                         <th>Cource</th>
@@ -55,6 +56,11 @@
                                             <li>{{ $t->name }}</li>
                                         @endforeach
                                     </ul>
+                                @endif
+                            </td>
+                            <td>
+                                @if(!empty($group->lang))
+                                    {{ $group->lang->name ?? '' }}
                                 @endif
                             </td>
                             <td>{{ date('Y-m-d',strtotime($group->start_date)) }}</td>

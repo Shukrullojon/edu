@@ -25,13 +25,13 @@ class StatusHelper
     }
 
     public static $studentStatus = [
-        '1' => 'Qabul',
-        '2' => '1 - Dars',
-        '3' => 'Ketgan',
-        '4' => 'Waiting',
-        '5' => 'Active',
-        '6' => 'Muzlatilgan',
-        '0' => '📦 Archive',
+        '1' => 'Reception',
+        '2' => 'First Lesson',
+        '3' => 'Waiting',
+        '4' => 'Active',
+        '5' => 'Frozen',
+        '6' => 'Left',
+        '21' => 'Archive',
     ];
 
     public static function studentStatusGet($index)

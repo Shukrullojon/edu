@@ -10,6 +10,7 @@ use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupDetail;
 use App\Models\GroupStudent;
+use App\Models\Lang;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class GroupController extends Controller
             'start_hour',
             'cource_id',
             'filial_id',
+            'lang_id',
             'max_student',
             'max_teacher',
             'status',
@@ -64,6 +66,7 @@ class GroupController extends Controller
         $days = Day::latest()->get()->pluck('name', 'id');
         $directions = Direction::latest()->get()->pluck('name', 'id');
         $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
+        $langs = Lang::latest()->get()->pluck('name', 'id');
         $teachers = User::select(
             'users.id as id',
             'users.name as name',
@@ -106,6 +109,7 @@ class GroupController extends Controller
             'teachers' => $teachers,
             'students' => $students,
             'directions' => $directions,
+            'langs' => $langs,
         ]);
     }
 
@@ -152,9 +156,9 @@ class GroupController extends Controller
             foreach ($request->teacher as $t){
                 GroupDetail::create([
                     'group_id' => $group->id,
-                    'room_id' => $t['room_id'],
-                    'teacher_id' => $t['teacher_id'],
-                    'direction_id' => $t['direction_id'],
+                    'room_id' => $t['room_id'] ?? 0,
+                    'teacher_id' => $t['teacher_id'] ?? 0,
+                    'direction_id' => $t['direction_id'] ?? 0,
                     'type' => 0,
                     'begin_time' => date("H:i:s", strtotime($t['begin_hour'].':'.$t['begin_minute'])),
                     'end_time' => date("H:i:s", strtotime($t['end_hour'].':'.$t['end_minute'])),
