@@ -135,9 +135,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'group-update'],
             ['name' => 'group-destroy'],
 
+            ['name' => 'student-index'],
             ['name' => 'student-add'],
             ['name' => 'student-payment'],
-
             ['name' => 'student-accept'],
             ['name' => 'student-first'],
             ['name' => 'student-left'],

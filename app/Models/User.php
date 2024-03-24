@@ -53,8 +53,8 @@ class User extends Authenticatable
         'active_student',
         'start',
         'end',
-        'cource_id',
         'day_id',
+        'cource_id',
         'interes_time',
         'comment',
         'image',
@@ -101,6 +101,10 @@ class User extends Authenticatable
 
     public function cource(){
         return $this->belongsTo(Cource::class,'cource_id','id');
+    }
+
+    public function day(){
+        return $this->belongsTo(Day::class);
     }
 
     public function helperDay(){

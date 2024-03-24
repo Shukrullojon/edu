@@ -45,6 +45,9 @@ class StudentController extends Controller
             'users.name as name',
             'users.phone as phone',
             'users.status as status',
+            'users.cource_id as cource_id',
+            'users.day_id as day_id',
+            'users.interes_time as interes_time',
         )
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -174,9 +177,9 @@ class StudentController extends Controller
             //'parent_phone' => $request->parent_phone,
             //'reception_id' => auth()->user()->id,
             //'password' => Hash::make($request->phone),
-            //'is_payment' => ($request->status) ? 1 : 0,
-            //'cource_id' => $request->cource_id,
-            //'interes_time' => $request->interes_time,
+            'cource_id' => $request->cource_id,
+            'day_id' => $request->day_id,
+            'interes_time' => date("H:i:s", strtotime($request->interes_hour.":".$request->interes_minute)),
         ]);
         // begin - id_code generatsiya
         /*$filial_id = '01';

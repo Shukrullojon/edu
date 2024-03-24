@@ -81,7 +81,7 @@
                 </ul>
 
                 <div>
-                    <a class="btn btn-sm btn-active-success" href="{{ route('studentCreate') }}">
+                    <a class="btn btn-sm btn-active-success" href="{{ route('studentCreate', ['status' => request()->get('status')]) }}">
                         <span class="svg-icon svg-icon-3"></span>
                         <span class="fa fa-plus"></span>
                         Create
@@ -105,26 +105,46 @@
                         <!--begin::Table head-->
                         <thead>
                         <tr class="fw-bolder text-muted">
+                            @if(request()->get('status') != 1)
+                                <th class="min-w-200px">Image</th>
+                            @endif
+                            @if(request()->get('status') != 1)
+                                <th class="min-w-200px">Id Code</th>
+                            @endif
                             <th class="min-w-200px">Name</th>
                             <th class="min-w-150px">Phone</th>
-                            <th class="min-w-150px">Group</th>
+                            @if(request()->get('status') == 1)
+                                <th class="min-w-150px">Interes(Cource, Day, Hour)</th>
+                            @endif
+                            @if(request()->get('status') != 1)
+                                <th class="min-w-150px">Group</th>
+                            @endif
                             <th class="min-w-150px">Status</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($students as $student)
                             <tr>
+                                @if(request()->get('status') != 1)
+                                    <td>@if($student->image) <img src="{{ asset('public/image/'.$student->image) }}" height="60px"> @endif</td>
+                                @endif
+
+                                @if(request()->get('status') != 1)
+                                    <td><i>{{ $student->id_code }}</i></td>
+                                @endif
+
                                 <td><i>{{ $student->name }} {{ $student->surname }}</i></td>
                                 <td><i>{{ \App\Helpers\MaskHelper::changePhoneMask($student->phone) }}</i></td>
-                                <td><i>{{ $student->groupList->group->name ?? '' }}({{ $student->groupList->group->cource->name ?? '' }})</i></td>
+                                @if(request()->get('status') == 1)
+                                    <td><i>{{ $student->cource->name ?? '' }} / {{ $student->day->name ?? '' }} / {{ date("H:i", strtotime($student->interes_time)) }}</i></td>
+                                @endif
+
+                                @if(request()->get('status') != 1)
+                                    <td><i>{{ $student->group->name ?? '' }}</i></td>
+                                @endif
                                 <td><i>{{ \App\Helpers\StatusHelper::studentStatusGet($student->status) }}</i></td>
                                 <td>
                                     <div class="btn-group">
-
-                                        <a style="margin-right:10px; color:green" data-bs-toggle="modal" data-bs-target="#student_payment{{ $student->id }}" style="margin-right: 2px" href="">
-                                            <span class="fa fa-credit-card"></span>
-                                        </a>
-
                                         <a class="" style="margin-right: 10px" target="_blank"
                                            href="{{ route('studentShow',$student->id) }}">
                                             <span class="fa fa-eye"></span>

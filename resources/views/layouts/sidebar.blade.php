@@ -61,177 +61,32 @@
                 </div>
             @endcanany
 
-            @canany(['group-index','group-create'])
-                <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('group*') or Request::is('group*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                                            <i class="fa fa-layer-group" style="margin-right: 7px"></i>
-                                            <span class="menu-title">Groups</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        @can('group-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ (Request::is('group*') and !Request::is('group/create')) ? 'active' : '' }}"
-                                   href="{{ route('group.index') }}">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                    <span class="menu-title"><i class="fa fa-layer-group" style="margin-right: 7px"></i>Groups</span>
-                                </a>
-                            </div>
-                        @endcan
-                    </div>
+            @can('group-index')
+                <div class="menu-item">
+                    <a class="menu-link {{ Request::is('group*') ? 'active' : '' }}" href="{{ route('group.index') }}">
+                        <i class="fa fa-layer-group" style="margin-right: 7px"></i>
+                        <span class="menu-title">Groups</span>
+                    </a>
                 </div>
-            @endcanany
+            @endcan
 
-            @canany(['student-add','student-payment','student-waiting','student-active','student-all','student-archive','student-event-index'])
-                <div data-kt-menu-trigger="click"
-                     class="menu-item {{ ((Request::is('student*') or Request::is('event*')) and !Request::is('student/nopay') and !Request::is('student/studentNoattend')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                                            <i class="fa fa-user-graduate" style="margin-right: 7px"></i>
-                                            <span class="menu-title">Students</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-                        <div class="menu-item">
-                            <a class="menu-link {{ Request::is('student/index') ? 'active' : '' }}"
-                               href="{{ route('studentIndex') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Students</span>
-                            </a>
-                        </div>
-
-                        {{--@can('student-add')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/create') ? 'active' : '' }}"
-                                   href="{{ route('studentCreate') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">➕ Add</span>
-                                </a>
-                            </div>
-                        @endcan--}}
-
-                        {{--@can('student-accept')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/accept') ? 'active' : '' }}" href="{{ route("studentAccept") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Qabul</span>
-                                </a>
-                            </div>
-                        @endcan--}}
-
-                        {{--@can('student-first')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/first') ? 'active' : '' }}" href="{{ route("studentFirst") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">1 - Dars</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('student-left')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/left') ? 'active' : '' }}" href="{{ route("studentLeft") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Ketgan</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('student-waiting')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/waiting') ? 'active' : '' }}" href="{{ route("studentWaiting") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Waiting</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('student-active')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/active') ? 'active' : '' }}" href="{{ route("studentActive") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Active</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('student-froze')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/froze') ? 'active' : '' }}" href="{{ route("studentFroze") }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Muzlatilgan</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('student-archive')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('student/archive') ? 'active' : '' }}" href="{{ route('studentArchive') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">📦 Arxive</span>
-                                </a>
-                            </div>
-                        @endcan--}}
-
-                        {{--@can('student-event-index')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('event*') ? 'active' : '' }}"
-                                   href="{{ route('event.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">✨ Event</span>
-                                </a>
-                            </div>
-                        @endcan--}}
-                    </div>
+            @can('student-index')
+                <div class="menu-item">
+                    <a class="menu-link {{ Request::is('student*') ? 'active' : '' }}" href="{{ route('studentIndex') }}">
+                            <i class="fa fa-user-graduate" style="margin-right: 7px"></i>
+                        <span class="menu-title">Students</span>
+                    </a>
                 </div>
-            @endcanany
+            @endcan
 
-            @canany(['user-index'])
-                    <div data-kt-menu-trigger="click"
-                         class="menu-item {{ (Request::is('user*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                                            <i class="fa fa-users" style="margin-right: 7px"></i>
-                                            <span class="menu-title">Employees</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                        <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div class="menu-item">
-                                @can('user-index')
-                                    <a class="menu-link {{ Request::is('user*') ? 'active' : '' }}"
-                                       href="{{ route('users.index') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Employee</span>
-                                    </a>
-                                @endcan
-                            </div>
-
-                        </div>
-                    </div>
-                @endcanany
+            @can('user-index')
+                <div class="menu-item">
+                    <a class="menu-link {{ Request::is('user*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                        <i class="fa fa-users" style="margin-right: 7px"></i>
+                        <span class="menu-title">Staff</span>
+                    </a>
+                </div>
+            @endcan
 
             @canany(['finance-index'])
                 <div data-kt-menu-trigger="click"

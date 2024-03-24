@@ -34,8 +34,6 @@
                         <th class="">#</th>
                         <th>Name</th>
                         <th>Type</th>
-                        <th>Lang</th>
-                        <th>Start Date</th>
                         <th>Start Hour</th>
                         <th>Cource</th>
                         <th>Max Std</th>
@@ -58,12 +56,6 @@
                                     </ul>
                                 @endif
                             </td>
-                            <td>
-                                @if(!empty($group->lang))
-                                    {{ $group->lang->name ?? '' }}
-                                @endif
-                            </td>
-                            <td>{{ date('Y-m-d',strtotime($group->start_date)) }}</td>
                             <td>{{ date('H:i',strtotime($group->start_hour)) }}</td>
                             <td>{{ $group->cource->name }}</td>
                             <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>

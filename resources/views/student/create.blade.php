@@ -54,70 +54,62 @@
                 </div>
             </div>
 
-            {{--<div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            @if(request()->get('status') == 1)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Interes Cource:</strong>
+                        {!! Form::select('cource_id', $cources, null, ['placeholder' => 'Select a Cource','class' => 'form-control','data-control'=>"select2"]) !!}
+                    </div>
                 </div>
-            </div>--}}
+            @endif
 
-            {{--<div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <strong>Parent Phone:</strong>
-                    {!! Form::text('parent_phone', null, ['id' => 'parent_phone','placeholder' => "(XX)XXX-XX-XX",'class' => 'form-control']) !!}
+            @if(request()->get('status') == 1)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Interes Day:</strong>
+                        {!! Form::select('day_id', $days, null, ['placeholder' => 'Select a Day','class' => 'form-control','data-control'=>"select2"]) !!}
+                    </div>
                 </div>
-            </div>--}}
+            @endif
 
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Group:</strong>
-                    {!! Form::select('group_id', $groups, null, ['placeholder' => 'Select a group','class' => 'form-control','data-control'=>"select2"]) !!}
+            @if(request()->get('status') == 1)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Interes Time:</strong>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <select name="interes_hour" id="interes_hour" class="form-control">
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select name="interes_minute" id="end_minute" class="form-control">
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>--}}
-
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Event:</strong> {!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('event_id', $events,null, ['placeholder' => 'Select a event','class' => 'form-control', 'data-control'=>"select2"]) !!}
-                </div>
-            </div>--}}
-
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Placement Category:</strong>
-                    {!! Form::select('pc_id', $pcs,null, ['placeholder' => 'Select a category','class' => 'form-control','data-control'=>"select2"]) !!}
-                </div>
-            </div>--}}
-
-
-            {{--<hr style="color: #0c66ea; margin: 5px">--}}
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Cource:</strong>
-                    {!! Form::select('cource_id', $cources,null, ['placeholder' => 'Select a cource','class' => 'form-control','data-control'=>"select2"]) !!}
-                </div>
-            </div>--}}
-
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Language:</strong>
-                    {!! Form::select('langs[]', $langs,[], ['placeholder' => 'Select a language','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
-                </div>
-            </div>--}}
-
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Day:</strong>
-                    {!! Form::select('days[]', $days,[], ['placeholder' => 'Select a day','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
-                </div>
-            </div>--}}
-
-            {{--<div class="col-xs-3 col-sm-3 col-md-3">
-                <div class="form-group">
-                    <strong>Interes Time(18:00):</strong>
-                    {!! Form::time('interes_time', null, ['id' => 'interes_time','placeholder' => "xx:xx",'class' => 'form-control']) !!}
-                </div>
-            </div>--}}
+            @endif
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <br>
