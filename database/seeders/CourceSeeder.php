@@ -18,7 +18,7 @@ class CourceSeeder extends Seeder
             [
                 'name' => 'Ingliz tili oyiga 480 000 UZS',
                 'time' => 90,
-                'during' => 18,
+                'during' => 6,
                 'info' => 'Cource',
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'status' => 1,
@@ -38,7 +38,7 @@ class CourceSeeder extends Seeder
             [
                 'name' => 'IELTS INTENSIV ',
                 'time' => 120,
-                'during' => 2,
+                'during' => 6,
                 'info' => 'Cource',
                 'filial_id' => Filial::select('id')->inRandomOrder()->first()->id,
                 'status' => 1,

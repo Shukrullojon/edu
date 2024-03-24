@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/add/new-group', 'StudentController@addNewGroup')->name('studentAddNewGroup');
 
     });
-
+    Route::get('/attendance/index', '\App\Http\Controllers\AttendanceController@index')->name('attendanceIndex');
     Route::group(['prefix' => 'teacher', 'namespace' => '\App\Http\Controllers'], function () {
         Route::get('/schedule', 'TeacherController@schedule')->name('teacherSchedule');
         Route::get('/schedule/edit/{id}', 'TeacherController@scheduleedit')->name('teacherScheduleEdit');

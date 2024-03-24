@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Day extends Model
+class GroupScheduleStudent extends Model
 {
     use HasFactory;
 
-    protected $table = 'days';
+    protected $table = 'group_schedules_students';
 
-    protected $fillable = [
-        'name',
-        'list',
-    ];
+    protected $guarded = [];
 }

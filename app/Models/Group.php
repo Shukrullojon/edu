@@ -34,6 +34,7 @@ class Group extends Model
         'max_teacher',
         'status',
         'color',
+        'type',
     ];
 
     public function day_create($type){
@@ -62,6 +63,11 @@ class Group extends Model
 
     public function detail(){
         return $this->hasMany(GroupDetail::class,'group_id','id')->where('status',1)->orderByDesc('id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(GroupSchedule::class)->where('date',date('Y-m-d'));
     }
 
     public function detailFirst(){

@@ -388,6 +388,8 @@
     <script language="JavaScript" type="text/javascript">
         $(document).on("click", ".btn_plus_teacher", function () {
             var teacher_counter = $("#teacher_counter").val();
+            teacher_counter++;
+            alert(teacher_counter);
             var part = $("#teacher_part").html();
             $("#teacher_append").append(
                 '<div class="div_helper_' + teacher_counter + '"><div class="row">' + part +
@@ -400,10 +402,9 @@
             $('#teacher_append:last').find('.teacher_id_class').attr('name', 'teacher[' + teacher_counter + '][teacher_id]');
             $('#teacher_append:last').find('.direction_id_class').attr('name', 'teacher[' + teacher_counter + '][direction_id]');
             $('#teacher_append:last').find('.room_id_class').attr('name', 'teacher[' + teacher_counter + '][room_id]');
-
+            $("#teacher_counter").val(teacher_counter);
             $('.teacher_id_class').select2();
             $('.room_id_class').select2();
-            $("#teacher_counter").val(++teacher_counter);
         });
 
         $(document).on("click", ".student_add_new", function () {

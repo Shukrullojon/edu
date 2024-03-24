@@ -61,6 +61,13 @@
                 </div>
             @endcanany
 
+            <div class="menu-item">
+                <a class="menu-link {{ Request::is('attendance*') ? 'active' : '' }}" href="{{ route('attendanceIndex') }}">
+                    <i class="fa fa-calendar-check" style="margin-right: 7px"></i>
+                    <span class="menu-title">Attendance</span>
+                </a>
+            </div>
+
             @can('group-index')
                 <div class="menu-item">
                     <a class="menu-link {{ Request::is('group*') ? 'active' : '' }}" href="{{ route('group.index') }}">

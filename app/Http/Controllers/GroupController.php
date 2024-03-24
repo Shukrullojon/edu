@@ -9,6 +9,7 @@ use App\Models\Direction;
 use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupDetail;
+use App\Models\GroupSchedule;
 use App\Models\GroupStudent;
 use App\Models\Lang;
 use App\Models\Room;
@@ -133,9 +134,9 @@ class GroupController extends Controller
             'color' => rand(100000, 999999),
             'start_date' => date('Y-m-d', strtotime($request->start_date),),
             'start_hour' => date('H:i:s', strtotime($request->start_hour.':'.$request->start_minute),),
+            'type' => json_encode($request->type),
         ]);
         $group = Group::create($request->all());
-        $group->day_create($request->get('type'));
 
         if (!empty($request->students)){
             foreach ($request->students as $student){
@@ -166,9 +167,39 @@ class GroupController extends Controller
                 ]);
             }
         }
+        $this->schedule($group);
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
     }
 
+    public function schedule($group)
+    {
+        $during = $group->cource->during;
+        $start_date = $group->start_date;
+        $end_date = date('Y-m-d', strtotime($start_date." + ".$during." months"));
+        $daysDB = Day::select('list')->whereIn('id',json_decode($group->type,true))->get()->toArray();
+        $days = [];
+        foreach ($daysDB as $d){
+            $days = array_merge($days, json_decode($d['list'],true));
+        }
+        $diff = (int)(strtotime($end_date) - strtotime($start_date)) / (60 * 60 * 24);
+        $details = GroupDetail::where('group_id',$group->id)->where('status',1)->get();
+        for ($i = 0; $i < $diff; $i ++){
+            foreach ($details as $detail){
+                $dd = date("D", strtotime("$start_date + $i days"));
+                if (in_array($dd, $days)){
+                    GroupSchedule::create([
+                        'group_id' => $group->id,
+                        'date' => date("Y-m-d", strtotime("$start_date + $i days")),
+                        'start_date' => $detail->begin_time,
+                        'end_date' => $detail->end_time,
+                        'plan_teacher_id' => $detail->teacher_id,
+                        'teacher_id' => '',
+                        'direction_id' => $detail->direction_id,
+                    ]);
+                }
+            }
+        }
+    }
     public function detailstore(Request $request)
     {
         $this->validate($request, [
@@ -293,7 +324,7 @@ class GroupController extends Controller
                 'status',
             )
         );
-        $group->day_create($request->type);
+
         return redirect()->route('group.show', $id)->with('success', 'Group updated successfully');
     }
 

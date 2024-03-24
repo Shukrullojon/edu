@@ -23,6 +23,7 @@ return new class extends Migration
             $table->tinyInteger('max_teacher')->nullable();
             $table->tinyInteger('status')->comment('1 -> new group, 2 -> open group, 3 -> close group');
             $table->string('color')->nullable();
+            $table->json("type")->nullable();
             $table->timestamps();
         });
     }
