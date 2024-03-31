@@ -94,4 +94,13 @@ class Group extends Model
             ->where('model',Group::class)
             ->withTimestamps();
     }
+
+    public function info($schedule_id, $student_id)
+    {
+
+        $info = GroupScheduleStudent::where('group_schedule_id',$schedule_id)
+            ->where('student_id',$student_id)
+            ->first();
+        return $info;
+    }
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("plan_teacher_id");
             $table->unsignedBigInteger("teacher_id")->nullable();
             $table->unsignedBigInteger("direction_id")->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

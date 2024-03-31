@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_schedules_students', function (Blueprint $table) {
+        Schema::create('group_schedule_students', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('schedule_id');
+            $table->unsignedBigInteger('group_schedule_id');
             $table->unsignedBigInteger('student_id');
-            $table->float('attend')->nullable();
-            $table->float('like')->nullable();
+            $table->float('attend')->default(0);
+            $table->float('homework')->default(0);
+            $table->float('ball')->default(0);
+            $table->float('like')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('group_schedules_students');
+        Schema::dropIfExists('group_schedule_students');
     }
 };

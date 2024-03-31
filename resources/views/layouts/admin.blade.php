@@ -29,7 +29,7 @@
     <link href="{{ asset('demo/dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
     {{--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     @yield('styles')
 </head>
 <!--end::Head-->
@@ -273,6 +273,7 @@
 {{--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
 
 <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <script>
     $('#phone_search').inputmask("(99)999-99-99");
 </script>
@@ -298,6 +299,7 @@
         $("#time_track").attr('tt', time_track);
     }, 1000);
 </script>
+
 </body>
 <!--end::Body-->
 </html>

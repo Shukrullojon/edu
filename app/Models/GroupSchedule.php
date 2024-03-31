@@ -27,4 +27,9 @@ class GroupSchedule extends Model
     {
         return $this->belongsTo(Direction::class);
     }
+
+    public function schedule_student()
+    {
+        return $this->hasMany(GroupScheduleStudent::class, 'group_schedule_id','id');
+    }
 }

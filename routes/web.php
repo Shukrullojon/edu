@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
     Route::get('/attendance/index', '\App\Http\Controllers\AttendanceController@index')->name('attendanceIndex');
+    Route::post('/aaa/change', '\App\Http\Controllers\AttendanceController@optional_change')->name("attendanceOptionalChange");
     Route::group(['prefix' => 'teacher', 'namespace' => '\App\Http\Controllers'], function () {
         Route::get('/schedule', 'TeacherController@schedule')->name('teacherSchedule');
         Route::get('/schedule/edit/{id}', 'TeacherController@scheduleedit')->name('teacherScheduleEdit');
