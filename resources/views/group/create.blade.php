@@ -389,7 +389,6 @@
         $(document).on("click", ".btn_plus_teacher", function () {
             var teacher_counter = $("#teacher_counter").val();
             teacher_counter++;
-            alert(teacher_counter);
             var part = $("#teacher_part").html();
             $("#teacher_append").append(
                 '<div class="div_helper_' + teacher_counter + '"><div class="row">' + part +
