@@ -97,7 +97,6 @@ class Group extends Model
 
     public function info($schedule_id, $student_id)
     {
-
         $info = GroupScheduleStudent::where('group_schedule_id',$schedule_id)
             ->where('student_id',$student_id)
             ->first();

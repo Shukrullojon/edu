@@ -46,14 +46,14 @@
                                         @foreach($group->schedules as $schedule)
                                             <td class="min-w-200px" rowspan="2">
                                                 <br>
-                                                {{ date("Y.m.d", strtotime($schedule->date)) }} <br>
+                                                {{ date("Y.m.d", strtotime($schedule->date)) }}<br>
                                                 {{ $schedule->plan_teacher->name ?? '' }} {{ $schedule->plan_teacher->surname ?? '' }}
                                                 <br>
                                                 {{ $schedule->teacher->name ?? '--------' }} {{ $schedule->teacher->surname ?? '------' }}
                                                 <br>
                                                 {{ date("H:i", strtotime($schedule->start_date)) }}
                                                 - {{ date("H:i",strtotime($schedule->end_date)) }} ({{ $schedule->direction->name }})<br>
-                                                Att/Home/Bal/Like <input type="checkbox" placeholder="Finish" class="">
+                                                Att/Home/Bal/Like
                                             </td>
                                         @endforeach
                                     </tr>
@@ -68,13 +68,14 @@
                                             <td>{{ $s->student->name ?? '' }} {{ $s->student->surname ?? '' }}</td>
                                             @foreach($group->schedules as $schedule)
                                                 @php $info = $group->info($schedule->id, $s->student->id) @endphp
+
                                                 @if(!empty($info))
                                                     <td>
-                                                        <select class="optional_class" name="attendance" id="id_{{$schedule->id}}_{{$s->student->id}}_attendance" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}">
-                                                            <option value="1" @if($info->attend == 1) selected @endif>1 ✅</option>
-                                                            <option value="0.5" @if($info->attend == 0.5) selected @endif>0.5 ❕</option>
-                                                            <option value="0" @if($info->attend == 0) selected @endif>0 ⛔️</option>
-                                                            <option value="-1" @if($info->attend == -1) selected @endif>-1 ❌</option>
+                                                        <select class="optional_class" name="attendance" id="id_{{$schedule->id}}_{{$s->student->id}}_attendance" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" style="background-color: yellow">
+                                                            <option value="1" @if($info->attend == 1) selected @endif style="background-color: green; width: 10px">✅</option>
+                                                            <option value="0.5" @if($info->attend == 0.5) selected @endif style="background-color: yellow">0.5 ❕</option>
+                                                            <option value="0" @if($info->attend == 0) selected @endif>⛔️</option>
+                                                            <option value="-1" @if($info->attend == -1) selected @endif>❌</option>
                                                         </select>
 
                                                         <select class="optional_class" name="homework" @if($info->attend == -1 or $info->attend == 0) disabled @endif id="id_{{$schedule->id}}_{{$s->student->id}}_homework" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}">

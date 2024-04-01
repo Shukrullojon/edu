@@ -123,6 +123,11 @@ class User extends Authenticatable
         return $this->hasOne(GroupStudent::class,'student_id','id')->orderByDesc('id');
     }
 
+    public function group()
+    {
+        return $this->hasOne(GroupStudent::class,'student_id','id')->orderByDesc('id');
+    }
+
     public function groupAllList(){
         return $this->hasMany(GroupStudent::class,'student_id','id')->orderByDesc('id');
     }

@@ -42,7 +42,10 @@ class StudentController extends Controller
     {
         $students = User::select(
             'users.id as id',
+            'users.id_code as id_code',
+            'users.image as image',
             'users.name as name',
+            'users.surname as surname',
             'users.phone as phone',
             'users.status as status',
             'users.cource_id as cource_id',
@@ -133,7 +136,7 @@ class StudentController extends Controller
         ]);
     }
 
-    public function create()
+    public function create($status = null)
     {
         $events = Event::where('status', 1)->get()->pluck('name', 'id');
         $pcs = PC::where('status', 1)->get()->pluck('name', 'id');
@@ -142,6 +145,7 @@ class StudentController extends Controller
         $langs = Lang::pluck('name', 'id');
         $days = Day::pluck('name', 'id');
         return view('student.create', [
+            'status' => $status,
             'events' => $events,
             'pcs' => $pcs,
             'groups' => $groups,
@@ -166,7 +170,6 @@ class StudentController extends Controller
             'status' => 'required|in:0,1,2,3,4,5,6',
             'phone' => 'required|max:9|unique:users,phone',
             'parent_phone' => 'nullable',
-            //'event_id' => 'required|exists:events,id',
         ]);
         $role = Role::where('name', 'Student')->first();
         $student = User::create([
@@ -174,49 +177,21 @@ class StudentController extends Controller
             'surname' => $request->surname,
             'status' => $request->status,
             'phone' => $request->phone,
-            //'parent_phone' => $request->parent_phone,
-            //'reception_id' => auth()->user()->id,
-            //'password' => Hash::make($request->phone),
+            'parent_phone' => $request->parent_phone,
+            'password' => Hash::make($request->phone),
             'cource_id' => $request->cource_id,
             'day_id' => $request->day_id,
             'interes_time' => date("H:i:s", strtotime($request->interes_hour.":".$request->interes_minute)),
         ]);
-        // begin - id_code generatsiya
-        /*$filial_id = '01';
-        $this->service->createIdCode($student, $filial_id);*/
-        // end - id_code generatsiya
 
         $student->assignRole([$role->id]);
-        if ($request->event_id) {
-            EventUser::create([
-                'user_id' => $student->id,
-                'change_user_id' => auth()->user()->id,
-                'event_id' => $request->event_id,
-            ]);
-        }
         if ($request->group_id) {
             GroupStudent::create([
                 'group_id' => $request->group_id,
                 'student_id' => $student->id,
                 'status' => 1,
             ]);
-            $group = Group::find($request->group_id);
-            $text = "Helloo)) " . $request->name . " " . $request->surname . " siz " . $group->name . " qo'shildiz sizning darsingiz " . TypeHelper::getGroupDayType($group->type ?? 0) . " dars vaqti " . date("H:i", strtotime($group->detailFirst->begin_time ?? ''));
-            Sms::create([
-                'phone' => $request->phone,
-                'type' => 2,
-                'text' => $text,
-                'status' => 0,
-            ]);
-
         }
-        if ($request->pc_id)
-            PU::create([
-                'user_id' => $student->id,
-                'p_c_id' => $request->pc_id,
-                'attach_user_id' => auth()->user()->id,
-                'status' => 1,
-            ]);
 
         if ($request->langs) {
             foreach ($request->langs as $lang){
@@ -240,23 +215,9 @@ class StudentController extends Controller
             }
         }
 
-        if ($request->status == 0) {
-            return redirect()->route('studentArchive')->with('success', 'Student archived successfully');
-        } else if ($request->status == 1) {
-            return redirect()->route('studentAccept')->with('success', "Student qabul bo'limida!");
-        } else if ($request->status == 2) {
-            return redirect()->route('studentFirst')->with('success', "Student 1 - dars bo'limida!");
-        } else if ($request->status == 3) {
-            return redirect()->route('studentLeft')->with('success', "Student Ketgan bo'limida");
-        } else if($request->status == 4){
-            return redirect()->route('studentWaiting')->with('success', "Student Waiting bo'limida");
-        } else if($request->status == 5){
-            return redirect()->route('studentActive')->with('success', "Student Active bo'limida");
-        }else if($request->status == 6){
-            return redirect()->route('studentFroze')->with('success', "Student Muzlatilgan bo'limida");
-        }else {
-            return back();
-        }
+        return redirect()->route('studentIndex',[
+            'status' => $request->status_page
+        ])->with('success', 'Student create successfully');
     }
 
     public function show($id)

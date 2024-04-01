@@ -105,18 +105,18 @@
                         <!--begin::Table head-->
                         <thead>
                         <tr class="fw-bolder text-muted">
-                            @if(request()->get('status') != 1)
+                            @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
                                 <th class="min-w-200px">Image</th>
                             @endif
-                            @if(request()->get('status') != 1)
+                            @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
                                 <th class="min-w-200px">Id Code</th>
                             @endif
                             <th class="min-w-200px">Name</th>
                             <th class="min-w-150px">Phone</th>
-                            @if(request()->get('status') == 1)
+                            @if(request()->get('status') == 1 or request()->get('status') == 2 or request()->get('status') == 3)
                                 <th class="min-w-150px">Interes(Cource, Day, Hour)</th>
                             @endif
-                            @if(request()->get('status') != 1)
+                            @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
                                 <th class="min-w-150px">Group</th>
                             @endif
                             <th class="min-w-150px">Status</th>
@@ -125,22 +125,26 @@
                         <tbody>
                         @foreach($students as $student)
                             <tr>
-                                @if(request()->get('status') != 1)
+                                @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
                                     <td>@if($student->image) <img src="{{ asset('public/image/'.$student->image) }}" height="60px"> @endif</td>
                                 @endif
 
-                                @if(request()->get('status') != 1)
+                                @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
                                     <td><i>{{ $student->id_code }}</i></td>
                                 @endif
 
                                 <td><i>{{ $student->name }} {{ $student->surname }}</i></td>
                                 <td><i>{{ \App\Helpers\MaskHelper::changePhoneMask($student->phone) }}</i></td>
-                                @if(request()->get('status') == 1)
-                                    <td><i>{{ $student->cource->name ?? '' }} / {{ $student->day->name ?? '' }} / {{ date("H:i", strtotime($student->interes_time)) }}</i></td>
+                                @if(request()->get('status') == 1 or request()->get('status') == 2 or request()->get('status') == 3)
+                                    <td>
+                                        <i>
+                                            @if(!empty($student->cource->name)) {{ $student->cource->name ?? '' }} / {{ $student->day->name ?? '' }} / {{ date("H:i", strtotime($student->interes_time)) }} @endif
+                                        </i>
+                                    </td>
                                 @endif
 
-                                @if(request()->get('status') != 1)
-                                    <td><i>{{ $student->group->name ?? '' }}</i></td>
+                                @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
+                                     <td><i>{{ $student->group->name ?? '' }}</i></td>
                                 @endif
                                 <td><i>{{ \App\Helpers\StatusHelper::studentStatusGet($student->status) }}</i></td>
                                 <td>
@@ -156,7 +160,6 @@
                                         </a>
                                     </div>
                                 </td>
-
 
                             </tr>
 

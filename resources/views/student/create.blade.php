@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $status = request()->segment(3);
+    @endphp
     <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
         <div class="row">
             <div class="col-lg-12 margin-tb">
@@ -25,7 +28,17 @@
 
 
         {!! Form::open(array('route' => 'studentStore','method'=>'POST')) !!}
+        <input type="hidden" name="status_page" value="{{ $status }}">
         <div class="row">
+            @if($status == 4)
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Id Code:</strong> {!! Form::label('*',"*",['style'=>"color:red"]) !!}
+                        {!! Form::text('id_code', null, array('placeholder' => 'Id Code','class' => 'form-control')) !!}
+                    </div>
+                </div>
+            @endif
+
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Name:</strong> {!! Form::label('*',"*",['style'=>"color:red"]) !!}
@@ -50,11 +63,11 @@
             <div class="col-xs-3 col-sm-3 col-md-3">
                 <div class="form-group">
                     <strong>Status:</strong> {!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('status', \App\Helpers\StatusHelper::$studentStatus,null, ['class' => 'form-control', 'data-control'=>"select2"]) !!}
+                    {!! Form::select('status', \App\Helpers\StatusHelper::$studentStatus,$status, ['class' => 'form-control', 'data-control'=>"select2"]) !!}
                 </div>
             </div>
 
-            @if(request()->get('status') == 1)
+            @if($status == 1 or $status == 2 or $status == 3)
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Interes Cource:</strong>
@@ -63,7 +76,7 @@
                 </div>
             @endif
 
-            @if(request()->get('status') == 1)
+            @if($status == 1 or $status == 2 or $status == 3)
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Interes Day:</strong>
@@ -72,7 +85,7 @@
                 </div>
             @endif
 
-            @if(request()->get('status') == 1)
+            @if($status == 1 or $status == 2 or $status == 3)
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Interes Time:</strong>
@@ -107,6 +120,70 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Group:</strong>
+                        {!! Form::select('group_id', $groups, null, ['placeholder' => 'Select a group','class' => 'form-control','data-control'=>"select2"]) !!}
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Email:</strong>
+                        {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Parent Phone:</strong>
+                        {!! Form::text('parent_phone', null, ['id'=>'parent_phone','placeholder' => 'Parent Phone','class' => 'form-control']) !!}
+                    </div>
+                </div>
+            @endif
+
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <label><strong>Image:</strong></label><br>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <strong>Series Number:</strong>
+                        {!! Form::text('series_number', null, ['placeholder' => '','class' => 'form-control']) !!}
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <label><strong>Docs:</strong></label><br>
+                        <input type="file" name="docs[]" multiple="multiple" class="form-control">
+                    </div>
+                </div>
+            @endif
+
+            @if($status == 4)
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Comment:</strong>
+                        {!! Form::textarea('comment', null, ['placeholder' => '', 'rows' => 3,'class' => 'form-control']) !!}
                     </div>
                 </div>
             @endif
