@@ -88,6 +88,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'student', 'namespace' => '\App\Http\Controllers'], function () {
         Route::get('index','StudentController@index')->name('studentIndex');
         Route::get('/create/{status?}', 'StudentController@create')->name('studentCreate');
+        Route::get('/edit/{id}', 'StudentController@edit')->name('studentEdit');
+        Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');
+        Route::get('/show/{id}', 'StudentController@show')->name('studentShow');
 
         /*Student statuses*/
         Route::get('/archive', 'StudentController@archive')->name('studentArchive');
@@ -102,9 +105,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/doc/{id}', 'StudentController@doc')->name('studentDocDownload');
         Route::get('/doc/delete/{id}', 'StudentController@doc_delete')->name('studentDocDelete');
         Route::post('/store', 'StudentController@store')->name('studentStore');
-        Route::get('/edit/{id}', 'StudentController@edit')->name('studentEdit');
-        Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');
-        Route::get('/show/{id}', 'StudentController@show')->name('studentShow');
         Route::get('/work', 'StudentController@work')->name('studentWork');
         Route::get('/start/{id}', 'StudentController@start')->name('studentPTStart');
         Route::post('/work/store', 'StudentController@workStore')->name('studentWorkStore');

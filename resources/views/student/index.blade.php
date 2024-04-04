@@ -144,7 +144,7 @@
                                 @endif
 
                                 @if(request()->get('status') != 1 and request()->get('status') != 2 and request()->get('status') != 3)
-                                     <td><i>{{ $student->group->name ?? '' }}</i></td>
+                                    <td><i>{{ $student->group->group->name ?? '' }}</i></td>
                                 @endif
                                 <td><i>{{ \App\Helpers\StatusHelper::studentStatusGet($student->status) }}</i></td>
                                 <td>
@@ -154,8 +154,7 @@
                                             <span class="fa fa-eye"></span>
                                         </a>
 
-                                        <a class="" style="margin-right: 2px"
-                                           href="{{ route('studentEdit',$student->id) }}">
+                                        <a class="" style="margin-right: 2px" href="{{ route('studentEdit',$student->id) }}">
                                             <span class="fa fa-edit" style="color: #562bb0"></span>
                                         </a>
                                     </div>
@@ -250,7 +249,13 @@
                         <tfooter>
                             <tr>
                                 <td colspan="9">
-                                    {{ $students->links() }}
+                                    {{ $students->appends([
+                                        'status' => request()->get('status'),
+                                        'name' => request()->get('name'),
+                                        'surname' => request()->get('surname'),
+                                        'phone' => request()->get('phone'),
+                                        'group_id' => request()->get('group_id'),
+                                    ])->links() }}
                                 </td>
                             </tr>
                         </tfooter>
@@ -279,12 +284,20 @@
                 </div>
                 <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                     <div class="mb-10">
-                        {!! Form::open(array('method'=>'GET')) !!}
+                        {!! Form::open(['method'=>'GET']) !!}
                         <div class="row">
+                            <input type="hidden" name="status" value="{{ request()->get('status') }}">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <strong>Name:</strong>
                                     {!! Form::text('name', request()->get('name'), ['placeholder' => 'Name','maxlength'=> 100,'class' => 'form-control']) !!}
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <strong>Surname:</strong>
+                                    {!! Form::text('surname', request()->get('surname'), ['placeholder' => 'Surname','maxlength'=> 100,'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
