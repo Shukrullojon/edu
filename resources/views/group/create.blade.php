@@ -216,14 +216,14 @@
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="direction_id"><strong>Direction</strong></label>
-                    {!! Form::select('teacher[1][direction_id]',$directions, null, ['id'=>'direction_id','class' => 'form-control direction_id_class', 'data-control'=>"select2"]) !!}
+                    {!! Form::select('teacher[1][direction_id]',$directions, null, ['id'=>'direction_id','class' => 'form-control direction_id_class']) !!}
                 </div>
             </div>
 
             <div class="col-xs-2 col-sm-2 col-md-2">
                 <div class="form-group">
                     <label for="room_id"><strong>Room</strong></label>
-                    {!! Form::select('teacher[1][room_id]', $rooms,null, ['id'=>'room_id','class' => 'form-control room_id_class', 'data-control'=>"select2"]) !!}
+                    {!! Form::select('teacher[1][room_id]', $rooms,null, ['id'=>'room_id','class' => 'form-control room_id_class']) !!}
                 </div>
             </div>
         </div>
@@ -402,11 +402,11 @@
             $('#direction_id').attr('name', 'teacher[' + counter + '][direction_id]');
             $('#room_id').attr('name', 'teacher[' + counter + '][room_id]');
             $("#teacher_counter").val(c);
-            $('.teacher_id_class').select2();
-            $('.room_id_class').select2();
+            /*$('.teacher_id_class').select2();
+            $('.room_id_class').select2();*/
         });
 
-        $(document).on("click", ".student_add_new", function () {
+        /*$(document).on("click", ".student_add_new", function () {
             var part = $("#student_part").html();
             var student_counter = $("#student_counter").val();
             $("#student_part_show").append(
@@ -416,7 +416,7 @@
                 '<div class="col-xs-1 col-sm-1 col-md-1" style="margin-top: 10px" id="p_1_' + student_counter + '"><div class="form-group"><p class="btn btn-danger btn_danger" unk_id="' + student_counter + '"><i class="fa fa-minus"></i></p></div>');
             $('.student_select2').select2();
             $("#student_counter").val(++student_counter);
-        });
+        });*/
 
         $(document).on("click", ".btn_danger", function () {
             var unk_id = $(this).attr("unk_id");
