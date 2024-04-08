@@ -235,6 +235,14 @@ class GroupController extends Controller
         return redirect()->route('group.show', $request->group_id)->with('success', 'Group Student created successfully');
     }
 
+    public function studentdelete($id, $group_id)
+    {
+        GroupStudent::where('group_id',$group_id)->where('student_id',$id)->update([
+            'status' => 0,
+            'closed_at' => date("Y-m-d H:i:s"),
+        ]);
+        return back()->with("success", "Student status change successfuly");
+    }
     /**
      * Display the specified resource.
      */

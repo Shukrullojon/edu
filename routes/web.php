@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'group', 'namespace' => '\App\Http\Controllers'], function () {
         Route::post('detailstore', 'GroupController@detailstore')->name('groupdetailstore');
         Route::post('studentstore', 'GroupController@studentstore')->name('groupstudentstore');
+        Route::get("/studentdelete/{id}/{group_id}",'GroupController@studentdelete')->name("groupstudentdelete");
         Route::patch('/detail/update/{id}', 'GroupController@detailupdate')->name('groupdetailupdate');
         Route::any('add/{id}', 'GroupController@add')->name('groupStdAdd');
         Route::any('detail/{id}', 'GroupController@detail')->name('groupDetail');
@@ -91,16 +92,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', 'StudentController@edit')->name('studentEdit');
         Route::patch('/update/{id}', 'StudentController@update')->name('studentUpdate');
         Route::get('/show/{id}', 'StudentController@show')->name('studentShow');
-
-        /*Student statuses*/
-        Route::get('/archive', 'StudentController@archive')->name('studentArchive');
-        Route::get('/accept', 'StudentController@accept')->name('studentAccept');
-        Route::get('/first', 'StudentController@first')->name('studentFirst');
-        Route::get('/left', 'StudentController@left')->name('studentLeft');
-        Route::get('/waiting', 'StudentController@waiting')->name('studentWaiting');
-        Route::get('/active', 'StudentController@active')->name('studentActive');
-        Route::get('/froze', 'StudentController@froze')->name('studentFroze');
-        /*End Student Statuses*/
 
         Route::get('/doc/{id}', 'StudentController@doc')->name('studentDocDownload');
         Route::get('/doc/delete/{id}', 'StudentController@doc_delete')->name('studentDocDelete');

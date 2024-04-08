@@ -14,6 +14,15 @@ class StatusHelper
         return self::$positionStatus[$index] ?? 'Undefined';
     }
 
+    public static $studentGroupStatus = [
+        '1' => '✅ Active',
+        '0' => '📦 Archive',
+    ];
+
+    public static function studentGroupStatusGet($index)
+    {
+        return self::$studentGroupStatus[$index] ?? 'Undefined';
+    }
     public static $taskStatus = [
         '1' => '✅ Active',
         '0' => '📦 Archive',

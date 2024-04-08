@@ -128,7 +128,9 @@
                     <tr>
                         <th>№</th>
                         <th>Name</th>
-                        {{--<th>Event</th>--}}
+                        <th>Status</th>
+                        <th>Arxive Date</th>
+                        <th></th>
                     </tr>
                     @php $i=1; @endphp
                     @foreach($group->student as $s)
@@ -140,9 +142,21 @@
                                     {{ $s->student->name }}
                                 </a>
                             </td>
-                            {{--<td>
-                                {{ $s->student->event->event->name ?? '' }}
-                            </td>--}}
+                            <td>
+                                {{ \App\Helpers\StatusHelper::studentGroupStatusGet($s->status) }}
+                            </td>
+                            <td>
+                                @if(!empty($s->closed_at))
+                                    {{ date("Y-m-d", strtotime($s->closed_at)) }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($s->status == 1)
+                                    <a href="{{ route("groupstudentdelete", [$s->student->id, $group->id]) }}">
+                                        <i class="fa fa-trash" style="color: red"></i>
+                                    </a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </table>
