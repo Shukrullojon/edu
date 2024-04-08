@@ -380,7 +380,7 @@ class GroupController extends Controller
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', 'Student')
             ->where('model_has_roles.model_type', User::class)
-            ->whereIn('users.status', [2, 3])
+            ->whereIn('users.status', [2, 3,4,5,6])
             ->latest('users.updated_at')
             ->get()->pluck('name', 'id');
         $group = Group::find($id);
