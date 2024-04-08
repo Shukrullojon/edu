@@ -75,7 +75,7 @@ class Group extends Model
     }
 
     public function student(){
-        return $this->hasMany(GroupStudent::class)->orderByDesc('id');
+        return $this->hasMany(GroupStudent::class)->orderByDesc('status');
     }
 
     public function stdCount(){

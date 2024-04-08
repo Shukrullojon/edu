@@ -130,7 +130,7 @@ class StudentController extends Controller
             'surname' => 'required|min:3|max:50',
             'email' => 'nullable|email',
             'status' => 'required|in:0,1,2,3,4,5,6',
-            'phone' => 'required|max:9|unique:users,phone',
+            'phone' => 'required|max:9',
             'parent_phone' => 'nullable',
         ]);
         $role = Role::where('name', 'Student')->first();
@@ -221,7 +221,7 @@ class StudentController extends Controller
             'surname' => 'required|min:3|max:50',
             'email' => 'nullable|email',
             'status' => 'required|in:0,1,2,3,4,5,6',
-            'phone' => 'required|unique:users,phone,' . $id,
+            'phone' => 'required',
         ]);
         $student = User::find($id);
         if ($request->pc_id) {
