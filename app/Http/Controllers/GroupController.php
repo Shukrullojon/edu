@@ -373,6 +373,7 @@ class GroupController extends Controller
             'users.id as id',
             'users.name as name',
             'users.surname as surname',
+            'users.id_code as id_code',
             'users.phone as phone',
             'users.status as status',
         )
@@ -380,9 +381,9 @@ class GroupController extends Controller
             ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('roles.name', 'Student')
             ->where('model_has_roles.model_type', User::class)
-            ->whereIn('users.status', [2, 3,4,5,6])
+            ->whereIn('users.status', [1,2, 3,4,5,6,21])
             ->latest('users.updated_at')
-            ->get()->pluck('name', 'id');
+            ->get();
         $group = Group::find($id);
         return view('group.add', [
             'students' => $students,

@@ -18,7 +18,11 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <label for="student_id"><strong>Student:</strong></label> {!! Form::label('student_id',"*",['style'=>"color:red"]) !!}
-                        {!! Form::select('student_id', $students,null, ['id'=>'student_id','class' => 'form-control','data-control'=>"select2"]) !!}
+                        <select name="student_id" id="student_id" class="form-control" data-control="select2">
+                            @foreach($students as $student)
+                                <option value="{{ $student->id }}">{{ $student->name." ".$student->surname." ".$student->id_code }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
