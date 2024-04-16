@@ -139,7 +139,7 @@
                             <td>
                                 <a href="{{ route('studentShow',$s->student->id ?? 0) }}"
                                    class="fw-bolder text-gray-800 text-hover-primary fs-6">
-                                    {{ $s->student->name ?? '' }}
+                                    {{ $s->student->name ?? '' }} {{ $s->student->surname ?? '' }} {{ $s->student->id_code ?? '' }}
                                 </a>
                             </td>
                             <td>
