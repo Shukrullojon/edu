@@ -152,7 +152,7 @@
                             </td>
                             <td>
                                 @if($s->status == 1)
-                                    <a href="{{ route("groupstudentdelete", [$s->student->id, $group->id]) }}">
+                                    <a href="{{ route("groupstudentdelete", [$s->student->id ?? '', $group->id]) }}">
                                         <i class="fa fa-trash" style="color: red"></i>
                                     </a>
                                 @endif
