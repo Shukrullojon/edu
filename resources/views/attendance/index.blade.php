@@ -157,10 +157,10 @@
                 success:function(data) {
                     console.log(data);
                     if(data['status']){
-                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(data['schedule']['attend']);
-                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(data['schedule']['homework']);
-                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_ball').val(data['schedule']['ball']);
-                        var disabled = (data['schedule']['attend'] == 0 || data['schedule']['attend'] == 3) ? true : false;
+                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(parseInt(data['schedule']['attend']));
+                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(parseInt(data['schedule']['homework']));
+                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_ball').val(parseInt(data['schedule']['ball']));
+                        var disabled = (parseInt(data['schedule']['attend']) == 0 || parseInt(data['schedule']['attend']) == 3) ? true : false;
                         $("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_homework').prop('disabled', disabled);
                         /*$("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_ball').prop('disabled', disabled);*/
                         toastr.options.timeOut = 1500; // 1.5s
