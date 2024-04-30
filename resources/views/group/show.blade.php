@@ -18,7 +18,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Name</th>
-                        <th>Type</th>
+                        {{--<th>Type</th>--}}
                         <th>Lang</th>
                         <th>Max Student</th>
                         <th>Max Teacher</th>
@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td>{{ $group->name }}</td>
-                        <td>
+                        {{--<td>
                             @if (isset($group->types))
                                 <ul>
                                     @foreach($group->types as $t)
@@ -38,7 +38,7 @@
                                     @endforeach
                                 </ul>
                             @endif
-                        </td>
+                        </td>--}}
                         <td>
                             @if (isset($group->lang))
                                 {{ $group->lang->name }}

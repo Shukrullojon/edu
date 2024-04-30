@@ -68,6 +68,13 @@
                 </a>
             </div>
 
+            <div class="menu-item">
+                <a class="menu-link " href="">
+                    <i class="fa fa-chalkboard-teacher" style="margin-right: 7px"></i>
+                    <span class="menu-title">Teacher</span>
+                </a>
+            </div>
+
             @can('group-index')
                 <div class="menu-item">
                     <a class="menu-link {{ Request::is('group*') ? 'active' : '' }}" href="{{ route('group.index') }}">

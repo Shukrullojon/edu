@@ -67,7 +67,7 @@ class Group extends Model
 
     public function schedules()
     {
-        return $this->hasMany(GroupSchedule::class)->where('date',date('Y-m-d'));
+        return $this->hasMany(GroupSchedule::class);
     }
 
     public function detailFirst(){
@@ -90,9 +90,15 @@ class Group extends Model
     }
 
     public function types(){
-        return $this->belongsToMany(Day::class, 'day_pilot', 'model_id', 'day_id')
-            ->where('model',Group::class)
-            ->withTimestamps();
+        if (!empty($this->type)){
+            $days = Day::select('name')->whereIn('id',json_decode($this->type))->get();
+            $name = "";
+            foreach ($days as $d){
+                $name .= $d->name." ";
+            }
+            return $name;
+        }
+        return true;
     }
 
     public function info($schedule_id, $student_id)

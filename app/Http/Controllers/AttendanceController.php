@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Day;
 use App\Models\Group;
+use App\Models\GroupSchedule;
 use App\Models\GroupScheduleStudent;
 use Illuminate\Http\Request;
 
@@ -10,14 +12,20 @@ class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        $groups = Group::whereIn('status',[1,2])->get()->pluck('name', 'id');
-        $group = [];
+        $groupAll = Group::whereIn('status',[1,2])->get()->pluck('name', 'id');
+        $days = Day::all();
+        $groups = Group::latest();
         if ($request->group_id){
-            $group = Group::where('id',$request->group_id)->first();
+            $groups = $groups->where('id',$request->group_id);
         }
+        if ($request->day_id){
+            $groups = $groups->where("type","LIKE","%{$request->day_id}%");
+        }
+        $groups = $groups->get();
         return view('attendance.index',[
+            'groupAll' => $groupAll,
             'groups' => $groups,
-            'group' => $group,
+            'days' => $days,
         ]);
     }
 
@@ -43,27 +51,24 @@ class AttendanceController extends Controller
         if ($request->name == 'attendance'){
             $data->update([
                 'attend' => $request->selected,
-                'homework' => ($request->selected == 0 or $request->selected == -1) ? 0 : $data->homework,
-                'ball' => ($request->selected == 0 or $request->selected == -1) ? 0 : $data->ball,
-                'like' => ($request->selected == 0 or $request->selected == -1) ? 0 : $data->like,
             ]);
         }else if($request->name == 'homework'){
             $data->update([
                 'homework' => $request->selected,
             ]);
         }else if($request->name == 'ball'){
-            $data->update([
-                'ball' => $request->selected,
-            ]);
-        }else if($request->name == 'like'){
-            if ($request->selected == -1){
+            $likes = GroupScheduleStudent::where('group_schedule_id',$request->schedule_id)
+                ->where('ball',3)
+                ->first();
+            if ($request->selected == 3) {
+                if ($data->attend == 2 and $data->homework == 2 and empty($likes)) {
+                    $data->update([
+                        'ball' => $request->selected,
+                    ]);
+                }
+            }else{
                 $data->update([
-                    'like' => -1,
-                ]);
-            }
-            if ($data->attend == 1 and $data->homework == 1 and $data->ball == 1 and $request->selected == 1){
-                $data->update([
-                    'like' => $request->selected,
+                    'ball' => $request->selected,
                 ]);
             }
         }

@@ -30,14 +30,27 @@
     <link href="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
     {{--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />--}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    <style>
+        /* Hide the arrow icon */
+        .my_select_class {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: none;
+            /* Add your custom styling */
+            padding: 1px;
+            border: 1px solid #ccc;
+            border-radius: 1px;
+            font-size: 10px;
+        }
+    </style>
     @yield('styles')
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<body id="kt_body"
-      class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed"
-      style="--kt-toolbar-height:10px;--kt-toolbar-height-tablet-and-mobile:10px">
+<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:10px;--kt-toolbar-height-tablet-and-mobile:10px">
 <div class="d-flex flex-column flex-root">
+
     <!--begin::Page-->
     <div class="page d-flex flex-row flex-column-fluid">
         <!--begin::Aside-->

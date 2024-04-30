@@ -10,6 +10,7 @@ use App\Models\Filial;
 use App\Models\Group;
 use App\Models\GroupDetail;
 use App\Models\GroupSchedule;
+use App\Models\GroupScheduleStudent;
 use App\Models\GroupStudent;
 use App\Models\Lang;
 use App\Models\Room;
@@ -237,10 +238,19 @@ class GroupController extends Controller
 
     public function studentdelete($id, $group_id)
     {
+        $schedules = GroupSchedule::where('date','>=', date("Y-m-d"))->where('group_id',$group_id)->get();
+        foreach ($schedules as $schedule){
+            GroupScheduleStudent::where('group_schedule_id', $schedule->id)->where('student_id',$id)->update([
+                'attend' => -1,
+                'homework' => 0,
+                'ball' => 0,
+            ]);
+        }
         GroupStudent::where('group_id',$group_id)->where('student_id',$id)->update([
             'status' => 0,
             'closed_at' => date("Y-m-d H:i:s"),
         ]);
+
         return back()->with("success", "Student status change successfuly");
     }
     /**

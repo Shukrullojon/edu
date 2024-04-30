@@ -33,7 +33,7 @@
                     <tr>
                         <th class="">#</th>
                         <th>Name</th>
-                        <th>Type</th>
+                        {{--<th>Type</th>--}}
                         <th>Start Hour</th>
                         <th>Cource</th>
                         <th>Max Std</th>
@@ -47,7 +47,7 @@
                         <tr>
                             <td>{{ $i++ }}</td>
                             <td>{{ $group->name }}</td>
-                            <td>
+                            {{--<td>
                                 @if (isset($group->types))
                                     <ul>
                                         @foreach($group->types as $t)
@@ -55,7 +55,7 @@
                                         @endforeach
                                     </ul>
                                 @endif
-                            </td>
+                            </td>--}}
                             <td>{{ date('H:i',strtotime($group->start_hour)) }}</td>
                             <td>{{ $group->cource->name }}</td>
                             <td>{{ $group->max_student }} ({{ $group->stdCount->number }})</td>

@@ -27,19 +27,19 @@ class DaySeeder extends Seeder
                 'list' => json_encode(['Tue','Thu','Sat'], true),
             ],
             [
-                'name' => 'Dushanba',
+                'name' => 'Dush',
                 'list' => json_encode(['Mon'], true),
             ],
             [
-                'name' => 'Seshanba',
+                'name' => 'Sesh',
                 'list' => json_encode(['Tue'], true),
             ],
             [
-                'name' => 'Chorshanba',
+                'name' => 'Chor',
                 'list' => json_encode(['Wed'], true),
             ],
             [
-                'name' => 'Payshanba',
+                'name' => 'Pay',
                 'list' => json_encode(['Thu'], true),
             ],
             [
@@ -47,11 +47,11 @@ class DaySeeder extends Seeder
                 'list' => json_encode(['Fri'], true),
             ],
             [
-                'name' => 'Shanba',
+                'name' => 'Shan',
                 'list' => json_encode(['Sat'], true),
             ],
             [
-                'name' => 'Yakshanba',
+                'name' => 'Yak',
                 'list' => json_encode(['Sun'], true),
             ],
         ];

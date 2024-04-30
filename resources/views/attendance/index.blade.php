@@ -6,17 +6,23 @@
         <div class="card card-xl-stretch" style="">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-5">
-                        {!! Form::select('group_id',$groups, request()->get('group_id'), ['id'=>'group_id','class' => 'form-control', 'data-control'=>"select2"]) !!}
-                    </div>
                     <div class="col-md-2">
-                        {!! Form::date('start_date', request()->get('start_date'), ['id'=>'start_date','class' => 'form-control']) !!}
+                        {!! Form::select('group_id',$groupAll, request()->get('group_id'), ['placeholder' => 'Select','id'=>'group_id','class' => 'form-control btn-sm', 'data-control'=>"select2"]) !!}
                     </div>
-                    <div class="col-md-2">
-                        {!! Form::date('end_date', request()->get('end_date'), ['id'=>'end_date','class' => 'form-control']) !!}
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary btn-sm form-control">Find</button>
                     </div>
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary form-control">Search</button>
+                    <div class="col-md-9">
+                        <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
+                            <li class="nav-item">
+                                <a href="{{ route("attendanceIndex") }}" class="nav-link @if(empty(request()->get('day_id'))) active @endif">All</a>
+                            </li>
+                            @foreach($days as $day)
+                                <li class="nav-item">
+                                    <a href="{{ route("attendanceIndex",['day_id' => $day->id]) }}" class="nav-link @if(request()->get('day_id') == $day->id) active @endif">{{ $day->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -24,77 +30,92 @@
     </div>
     {!! Form::close() !!}
     <br>
-    @if(!empty($group))
+    @if(!empty($groups))
+        @foreach($groups as $group)
         <div class="post d-flex flex-column-fluid" id="kt_post">
             <div id="kt_content_container" class="container-xxl">
                 <div class="row">
                     <div class="card bgi-no-repeat card-xl-stretch mb-xl-8" style="">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-row-bordered  gy-3 gs-3">
+                            <div class="table-bordered">
+                                <table class="table table-bordered  gy-3 gs-3">
                                     <thead>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td class="min-w-150px" rowspan="2">
+                                    <tr style="width: 20px">
+                                        <td rowspan="2">
                                             <br>
                                             {{ $group->name }}<br>
                                             {{ $group->cource->name }} <br>
-                                            Every Day<br>
+                                            {{ $group->types() }} <br>
+                                            {{--Every Day<br>--}}
 
                                         </td>
                                         @foreach($group->schedules as $schedule)
-                                            <td class="min-w-200px" rowspan="2">
+                                            <td class="" rowspan="2">
                                                 <br>
                                                 {{ date("Y.m.d", strtotime($schedule->date)) }}<br>
-                                                {{ $schedule->plan_teacher->name ?? '' }} {{ $schedule->plan_teacher->surname ?? '' }}
-                                                <br>
-                                                {{ $schedule->teacher->name ?? '--------' }} {{ $schedule->teacher->surname ?? '------' }}
-                                                <br>
-                                                {{ date("H:i", strtotime($schedule->start_date)) }}
-                                                - {{ date("H:i",strtotime($schedule->end_date)) }} ({{ $schedule->direction->name }})<br>
-                                                Att/Home/Bal/Like
+                                                {{ substr($schedule->plan_teacher->name ?? '',0,5) }} {{ substr($schedule->plan_teacher->surname ?? '',0,5) }}<br>
+                                                {{ $schedule->teacher->name ?? '----' }} {{ $schedule->teacher->surname ?? '----' }}<br>
+                                                {{ date("H:i", strtotime($schedule->start_date)) }}-{{ date("H:i",strtotime($schedule->end_date)) }}<br>
+                                                {{ $schedule->direction->name }}<br>
+                                                Att.Hom.Bal
                                             </td>
                                         @endforeach
                                     </tr>
-                                    <tr>
+                                    <tr style="width: 20px">
                                         <td></td>
                                         <td></td>
                                         <td></td>
 
                                     </tr>
                                     @foreach($group->student as $s)
-                                        <tr>
+                                        <tr style="width: 20px">
                                             <td>{{ $s->student->name ?? '' }} {{ $s->student->surname ?? '' }}</td>
                                             @foreach($group->schedules as $schedule)
                                                 @php $info = $group->info($schedule->id, $s->student->id) @endphp
-
                                                 @if(!empty($info))
                                                     <td>
-                                                        <select class="optional_class" name="attendance" id="id_{{$schedule->id}}_{{$s->student->id}}_attendance" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" style="background-color: yellow">
-                                                            <option value="1" @if($info->attend == 1) selected @endif style="background-color: green; width: 10px">✅</option>
-                                                            <option value="0.5" @if($info->attend == 0.5) selected @endif style="background-color: yellow">0.5 ❕</option>
-                                                            <option value="0" @if($info->attend == 0) selected @endif>⛔️</option>
-                                                            <option value="-1" @if($info->attend == -1) selected @endif>❌</option>
+                                                        <select class="optional_class my_select_class" name="attendance" id="id_{{$schedule->id}}_{{$s->student->id}}_attendance" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" @if((strtotime($schedule->date) > strtotime(date("Y-m-d")) or $info->attend == -1) or (strtotime($schedule->date) < strtotime(date("Y-m-d")) and ($info->attend == 1 or $info->attend == 2))) disabled @endif>
+                                                            @if(strtotime($schedule->date) == strtotime(date("Y-m-d")) or $info->attend == 2)
+                                                                <option value=2 @if($info->attend == 2) selected @endif>2</option>
+                                                            @endif
+                                                            @if(strtotime($schedule->date) == strtotime(date("Y-m-d")) or $info->attend == 1)
+                                                                <option value=1 @if($info->attend == 1) selected @endif>1</option>
+                                                            @endif
+                                                            <option value=0 @if($info->attend == 0) selected @endif>➖</option>
+                                                            <option value=3 @if($info->attend == 3) selected @endif>➕</option>
+                                                            @if(strtotime($schedule->date) < strtotime(date("Y-m-d")))
+                                                                <option value=5 @if($info->attend == 5) selected @endif>🟡</option>
+                                                            @endif
+                                                            @if($info->attend == 4)
+                                                                <option value=4 @if($info->attend == 4) selected @endif><span style="color: green">✔️</span></option>
+                                                            @endif
+                                                            @if($info->attend == -1)
+                                                                <option value=-1 @if($info->attend == -1) selected @endif>❌️</option>
+                                                            @endif
                                                         </select>
 
-                                                        <select class="optional_class" name="homework" @if($info->attend == -1 or $info->attend == 0) disabled @endif id="id_{{$schedule->id}}_{{$s->student->id}}_homework" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}">
-                                                            <option value="1" @if($info->homework == 1) selected @endif>1 ✅</option>
-                                                            <option value="1.5" @if($info->homework == 1.5) selected @endif>1.5 🔥</option>
-                                                            <option value="0" @if($info->homework == 0) selected @endif>0 ⛔️</option>
-                                                            <option value="-1" @if($info->homework == -1) selected @endif>-1 ❌</option>
+                                                        <select class="optional_class my_select_class" name="homework" id="id_{{$schedule->id}}_{{$s->student->id}}_homework" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" @if(strtotime($schedule->date) > strtotime(date("Y-m-d")) or $info->attend == -1 or (strtotime($schedule->date) < strtotime(date("Y-m-d")) and ($info->homework == 1 or $info->homework == 2))) disabled @endif>
+                                                            @if(strtotime($schedule->date) == strtotime(date("Y-m-d")) or $info->homework == 2))
+                                                                <option value="2" @if($info->homework == 2) selected @endif>2</option>
+                                                            @endif
+                                                            @if(strtotime($schedule->date) == strtotime(date("Y-m-d")) or $info->homework == 1))
+                                                                <option value="1" @if($info->homework == 1) selected @endif>1</option>
+                                                            @endif
+                                                            <option value="4" @if($info->homework == 4) selected @endif>❕</option>
+                                                            <option value="0" @if($info->homework == 0) selected @endif>➖</option>
+                                                            @if(strtotime($schedule->date) < strtotime(date("Y-m-d")))
+                                                                <option value="3" @if($info->homework == 3) selected @endif>🟡</option>
+                                                            @endif
                                                         </select>
 
-                                                        <select class="optional_class" name="ball" @if($info->attend == -1 or $info->attend == 0) disabled @endif id="id_{{$schedule->id}}_{{$s->student->id}}_ball" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}">
-                                                            <option value="0" @if($info->ball == 0) selected @endif>0 ⛔️</option>
-                                                            <option value="0.5" @if($info->ball == 0.5) selected @endif>0.5 ❕</option>
-                                                            <option value="1" @if($info->ball == 1) selected @endif>1 ✅</option>
-                                                        </select>
-
-                                                        <select class="optional_class" name="like" style="" @if($info->attend == -1 or $info->attend == 0) disabled @endif id="id_{{$schedule->id}}_{{$s->student->id}}_like" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}">
-                                                            <option value="0" @if($info->like == 0) selected @endif>0 ⛔️</option>
-                                                            <option value="1" @if($info->like == 1) selected @endif>1 ✅</option>
-                                                            <option value="-1" @if($info->like == -1) selected @endif>-1 ❌</option>
+                                                        <select class="optional_class my_select_class" name="ball" id="id_{{$schedule->id}}_{{$s->student->id}}_ball" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" @if(strtotime($schedule->date) != strtotime(date("Y-m-d")) or $info->attend == -1) disabled @endif>
+                                                            <option value="3" @if($info->ball == 3) selected @endif>️❤️</option>
+                                                            <option value="2" @if($info->ball == 2) selected @endif>2</option>
+                                                            <option value="1" @if($info->ball == 1) selected @endif>1</option>
+                                                            <option value="-1" @if($info->ball == -1) selected @endif>◼️</option>
+                                                            <option value="0" @if($info->ball == 0) selected @endif>0</option>
                                                         </select>
                                                     </td>
                                                 @else
@@ -111,6 +132,7 @@
                 </div>
             </div>
         </div>
+        @endforeach
     @endif
 
 @endsection
@@ -133,16 +155,14 @@
                     'selected' : selected,
                 },
                 success:function(data) {
+                    console.log(data);
                     if(data['status']){
                         $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(data['schedule']['attend']);
                         $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_homework').val(data['schedule']['homework']);
                         $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_ball').val(data['schedule']['ball']);
-                        $("#id_"+data['schedule']['group_schedule_id']+'_'+data['schedule']['student_id']+'_like').val(data['schedule']['like']);
-                        var disabled = (data['schedule']['attend'] == 0 || data['schedule']['attend'] == -1) ? true : false;
+                        var disabled = (data['schedule']['attend'] == 0 || data['schedule']['attend'] == 3) ? true : false;
                         $("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_homework').prop('disabled', disabled);
-                        $("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_ball').prop('disabled', disabled);
-                        $("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_like').prop('disabled', disabled);
-
+                        /*$("#id_" + data['schedule']['group_schedule_id'] + '_' + data['schedule']['student_id'] + '_ball').prop('disabled', disabled);*/
                         toastr.options.timeOut = 1500; // 1.5s
                         toastr.success(data['message']);
                     }else{

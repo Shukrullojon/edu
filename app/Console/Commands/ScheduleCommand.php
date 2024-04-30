@@ -37,12 +37,12 @@ class ScheduleCommand extends Command
 
     public function group()
     {
-        $schedules = GroupSchedule::where('date',date("Y-m-d"))->get();
+        $schedules = GroupSchedule::get();
         foreach ($schedules as $schedule){
             $students = GroupStudent::where('group_id',$schedule->group_id)->get();
             foreach ($students as $student){
-                $attend = $student->status ? 1 : -1;
-                $homework = $attend == 1 ? 1 : 0;
+                $attend = $student->status ? 2 : -1;
+                $homework = $attend == 2 ? 2 : 0;
                 GroupScheduleStudent::firstOrCreate(
                     [
                         'group_schedule_id' => $schedule->id,
@@ -52,7 +52,7 @@ class ScheduleCommand extends Command
                         'attend' => $attend,
                         'homework' => $homework,
                         'ball' => 0,
-                        'like' => 0,
+                        'atr' => 0,
                     ]
                 );
             }
