@@ -67,7 +67,7 @@ class Group extends Model
 
     public function schedules()
     {
-        return $this->hasMany(GroupSchedule::class);
+        return $this->hasMany(GroupSchedule::class)->where('date','>',date("Y-m-d", strtotime("-7 days")))->where('date','<',date("Y-m-d", strtotime("+5 days")));
     }
 
     public function detailFirst(){
