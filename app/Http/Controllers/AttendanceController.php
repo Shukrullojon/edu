@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Day;
 use App\Models\Group;
+use App\Models\GroupDetail;
 use App\Models\GroupSchedule;
 use App\Models\GroupScheduleStudent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -15,6 +17,16 @@ class AttendanceController extends Controller
         $groupAll = Group::whereIn('status',[1,2])->get()->pluck('name', 'id');
         $days = Day::all();
         $groups = Group::latest();
+        if (Auth::user()->hasRole('Teacher')){
+            $group_list = GroupDetail::select('group_id as id')->where('teacher_id', Auth::user()->id)->get();
+            if (!empty($group_list))
+                $list = [];
+                foreach ($group_list as $value){
+                    $list[]=$value->id;
+                }
+                $groups = $groups->whereIn('id',$list);
+        }
+
         if ($request->group_id){
             $groups = $groups->where('id',$request->group_id);
         }
@@ -22,6 +34,9 @@ class AttendanceController extends Controller
             $groups = $groups->where("type","LIKE","%{$request->day_id}%");
         }
         $groups = $groups->get();
+        if (!Auth::user()->hasRole('Teacher')){
+            $groups = [];
+        }
         return view('attendance.index',[
             'groupAll' => $groupAll,
             'groups' => $groups,
