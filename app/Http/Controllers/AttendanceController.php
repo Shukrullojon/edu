@@ -67,6 +67,12 @@ class AttendanceController extends Controller
             $data->update([
                 'attend' => $request->selected,
             ]);
+            if ($request->selected == 0){
+                $data->update([
+                    'homework' => 0,
+                    'ball' => 0,
+                ]);
+            }
         }else if($request->name == 'homework'){
             $data->update([
                 'homework' => $request->selected,
