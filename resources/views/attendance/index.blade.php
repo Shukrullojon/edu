@@ -73,7 +73,7 @@
                                         <tr style="width: 20px">
                                             <td>{{ $s->student->name ?? '' }} {{ $s->student->surname ?? '' }}</td>
                                             @foreach($group->schedules as $schedule)
-                                                @php $info = $group->info($schedule->id, $s->student->id) @endphp
+                                                @php $info = $group->info($schedule->id ?? 0, $s->student->id ?? 0) @endphp
                                                 @if(!empty($info))
                                                     <td>
                                                         <select class="optional_class my_select_class" name="attendance" id="id_{{$schedule->id}}_{{$s->student->id}}_attendance" schedule_id="{{ $schedule->id }}" student_id="{{ $s->student->id }}" @if((strtotime($schedule->date) > strtotime(date("Y-m-d")) or $info->attend == -1) or (strtotime($schedule->date) < strtotime(date("Y-m-d")) and ($info->attend == 1 or $info->attend == 2))) disabled @endif>
