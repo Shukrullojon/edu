@@ -7,8 +7,15 @@ use App\Models\GroupScheduleStudent;
 use App\Models\GroupStudent;
 use Illuminate\Console\Command;
 
+// role
+// vazifa
+// maqsad
+
+// instagramni suniy intelektga o'qitib, reklana web sayt.
+
 class ScheduleCommand extends Command
 {
+
     /**
      * The name and signature of the console command.
      *

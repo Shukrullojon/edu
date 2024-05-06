@@ -183,6 +183,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'user-test'],
             ['name' => 'user-task'],
             ['name' => 'user-salary'],
+
+            ['name' => 'attendance-index'],
         ];
 
         foreach ($permissionList as $item => $value){

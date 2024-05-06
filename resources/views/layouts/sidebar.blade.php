@@ -30,7 +30,7 @@
                                 </a>
                             @endcan
 
-                            @canany('teacher-schedule')
+                            {{--@canany('teacher-schedule')
                                 <a class="menu-link {{ Request::is('teacher/schedule*') ? 'active' : '' }}"
                                    href="{{ route('teacherSchedule') }}">
                                     <span class="menu-bullet">
@@ -38,42 +38,37 @@
                                     </span>
                                     <span class="menu-title"><i class="fa fa-table" style="margin-right: 7px"></i>Schedule</span>
                                 </a>
-                            @endcan
+                            @endcan--}}
 
-                            <a class="menu-link"
+                            {{--<a class="menu-link"
                                 href="">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title"><i class="fa fa-calendar-check" style="margin-right: 7px"></i>Attendance</span>
-                            </a>
+                            </a>--}}
 
-                            <a class="menu-link {{ Request::is('student/studentNoattend*') ? 'active' : '' }}"
+                            {{--<a class="menu-link {{ Request::is('student/studentNoattend*') ? 'active' : '' }}"
                                href="{{ route('studentNoattend') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title"><i class="fa fa-user-lock" style="margin-right: 7px"></i>No Attend</span>
-                            </a>
+                            </a>--}}
 
                         </div>
                     </div>
                 </div>
             @endcanany
 
-            <div class="menu-item">
-                <a class="menu-link {{ Request::is('attendance*') ? 'active' : '' }}" href="{{ route('attendanceIndex') }}">
-                    <i class="fa fa-calendar-check" style="margin-right: 7px"></i>
-                    <span class="menu-title">Attendance</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
-                <a class="menu-link " href="">
-                    <i class="fa fa-chalkboard-teacher" style="margin-right: 7px"></i>
-                    <span class="menu-title">Teacher</span>
-                </a>
-            </div>
+            @can('attendance-index')
+                <div class="menu-item">
+                    <a class="menu-link {{ Request::is('attendance*') ? 'active' : '' }}" href="{{ route('attendanceIndex') }}">
+                        <i class="fa fa-calendar-check" style="margin-right: 7px"></i>
+                        <span class="menu-title">Attendance</span>
+                    </a>
+                </div>
+            @endcan
 
             @can('group-index')
                 <div class="menu-item">
@@ -213,44 +208,7 @@
                     </div>
                 </div>
             @endcanany
-
-            {{--@canany(['salary-active','salary-archive'])
-                <div data-kt-menu-trigger="click"
-                     class="menu-item {{ (Request::is('salary*')) ? 'here show' : '' }} menu-accordion">
-                    <span class="menu-link">
-                        <i class="fa fa-donate" style="margin-right: 7px"></i>
-                        <span class="menu-title">Salary</span>
-                        <span class="menu-arrow"></span>
-                    </span>
-                    <div class="menu-sub menu-sub-accordion menu-active-bg">
-
-                        @can('salary-active')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('salary/active') ? 'active' : '' }}"
-                                   href="{{ route('salaryActive') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">✅ Active</span>
-                                </a>
-                            </div>
-                        @endcan
-
-                        @can('salary-archive')
-                            <div class="menu-item">
-                                <a class="menu-link {{ Request::is('salary/archive') ? 'active' : '' }}"
-                                   href="{{ route('salaryArchive') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">📦 Archive</span>
-                                </a>
-                            </div>
-                        @endcan
-                    </div>
-                </div>
-            @endcanany--}}
-
+                
             @canany(['task-index'])
                 <div data-kt-menu-trigger="click"
                      class="menu-item {{ (Request::is('task*') or Request::is('task*')) ? 'here show' : '' }} menu-accordion">
