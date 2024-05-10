@@ -17,4 +17,14 @@ class GroupScheduleStudent extends Model
     {
         return $this->belongsTo(GroupSchedule::class,'group_schedule_id','id');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class,'student_id','id');
+    }
+
+    public function group_schedule()
+    {
+        return $this->belongsTo(GroupSchedule::class,'group_schedule_id','id');
+    }
 }

@@ -13,15 +13,15 @@
                     <tr>
                         <th>Name</th>
                         <th>Group</th>
+                        <th>Date</th>
                         <th></th>
                     </tr>
                     @foreach ($students as $key => $student)
                         <tr>
-                            <td>{{ $student->student_id }}</td>
-                            <td>{{ $student->attend }}</td>
-                            <td>
-
-                            </td>
+                            <td>{{ $student->student->name ?? '' }} {{ $student->student->surname ?? '' }} {{ \App\Helpers\MaskHelper::changePhoneMask($student->student->phone ?? '') }}</td>
+                            <td>{{ $student->group_schedule->group->name ?? '' }} ({{ $student->group_schedule->plan_teacher->name ?? '' }}  {{ $student->group_schedule->plan_teacher->surname ?? '' }}) </td>
+                            <td>{{ $student->group_schedule->date ?? '' }} ({{ $student->group_schedule->start_date ?? '' }}-{{ $student->group_schedule->end_date ?? '' }})</td>
+                            <td></td>
                         </tr>
                     @endforeach
                 </table>

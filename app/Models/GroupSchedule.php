@@ -18,6 +18,11 @@ class GroupSchedule extends Model
         return $this->belongsTo(User::class,'plan_teacher_id','id');
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class,'group_id','id');
+    }
+
     public function teacher()
     {
         return $this->belongsTo(User::class,'teacher_id','id');
