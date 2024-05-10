@@ -18,7 +18,7 @@
                     </tr>
                     @foreach ($students as $key => $student)
                         <tr>
-                            <td>{{ $student->student->name ?? '' }} {{ $student->student->surname ?? '' }} {{ \App\Helpers\MaskHelper::changePhoneMask($student->student->phone ?? '') }}</td>
+                            <td>@if(!empty($student->student->name)) {{ $student->student->name ?? '' }} {{ $student->student->surname ?? '' }} {{ \App\Helpers\MaskHelper::changePhoneMask($student->student->phone ?? '') }} @endif</td>
                             <td>{{ $student->group_schedule->group->name ?? '' }} ({{ $student->group_schedule->plan_teacher->name ?? '' }}  {{ $student->group_schedule->plan_teacher->surname ?? '' }}) </td>
                             <td>{{ $student->group_schedule->date ?? '' }} ({{ $student->group_schedule->start_date ?? '' }}-{{ $student->group_schedule->end_date ?? '' }})</td>
                             <td></td>
