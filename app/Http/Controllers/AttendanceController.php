@@ -103,10 +103,12 @@ class AttendanceController extends Controller
 
     public function noattend(Request $request)
     {
+        $s_list = GroupSchedule::where('date',date("Y-m-d"))->get();
         $schedules = GroupSchedule::select('id')->where('date',date("Y-m-d"))->get();
         $students = GroupScheduleStudent::whereIn('group_schedule_id',$schedules)->where('attend',0)->get();
         return view('attendance.noattend',[
             'students' => $students,
+            's_list' => $s_list,
         ]);
     }
 }

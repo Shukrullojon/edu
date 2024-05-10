@@ -25,9 +25,24 @@
                         </tr>
                     @endforeach
                 </table>
-                <tfooter>
 
-                </tfooter>
+                <hr>
+
+                <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
+                    <tr>
+                        <th>Group</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                    @foreach ($s_list as $key => $s)
+                        <tr>
+                            <td>{{ $s->group->name ?? '' }} ({{ $student->group_schedule->plan_teacher->name ?? '' }}  {{ $student->group_schedule->plan_teacher->surname ?? '' }}) </td>
+                            <td>{{ $s->date ?? '' }} ({{ $s->start_date ?? '' }}-{{ $s->end_date ?? '' }})</td>
+                            <td></td>
+                        </tr>
+                    @endforeach
+                </table>
+
             </div>
         </div>
     </div>
