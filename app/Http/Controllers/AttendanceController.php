@@ -100,4 +100,13 @@ class AttendanceController extends Controller
             'message' => "Malumot muvaffaqiyatli o'zgartirildi",
         ]);
     }
+
+    public function noattend(Request $request)
+    {
+        $schedules = GroupSchedule::select('id')->where('date',date("Y-m-d"))->get();
+        $students = GroupScheduleStudent::whereIn('group_schedule_id',$schedules)->where('attend',0)->get();
+        return view('attendance.noattend',[
+            'students' => $students,
+        ]);
+    }
 }

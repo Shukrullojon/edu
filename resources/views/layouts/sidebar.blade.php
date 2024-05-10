@@ -70,6 +70,15 @@
                 </div>
             @endcan
 
+            {{--@can('noattend-index')--}}
+                <div class="menu-item">
+                    <a class="menu-link {{ Request::is('attendance/noattend') ? 'active' : '' }}" href="{{ route('noattend') }}">
+                        <i class="fa fa-calendar-check" style="margin-right: 7px"></i>
+                        <span class="menu-title">No Attend</span>
+                    </a>
+                </div>
+            {{--@endcan--}}
+
             @can('group-index')
                 <div class="menu-item">
                     <a class="menu-link {{ Request::is('group*') ? 'active' : '' }}" href="{{ route('group.index') }}">
@@ -208,7 +217,7 @@
                     </div>
                 </div>
             @endcanany
-                
+
             @canany(['task-index'])
                 <div data-kt-menu-trigger="click"
                      class="menu-item {{ (Request::is('task*') or Request::is('task*')) ? 'here show' : '' }} menu-accordion">
