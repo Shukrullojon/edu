@@ -13,19 +13,14 @@ class GroupSchedule extends Model
 
     protected $guarded = [];
 
-    public function plan_teacher()
-    {
-        return $this->belongsTo(User::class,'plan_teacher_id','id');
-    }
-
     public function group()
     {
-        return $this->belongsTo(Group::class,'group_id','id');
+        return $this->belongsTo(Group::class);
     }
 
-    public function teacher()
+    public function day()
     {
-        return $this->belongsTo(User::class,'teacher_id','id');
+        return $this->belongsTo(Day::class);
     }
 
     public function direction()
@@ -33,8 +28,29 @@ class GroupSchedule extends Model
         return $this->belongsTo(Direction::class);
     }
 
-    public function schedule_student()
+    public function stud()
     {
-        return $this->hasMany(GroupScheduleStudent::class, 'group_schedule_id','id');
+        return $this->belongsTo(User::class,'student_id','id');
+    }
+    public function students()
+    {
+        return $this->hasMany(GroupStudent::class,'group_id','group_id')->orderByDesc('id');
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class,'teacher_id','id');
+    }
+
+    public function days()
+    {
+        return $this->hasMany(GroupSchedule::class,'group_id','group_id')
+            ->where('teacher_id',auth()->user()->id)
+            ->groupBy('date');
     }
 }

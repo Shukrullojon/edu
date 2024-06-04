@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,30 +13,21 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('email')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable();
+            $table->rememberToken()->nullable();
+            $table->string('id_code')->nullable();
+            $table->string('image')->nullable();
             $table->string('name')->nullable();
             $table->string('surname')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('phone', 9)->unique();
-            $table->string('parent_phone', 9)->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->unsignedBigInteger('reception_id')->nullable();
-            $table->tinyInteger('is_payment')->nullable()->default(0);
-            $table->time('start')->nullable();
-            $table->time('end')->nullable();
-            $table->tinyInteger('status')->nullable()->comment('0 -> arxive, 1->waiting, 2->active');
-            $table->bigInteger('salary')->nullable();
-            $table->bigInteger('kpi')->nullable();
-            $table->bigInteger('hourly')->nullable();
-            $table->bigInteger('add_student')->nullable();
-            $table->bigInteger('active_student')->nullable();
-            $table->unsignedBigInteger('cource_id')->nullable();
-            $table->time('interes_time')->nullable();
-            $table->unsignedBigInteger('day_id')->nullable();
-            $table->text('comment')->nullable();
-            $table->string('image')->nullable();
+            $table->string('phone')->nullable();
             $table->string('series_number')->nullable();
-            $table->rememberToken();
+            $table->unsignedBigInteger('filial_id')->nullable();
+            $table->unsignedBigInteger('interes_cource_id')->nullable();
+            $table->unsignedBigInteger('interes_day_id')->nullable();
+            $table->time('interes_time')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

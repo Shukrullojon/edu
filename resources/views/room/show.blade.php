@@ -1,18 +1,44 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
-            <tr>
-                <th>Name</th>
-                <th>Filial</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td>{{ $room->name }}</td>
-                <td>{{ $room->filial->name ?? '' }}</td>
-                <td>{{ \App\Helpers\StatusHelper::roomStatusGet($room->status) }}</td>
-            </tr>
-        </table>
-    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Show Room</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ $room->name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Address</th>
+                                <td>{{ $room->filial->name ?? '' }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ \App\Models\Room::$statuses[$room->status] ?? '' }}</td>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection

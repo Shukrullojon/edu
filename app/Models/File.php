@@ -11,10 +11,5 @@ class File extends Model
 
     protected $table = 'files';
 
-    protected $fillable = [
-        'model',
-        'model_id',
-        'file',
-        'type',
-    ];
+    protected $guarded = [];
 }

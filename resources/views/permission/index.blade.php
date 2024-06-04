@@ -5,7 +5,7 @@
         <div class="row">
             <div class="d-flex justify-content-between margin-tb">
                 <h2>Permission Management</h2>
-                <a class="btn btn-success" href="{{ route('permissions.create') }}">Create</a>
+                {{--<a class="btn btn-success" href="{{ route('permissions.create') }}">Create</a>--}}
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button type="button" style='display:inline; border:none; background: none' onclick="if (confirm('Вы уверены?')) { this.form.submit() } "><span class="fa fa-trash"></span></button>
+                                <button type="button" style='display:inline; border:none; background: none' onclick="if (confirm('Are you sure?')) { this.form.submit() } "><span class="fa fa-trash"></span></button>
                             </form>
                         </div>
                     </td>

@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Direction;
+use App\Models\Filial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DirectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $directions = Direction::latest()->paginate(20);
+        $filials = Filial::latest()->get()->pluck('name','id');
+        $directions = Direction::filter($request->all())->latest()->paginate(20);
         return view('direction.index',[
-            'directions' => $directions
+            'filials' => $filials,
+            'directions' => $directions,
         ]);
     }
 
@@ -23,7 +27,10 @@ class DirectionController extends Controller
      */
     public function create()
     {
-        return view('direction.create');
+        $filials = Filial::latest()->get()->pluck('name','id');
+        return view('direction.create',[
+            'filials' => $filials,
+        ]);
     }
 
     /**
@@ -31,11 +38,15 @@ class DirectionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
         ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
         Direction::create($request->all());
-        return redirect()->route('direction.index')->with('success','Direction created successfully');
+        return redirect()->route('direction.index')->with('success','Direction Creat Successfuly');
     }
 
     /**
@@ -44,7 +55,7 @@ class DirectionController extends Controller
     public function show(Direction $direction)
     {
         return view('direction.show',[
-            'direction' => $direction,
+            'direction' => $direction
         ]);
     }
 
@@ -53,8 +64,10 @@ class DirectionController extends Controller
      */
     public function edit(Direction $direction)
     {
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('direction.edit',[
             'direction' => $direction,
+            'filials' => $filials,
         ]);
     }
 
@@ -63,14 +76,17 @@ class DirectionController extends Controller
      */
     public function update(Request $request, Direction $direction)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
         ]);
-        $direction->update([
-            'name' => $request->name,
-        ]);
-        return redirect()->route('direction.index')
-            ->with('success','Direction updated successfully');
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
+        $direction->update($request->all());
+        return redirect()->route('direction.index')->with('success','Direction Edit Successfuly');
     }
 
     /**
@@ -79,7 +95,6 @@ class DirectionController extends Controller
     public function destroy(Direction $direction)
     {
         $direction->delete();
-        return redirect()->route('direction.index')
-            ->with('success','Direction deleted successfully');
+        return redirect()->route('direction.index')->with('success','Direction delete successfuly');
     }
 }

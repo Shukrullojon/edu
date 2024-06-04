@@ -1,34 +1,43 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-left">
-                    <h2> Show Role</h2>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
+    <section class="content">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Name:</strong>
-                    {{ $role->name }}
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Show Role</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ $role->name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Permissions</th>
+                                <td>
+                                    @if(!empty($rolePermissions))
+                                        @foreach($rolePermissions as $v)
+                                            {{ $v->name }}@if(!$loop->last),@endif
+                                        @endforeach
+                                    @endif
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Permissions:</strong>
-                    @if(!empty($rolePermissions))
-                        @foreach($rolePermissions as $v)
-                            <label class="label label-success">{{ $v->name }},</label>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
+            <!-- /.col -->
         </div>
-    </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection

@@ -1,79 +1,77 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
+
+    <section class="content">
         <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-left">
-                    <h2>Edit Filial</h2>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Filial</h3>
+                    </div>
+                    <div class="card-body">
+                        {!! Form::model($filial, ['method' => 'PATCH','route' => ['filial.update', $filial->id]]) !!}
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="name"><strong>Name:</strong></label>{!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::text('name', null, ['autocomplete'=>'OFF','id'=>'name','placeholder' => 'Name','required'=>true,'class' => "form-control ".($errors->has('name') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('name'))
+                                        <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="address"><strong>Address:</strong></label>{!! Form::label('address',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::text('address', null, ['autocomplete'=>'OFF','id'=>'address','placeholder' => 'Address','required'=>true,'class' => "form-control ".($errors->has('address') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('address'))
+                                        <span class="error invalid-feedback">{{ $errors->first('address') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="phone"><strong>Phone:</strong></label>{!! Form::label('phone',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::text('phone', null, ['autocomplete'=>'OFF','id'=>'phone','placeholder' => 'Phone','required'=>true,'class' => "form-control ".($errors->has('phone') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('phone'))
+                                        <span class="error invalid-feedback">{{ $errors->first('phone') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="room_count"><strong>Room Count:</strong></label>{!! Form::label('room_count',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::text('room_count', null, ['autocomplete'=>'OFF','id'=>'room_count','placeholder' => 'Room Count','required'=>true,'class' => "form-control ".($errors->has('room_count') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('room_count'))
+                                        <span class="error invalid-feedback">{{ $errors->first('room_count') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="status"><strong>Status:</strong></label>{!! Form::label('status',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::select('status', \App\Models\Filial::$statuses,null, ['autocomplete'=>'OFF','id'=>'status','required'=>true,'class' => "form-control ".($errors->has('status') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('status'))
+                                        <span class="error invalid-feedback">{{ $errors->first('status') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <br>
+                                <button type="submit" class="btn btn-primary form-control">Edit</button>
+                            </div>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-
-        {!! Form::model($filial, ['method' => 'PATCH','route' => ['filial.update', $filial->id]]) !!}
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Name:</strong>{!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('name', null, ['placeholder' => 'Name','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Address:</strong>{!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('address', null, ['placeholder' => 'Address','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Phone:</strong>{!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('phone', null, ['id' => 'phone','placeholder' => "(XX)XXX-XX-XX", 'required'=>true,'maxlength'=> 13, 'class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Room Count:</strong> {!! Form::label('room_count',"*",['style'=>"color:red"]) !!}
-                    {!! Form::number('room_count', null, ['required'=>true,'maxlength'=> 3, 'class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Status:</strong>{!! Form::label('*',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('status', \App\Helpers\StatusHelper::$filialStatus,null, ['required'=>true,'class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <br>
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-
+    </section>
 @endsection
-
-@section('scripts')
-    <script>
-        $('#phone').inputmask("(99)999-99-99");
-    </script>
-@endsection
-

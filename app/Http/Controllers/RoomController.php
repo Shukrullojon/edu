@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Filial;
 use App\Models\Room;
-use App\Models\RoomTasks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -14,18 +14,8 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        $rooms = Room::select('id','name','filial_id','status');
-        if (isset($request->name)){
-            $rooms->where('name','LIKE','%'.$request->name.'%');
-        }
-        if (isset($request->filial_id)){
-            $rooms->where('filial_id',$request->filial_id);
-        }
-        if (isset($request->status)){
-            $rooms->where('status',$request->status);
-        }
-        $rooms = $rooms->latest()->paginate(20);
-        $filials = Filial::all()->pluck('name','id');
+        $rooms = Room::filter($request->all())->latest()->paginate(20);
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('room.index',[
             'rooms' => $rooms,
             'filials' => $filials,
@@ -37,11 +27,9 @@ class RoomController extends Controller
      */
     public function create()
     {
-        $filials = Filial::where('status',1)->get()->pluck('name','id');
-        $tasks = RoomTasks::where('status',1)->get();
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('room.create',[
             'filials' => $filials,
-            'tasks' => $tasks,
         ]);
     }
 
@@ -50,15 +38,16 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'filial_id' => 'required',
-            'status' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
+            'status' => 'required|integer|in:1,0',
         ]);
-        $room = Room::create($request->all());
-        //$room->syncPermissions($request->input('tasks'));
-        $room->roomTask()->attach($request->input('tasks'));
-        return redirect()->route('room.index')->with('success','Room created successfully');
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        Room::create($request->all());
+        return redirect()->route('room.index')->with('success','Room Creat Successfuly');
     }
 
     /**
@@ -67,7 +56,7 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         return view('room.show',[
-            'room' => $room,
+            'room' => $room
         ]);
     }
 
@@ -76,12 +65,10 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        $filials = Filial::where('status',1)->get()->pluck('name','id');
-        $tasks = RoomTasks::where('status',1)->get();
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('room.edit',[
             'room' => $room,
             'filials' => $filials,
-            'tasks' => $tasks,
         ]);
     }
 
@@ -90,13 +77,18 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'filial_id' => 'required',
-            'status' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
+            'status' => 'required|integer|in:1,0',
         ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
         $room->update($request->all());
-        return redirect()->route('room.index')->with('success','Room updated successfully');
+        return redirect()->route('room.index')->with('success','Room Edit Successfuly');
     }
 
     /**
@@ -105,6 +97,6 @@ class RoomController extends Controller
     public function destroy(Room $room)
     {
         $room->delete();
-        return redirect()->route('room.index')->with('success','Room deleted successfully');
+        return redirect()->route('room.index')->with('success','Room delete successfuly');
     }
 }

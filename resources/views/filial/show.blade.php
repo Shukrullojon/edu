@@ -1,22 +1,54 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Room Count</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td>{{ $filial->name }}</td>
-                <td>{{ $filial->address }}</td>
-                <td>{{ \App\Helpers\MaskHelper::changePhoneMask($filial->phone) }}</td>
-                <td>{{ $filial->room_count }}</td>
-                <td>{{ \App\Helpers\StatusHelper::filialStatusGet($filial->status) }}</td>
-            </tr>
-        </table>
-    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Show Filial</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ $filial->name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Address</th>
+                                <td>{{ $filial->address }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ $filial->phone }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Room Count</th>
+                                <td>{{ $filial->room_count }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ \App\Models\Filial::$statuses[$filial->status] ?? '' }}</td>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection

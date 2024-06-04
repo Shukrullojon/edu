@@ -4,95 +4,95 @@ namespace App\Http\Controllers;
 
 use App\Models\Filial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FilialController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
-        $filials = Filial::select('id','name','address','phone','status','room_count');
-        if (isset($request->name)){
-            $filials->where('name','LIKE','%'.$request->name.'%');
-        }
-        if (isset($request->address)){
-            $filials->where('address','LIKE','%'.$request->address.'%');
-        }
-        if (isset($request->phone)){
-            $request->merge(
-                ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
-            );
-            $filials->where('phone','LIKE','%'.$request->phone.'%');
-        }
-        if (isset($request->status)){
-            $filials->where('status',$request->status);
-        }
-        if (isset($request->room_count)){
-            $filials->where('room_count',$request->room_count);
-        }
-        $filials = $filials->latest()->paginate(20);
-        return view('filial.index', [
-            'filials' => $filials
+        $filials = Filial::filter($request->all())->latest()->paginate(20);
+        return view('filial.index',[
+            'filials' => $filials,
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         return view('filial.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validated = Validator::make($request->all(),[
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
-            'phone' => 'required|string|max:13',
-            'status' => 'required|numeric|in:0,1',
-            'room_count' => 'required|integer|max:999|min:0'
+            'phone' => 'required|string|max:20',
+            'room_count' => 'required|integer',
+            'status' => 'required|integer|in:1,0',
         ]);
-        $request->merge(
-            ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
-        );
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
         Filial::create($request->all());
-        return redirect()->route('filial.index')->with('success', 'Filial created successfully');
+        return redirect()->route('filial.index')->with('success','Filial Creat Successfuly');
     }
 
-    public function show($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Filial $filial)
     {
-        $filial = Filial::find($id);
-        return view('filial.show', [
+        return view('filial.show',[
+            'filial' => $filial
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Filial $filial)
+    {
+        return view('filial.edit',[
             'filial' => $filial,
         ]);
     }
 
-    public function edit($id)
-    {
-        $filial = Filial::find($id);
-        return view('filial.edit', [
-            'filial' => $filial,
-        ]);
-    }
-
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Filial $filial)
     {
-        $this->validate($request, [
+        $validated = Validator::make($request->all(),[
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:100',
-            'phone' => 'required|string|max:13',
-            'status' => 'required|numeric|in:0,1',
-            'room_count' => 'required|integer|max:999|min:0'
+            'phone' => 'required|string|max:20',
+            'room_count' => 'required|integer',
+            'status' => 'required|integer|in:1,0',
         ]);
-        $request->merge(
-            ['phone' => str_replace(['(', ')', '-'], '', $request->phone)]
-        );
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
         $filial->update($request->all());
-        return redirect()->route('filial.index')
-            ->with('success', 'Filial updated successfully');
+        return redirect()->route('filial.index')->with('success','Filial Edit Successfuly');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Filial $filial)
     {
-        Filial::where('id', $id)->delete();
-        return redirect()->route('filial.index')
-            ->with('success', 'Filial deleted successfully');
+        $filial->delete();
+        return redirect()->route('filial.index')->with('success','Filial delete successfuly');
     }
-
 }

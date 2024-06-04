@@ -11,8 +11,14 @@ class Day extends Model
 
     protected $table = 'days';
 
-    protected $fillable = [
-        'name',
-        'list',
-    ];
+    protected $guarded = [];
+
+    public function scopeFilter($query, array $filters)
+    {
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', "%{$filters['name']}%");
+        }
+        return $query;
+    }
+
 }

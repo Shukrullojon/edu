@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cource;
 use App\Models\Filial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CourceController extends Controller
 {
@@ -13,21 +14,11 @@ class CourceController extends Controller
      */
     public function index(Request $request)
     {
-        $cources = Cource::select('id','name','time','during','info','price','one_price','filial_id','status');
-        if (isset($request->name)){
-            $cources->where('name','LIKE','%'.$request->name.'%');
-        }
-        if (isset($request->filial_id)){
-            $cources->where('filial_id',$request->filial_id);
-        }
-        if (isset($request->status)){
-            $cources->where('status',$request->status);
-        }
-        $cources = $cources->latest()->paginate(20);
-        $filials = Filial::all()->pluck('name','id');
+        $filials = Filial::latest()->get()->pluck('name','id');
+        $cources = Cource::filter($request->all())->latest()->paginate(20);
         return view('cource.index',[
-            'cources' => $cources,
             'filials' => $filials,
+            'cources' => $cources,
         ]);
     }
 
@@ -36,7 +27,7 @@ class CourceController extends Controller
      */
     public function create()
     {
-        $filials = Filial::where('status',1)->get()->pluck('name','id');
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('cource.create',[
             'filials' => $filials,
         ]);
@@ -47,16 +38,19 @@ class CourceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'time' => 'required|numeric',
-            'during' => 'required|numeric',
-            'price' => 'required|numeric',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'time' => 'required',
+            'during' => 'required',
+            'price' => 'required',
             'filial_id' => 'required|exists:filials,id',
-            'status' => 'required|in:0,1',
+            'status' => 'required|integer|in:1,0',
         ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
         Cource::create($request->all());
-        return redirect()->route('cource.index')->with('success','Cource created successfully');
+        return redirect()->route('cource.index')->with('success','Cource Creat Successfuly');
     }
 
     /**
@@ -65,7 +59,7 @@ class CourceController extends Controller
     public function show(Cource $cource)
     {
         return view('cource.show',[
-            'cource' => $cource,
+            'cource' => $cource
         ]);
     }
 
@@ -74,7 +68,7 @@ class CourceController extends Controller
      */
     public function edit(Cource $cource)
     {
-        $filials = Filial::where('status',1)->get()->pluck('name','id');
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('cource.edit',[
             'cource' => $cource,
             'filials' => $filials,
@@ -86,16 +80,21 @@ class CourceController extends Controller
      */
     public function update(Request $request, Cource $cource)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'time' => 'required|numeric',
-            'during' => 'required|numeric',
-            'price' => 'required|numeric',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'time' => 'required',
+            'during' => 'required',
+            'price' => 'required',
             'filial_id' => 'required|exists:filials,id',
-            'status' => 'required|in:0,1',
+            'status' => 'required|integer|in:1,0',
         ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
         $cource->update($request->all());
-        return redirect()->route('cource.index')->with('success','Cource updated successfully');
+        return redirect()->route('cource.index')->with('success','Cource Edit Successfuly');
     }
 
     /**
@@ -104,7 +103,6 @@ class CourceController extends Controller
     public function destroy(Cource $cource)
     {
         $cource->delete();
-        return redirect()->route('cource.index')->with('success','Cource deleted successfully');
+        return redirect()->route('cource.index')->with('success','Cource delete successfuly');
     }
-
 }

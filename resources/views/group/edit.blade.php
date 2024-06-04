@@ -1,101 +1,47 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
-        {!! Form::model($group, ['method' => 'PATCH','route' => ['group.update', $group->id]]) !!}
+    <section class="content">
         <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label for="name"><strong>Name:</strong></label> {!! Form::label('name',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('name', null, ['autocomplete'=>'off','placeholder' => 'Name','class' => 'form-control']) !!}
-                </div>
-            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Direction</h3>
+                    </div>
+                    <div class="card-body">
+                        {!! Form::model($direction, ['method' => 'PATCH','route' => ['direction.update', $direction->id]]) !!}
+                        <div class="row">
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label><strong>Start Date(01.01.2024)</strong></label>
-                    {!! Form::date('start_date', null, ['autocomplete'=>'off','placeholder' => 'Start date','class' => 'form-control']) !!}
-                </div>
-            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="name"><strong>Name:</strong></label>{!! Form::label('name',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::text('name', null, ['autocomplete'=>'OFF','id'=>'name','placeholder' => 'Name','required'=>true,'class' => "form-control ".($errors->has('name') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('name'))
+                                        <span class="error invalid-feedback">{{ $errors->first('name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label><strong>Start Hour(18:00)</strong></label>
-                    {!! Form::time('start_hour', null, ['autocomplete'=>'off','placeholder' => 'Start hour','class' => 'form-control']) !!}
-                </div>
-            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="filial_id"><strong>Filial:</strong></label>{!! Form::label('status',"*",['style'=>"color:red"]) !!}
+                                    {!! Form::select('filial_id', $filials,$direction->filial_id, ['autocomplete'=>'OFF','id'=>'filial_id','required'=>true,'class' => "form-control ".($errors->has('filial_id') ? 'is-invalid' : '')]) !!}
+                                    @if($errors->has('filial_id'))
+                                        <span class="error invalid-feedback">{{ $errors->first('filial_id') }}</span>
+                                    @endif
+                                </div>
+                            </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label
-                        for="type"><strong>Type:</strong></label> {!! Form::label('type',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('type[]', $days,$group->types, ['id'=>'type','class' => 'form-control','data-control'=>"select2", 'multiple']) !!}
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <br>
+                                <button type="submit" class="btn btn-primary form-control">Edit</button>
+                            </div>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label for="max_student"><strong>Max
-                            Student:</strong></label> {!! Form::label('max_student',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('max_student', null, ['id'=>'max_student','placeholder' => 'Max student','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label for="max_teacher"><strong>Max Teacher:</strong></label> {!! Form::label('max_teacher',"*",['style'=>"color:red"]) !!}
-                    {!! Form::text('max_teacher', null, ['id'=>'max_teacher','placeholder' => 'Max Teacher','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label
-                        for="cource_id"><strong>Cource:</strong></label> {!! Form::label('cource_id',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('cource_id', $cources,null, ['id'=>'cource_id','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label
-                        for="filial_id"><strong>Filial:</strong></label> {!! Form::label('filial_id',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('filial_id', $filials,null, ['id' => 'filial_id','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4">
-                <div class="form-group">
-                    <label
-                        for="status"><strong>Status:</strong></label>{!! Form::label('status',"*",['style'=>"color:red"]) !!}
-                    {!! Form::select('status', \App\Helpers\StatusHelper::$groupStatus ,null, ['id'=>'status','class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <br>
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
             </div>
         </div>
-        {!! Form::close() !!}
-    </div>
-
-@endsection
-
-@section('scripts')
-    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-    <script>
-        $("#start_time").inputmask("yyyy-mm-dd hh:mm:ss");
-    </script>
+    </section>
 @endsection

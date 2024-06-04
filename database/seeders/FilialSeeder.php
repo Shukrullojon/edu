@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Filial;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class FilialSeeder extends Seeder
@@ -13,13 +12,12 @@ class FilialSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
+        Filial::create([
             'name' => 'CITY EDUCATION',
             'address' => 'Shayhontohur',
             'phone' => '998991234567',
             'status' => 1,
             'room_count' => 10,
-        ];
-        Filial::create($data);
+        ]);
     }
 }

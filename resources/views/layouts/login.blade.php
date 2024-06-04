@@ -1,83 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><base href="../../../">
-    <title>CITY EDUCATION CRM</title>
-    <meta charset="utf-8" />
-    <meta name="description" content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free." />
-    <meta name="keywords" content="Metronic, bootstrap, bootstrap 5, Angular, VueJs, React, Laravel, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme" />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Keenthemes | Metronic" />
-
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="{{ asset('demo/dist/assets/media/logos/favicon.ico')}}" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-    <link href="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('demo/dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
-    <link href="{{ asset('demo/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('demo/dist/assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ asset('demo/dist/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CITY | EDUCATION</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/fontawesome-free/css/all.min.css") }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css") }}">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css") }}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/jqvmap/jqvmap.min.css") }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/dist/css/adminlte.min.css") }}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css") }}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/daterangepicker/daterangepicker.css") }}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{{ asset("admin_lte_3.2.0/plugins/summernote/summernote-bs4.min.css") }}">
 </head>
-<body id="kt_body" class="bg-body">
-<div class="d-flex flex-column flex-root">
-    <!--begin::Authentication - Sign-in -->
-    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-        <!--begin::Aside-->
-        <div class="d-flex flex-column flex-lg-row-auto w-xl-600px positon-xl-relative" style="background-color: #F2C98A">
-            <!--begin::Wrapper-->
-            <div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px scroll-y">
-                <div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
-                    <a href="" class="py-9 mb-5">
-                        <img alt="Logo" src="{{ asset('city.webp')}}" class="h-60px" />
-                    </a>
-                    <h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #986923;">Welcome to CITY EDUCATION</h1>
-                </div>
-            </div>
-            <!--end::Wrapper-->
-        </div>
-        <!--end::Aside-->
-        <!--begin::Body-->
-        @yield('content')
-        <!--end::Body-->
-    </div>
-    <!--end::Authentication - Sign-in-->
-</div>
-<!--end::Root-->
-<!--end::Main-->
-<!--begin::Javascript-->
-<script>var hostUrl = "assets/";</script>
-<!--begin::Global Javascript Bundle(used by all pages)-->
-<script src="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/js/scripts.bundle.js')}}"></script>
-<!--end::Global Javascript Bundle-->
-<!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('demo/dist/assets/js/custom/authentication/sign-in/general.js')}}"></script>
-<!--end::Page Custom Javascript-->
-<!--end::Javascript-->
+<body class="hold-transition login-page">
 
-<script src="{{ asset('demo/dist/assets/js/scripts.bundle.js') }}"></script>
-<!--end::Global Javascript Bundle-->
-<!--begin::Page Vendors Javascript(used by this page)-->
-<script src="{{ asset('demo/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
-<!--end::Page Vendors Javascript-->
-<!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('demo/dist/assets/js/custom/apps/chat/chat.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/js/custom/utilities/modals/create-app.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/js/custom/utilities/modals/users-search.js')}}"></script>
-<script src="{{ asset('jquery/jquery.min.js')}}"></script>
-<script src="{{ asset('demo/dist/assets/plugins/global/plugins.bundle.js') }}"></script>
+@yield('content')
 
-@yield('scripts')
+<!-- jQuery -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/jquery/jquery.min.js")}}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/jquery-ui/jquery-ui.min.js")}}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
+<!-- ChartJS -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/chart.js/Chart.min.js")}}"></script>
+<!-- Sparkline -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/sparklines/sparkline.js")}}"></script>
+<!-- JQVMap -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/jqvmap/jquery.vmap.min.js")}}"></script>
+<script src="{{ asset("admin_lte_3.2.0/plugins/jqvmap/maps/jquery.vmap.usa.js")}}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/jquery-knob/jquery.knob.min.js")}}"></script>
+<!-- daterangepicker -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/moment/moment.min.js")}}"></script>
+<script src="{{ asset("admin_lte_3.2.0/plugins/daterangepicker/daterangepicker.js")}}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js")}}"></script>
+<!-- Summernote -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/summernote/summernote-bs4.min.js")}}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ asset("admin_lte_3.2.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")}}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset("admin_lte_3.2.0/dist/js/adminlte.js")}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset("admin_lte_3.2.0/dist/js/demo.js")}}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{ asset("admin_lte_3.2.0/dist/js/pages/dashboard.js")}}"></script>
 </body>
-<!--end::Body-->
 </html>

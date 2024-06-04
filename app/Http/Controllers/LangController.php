@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Filial;
 use App\Models\Lang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LangController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $langs = Lang::latest()->paginate(20);
+        $filials = Filial::latest()->get()->pluck('name','id');
+        $langs = Lang::filter($request->all())->latest()->paginate(20);
         return view('lang.index',[
-            'langs' => $langs
+            'filials' => $filials,
+            'langs' => $langs,
         ]);
     }
 
@@ -23,7 +27,10 @@ class LangController extends Controller
      */
     public function create()
     {
-        return view('lang.create');
+        $filials = Filial::latest()->get()->pluck('name','id');
+        return view('lang.create',[
+            'filials' => $filials,
+        ]);
     }
 
     /**
@@ -31,11 +38,16 @@ class LangController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
+            'status' => 'required|integer|in:1,0',
         ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
         Lang::create($request->all());
-        return redirect()->route('lang.index')->with('success','Lang created successfully');
+        return redirect()->route('lang.index')->with('success','Lang Creat Successfuly');
     }
 
     /**
@@ -44,7 +56,7 @@ class LangController extends Controller
     public function show(Lang $lang)
     {
         return view('lang.show',[
-            'lang' => $lang,
+            'lang' => $lang
         ]);
     }
 
@@ -53,8 +65,10 @@ class LangController extends Controller
      */
     public function edit(Lang $lang)
     {
+        $filials = Filial::latest()->get()->pluck('name','id');
         return view('lang.edit',[
             'lang' => $lang,
+            'filials' => $filials,
         ]);
     }
 
@@ -63,14 +77,18 @@ class LangController extends Controller
      */
     public function update(Request $request, Lang $lang)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|string|max:100',
+            'filial_id' => 'required|exists:filials,id',
+            'status' => 'required|integer|in:1,0',
         ]);
-        $lang->update([
-            'name' => $request->name,
-        ]);
-        return redirect()->route('lang.index')
-            ->with('success','Language updated successfully');
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
+        $lang->update($request->all());
+        return redirect()->route('lang.index')->with('success','Lang Edit Successfuly');
     }
 
     /**
@@ -79,7 +97,6 @@ class LangController extends Controller
     public function destroy(Lang $lang)
     {
         $lang->delete();
-        return redirect()->route('lang.index')
-            ->with('success','Language deleted successfully');
+        return redirect()->route('lang.index')->with('success','Lang delete successfuly');
     }
 }

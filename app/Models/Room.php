@@ -5,35 +5,35 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property String $name
- * @property String $filial_id
- * @property int $status
- * */
-
 class Room extends Model
 {
     use HasFactory;
 
-    protected $table = 'rooms';
-
-    protected $fillable = [
-        'name',
-        'filial_id',
-        'status',
+    static $statuses = [
+        1 => "✅ Active",
+        0 => "📦 Archive",
     ];
 
-    public $timestamps = true;
+    protected $table = 'rooms';
 
-    public function filial(){
+    protected $guarded = [];
+
+    public function scopeFilter($query, array $filters)
+    {
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', "%{$filters['name']}%");
+        }
+        if (isset($filters['filial_id'])) {
+            $query->where('filial_id', $filters['filial_id']);
+        }
+        if (isset($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+        return $query;
+    }
+
+    public function filial()
+    {
         return $this->belongsTo(Filial::class);
-    }
-
-    public function roomTask(){
-        return $this->belongsToMany(RoomTasks::class);
-    }
-
-    public function details(){
-        return $this->hasMany(GroupDetail::class,'room_id','id')->orderBy('begin_time','ASC');
     }
 }

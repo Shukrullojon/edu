@@ -1,28 +1,59 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
-            <tr>
-                <th>Name</th>
-                <th>Time</th>
-                <th>During</th>
-                <th>Info</th>
-                <th>Price</th>
-                <th>One Price</th>
-                <th>Filial</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td>{{ $cource->name }}</td>
-                <td>{{ $cource->time }} min</td>
-                <td>{{ $cource->during }} month</td>
-                <td>{{ $cource->info }}</td>
-                <td>{{ number_format($cource->price,0,' ',' ') }}</td>
-                <td>{{ number_format($cource->one_price,0,' ',' ') }}</td>
-                <td>@if(!empty($cource->filial->name)) {{ $cource->filial->name }} @endif</td>
-                <td>{{ \App\Helpers\StatusHelper::courceStatusGet($cource->status) }}</td>
-            </tr>
-        </table>
-    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Show Cource</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ $cource->name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Time</th>
+                                <td>{{ $cource->time }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>During</th>
+                                <td>{{ $cource->during }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Price</th>
+                                <td>{{ $cource->price }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Filial</th>
+                                <td>{{ $cource->filial->name ?? '' }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ \App\Models\Cource::$statuses[$cource->status] ?? '' }}</td>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection

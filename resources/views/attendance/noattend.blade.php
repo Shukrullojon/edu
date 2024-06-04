@@ -1,50 +1,77 @@
 @extends('layouts.admin')
 
+@section('styles')
+    <style>
+        table, th, td {
+            border: 1px solid;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+@endsection
+
 @section('content')
-    <div class="card mb-12 mb-xl-12" id="kt_profile_details_view" style="margin: 10px; padding: 10px">
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
-        <div class="card card-xl-stretch mb-5 mb-xl-8">
-            <div class="card-body py-3">
-                <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
-                    <tr>
-                        <th>Name</th>
-                        <th>Group</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                    @foreach ($students as $key => $student)
-                        <tr>
-                            <td>@if(!empty($student->student->name)) {{ $student->student->name ?? '' }} {{ $student->student->surname ?? '' }} {{ \App\Helpers\MaskHelper::changePhoneMask($student->student->phone ?? '') }} @endif</td>
-                            <td>{{ $student->group_schedule->group->name ?? '' }} ({{ $student->group_schedule->plan_teacher->name ?? '' }}  {{ $student->group_schedule->plan_teacher->surname ?? '' }}) </td>
-                            <td>{{ $student->group_schedule->date ?? '' }} ({{ $student->group_schedule->start_date ?? '' }}-{{ $student->group_schedule->end_date ?? '' }})</td>
-                            <td></td>
-                        </tr>
-                    @endforeach
-                </table>
 
-                <hr>
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
 
-                <table class="table table-bordered table-row-dashed fs-6 gy-3" id="kt_table_widget_5_table">
-                    <tr>
-                        <th>Group</th>
-                        <th>Date</th>
-                        <th></th>
-                    </tr>
-                    @foreach ($s_list as $key => $s)
-                        <tr>
-                            <td>{{ $s->group->name ?? '' }} ({{ $student->group_schedule->plan_teacher->name ?? '' }}  {{ $student->group_schedule->plan_teacher->surname ?? '' }}) </td>
-                            <td>{{ $s->date ?? '' }} ({{ $s->start_date ?? '' }}-{{ $s->end_date ?? '' }})</td>
-                            <td></td>
-                        </tr>
-                    @endforeach
-                </table>
+                    </div>
 
+                    <div class="card-body">
+                        <table id="dataTable"
+                               class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg"
+                               user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                            <tr>
+                                <th>Group</th>
+                                <th>Date</th>
+                                <th>Students</th>
+                                <th>No Attend</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($groups as $group)
+                                    <tr>
+                                        <td>{{ $group['name'] }}</td>
+                                        <td>{{ $group['date'] }}</td>
+                                        <td>{{ $group['students'] }}</td>
+                                        <td>{{ $group['noattend'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table id="dataTable" class="table table-bordered table-striped dataTable dtr-inline table-responsive-lg" user="grid" aria-describedby="dataTable_info">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Group</th>
+                                    <th>Date</th>
+                                    <th>Comment</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($noattend as $noattend)
+                                    <tr>
+                                        <td>{{ $noattend->student->name ?? '' }}</td>
+                                        <td>{{ $noattend->group->name ?? '' }}</td>
+                                        <td>{{ $noattend->date }}</td>
+                                        <td>{{ $noattend->comment }}</td>
+                                        <td>{{ $noattend->status }}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
 @endsection
