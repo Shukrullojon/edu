@@ -17,6 +17,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'home-show'],
             ['name' => 'home-index'],
             ['name' => 'home-profile'],
+            ['name' => 'home-filter'],
             // role page
             ['name' => 'role-index'],
             ['name' => 'role-filter'],
@@ -116,6 +117,9 @@ class PermissionSeeder extends Seeder
             // Attendance
             ['name' => 'attendance-index'],
             ['name' => 'attendance-noattend'],
+            ['name' => 'attendance-edit'],
+            ['name' => 'attendance-update'],
+            ['name' => 'attendance-filter'],
 
             // Schedule
             ['name' => 'schedule-index'],

@@ -9,6 +9,11 @@ class GroupSchedule extends Model
 {
     use HasFactory;
 
+    static $schedule_status = [
+        0 => '❌ Aniqlanmagan',
+        1 => '✅ Aniqlangan',
+    ];
+
     protected $table = 'group_schedules';
 
     protected $guarded = [];
@@ -39,7 +44,7 @@ class GroupSchedule extends Model
 
     public function student()
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class,'student_id','id');
     }
 
     public function teacher()

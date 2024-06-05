@@ -9,6 +9,7 @@ use App\Models\GroupScheduleStudent;
 use App\Models\GroupTeacher;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
 {
@@ -79,6 +80,30 @@ class AttendanceController extends Controller
         ]);
     }
 
+    public function edit($id)
+    {
+        $schedule = GroupSchedule::find($id);
+        return view('attendance.edit',[
+            'schedule' => $schedule,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = Validator::make($request->all(),[
+            'status' => 'required|integer',
+        ]);
+        if ($validated->fails()){
+            return back()->withInput()->withErrors($validated);
+        }
+        $request->request->remove('_method');
+        $request->request->remove('_token');
+        GroupSchedule::where('id',$id)->update($request->all());
+        return redirect()->route('attend.noattend', [
+            'date' => $request->date,
+        ])->with('success','Attendance Edit Successfuly');
+    }
+
     public function attendanceChange(Request $request)
     {
         $schedule = GroupSchedule::find($request->schedule_id);
@@ -131,26 +156,11 @@ class AttendanceController extends Controller
 
     public function noattend(Request $request)
     {
-        // Bugun qaysi gruhlarga dars bo'lishi kerak edi
-        // Nechta student kelishi kerak edi
-        // Nechta kelmadi
-        // Kelmaganlar ro'yhati
-        $schedules = new GroupSchedule();
-        $schedules = $schedules->where('date',$request->date ? date("Y-m-d", strtotime($request->date)) : date("Y-m-d"));
-        $schedules = $schedules->latest()->groupBy('group_id')->get();
-        $groups = [];
-        foreach ($schedules as $schedule){
-            $info = [
-                'name' => $schedule->group->name,
-                'date' => $schedule->date,
-                'students' => 0,
-                'noattend' => 0,
-            ];
-            $groups[]=$info;
-        }
-        $noattend = GroupSchedule::where('date',$request->date ? date("Y-m-d", strtotime($request->date)) : date("Y-m-d"))->latest()->groupBy('group_id')->get();
+        $noattend = GroupSchedule::where('date',$request->date ? date("Y-m-d", strtotime($request->date)) : date("Y-m-d"))
+            ->where('attend',0)
+            ->latest()
+            ->get();
         return view('attendance.noattend',[
-            'groups' => $groups,
             'noattend' => $noattend,
         ]);
     }
