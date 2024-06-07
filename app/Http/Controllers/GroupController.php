@@ -7,6 +7,7 @@ use App\Models\Day;
 use App\Models\Direction;
 use App\Models\Filial;
 use App\Models\Group;
+use App\Models\GroupSchedule;
 use App\Models\GroupStudent;
 use App\Models\GroupTeacher;
 use App\Models\Lang;
@@ -167,7 +168,9 @@ class GroupController extends Controller
         }
 
         if(!empty($request->teacher)){
-            foreach ($request->teacher as $t){
+            foreach ($request->teacher as $key => $t){
+                if ($key == $request->teacher_counter)
+                    continue;
                 GroupTeacher::create([
                     'group_id' => $group->id,
                     'room_id' => $t['room_id'] ?? 0,
@@ -180,8 +183,45 @@ class GroupController extends Controller
                 ]);
             }
         }
-        /*$this->schedule($group);*/
+        $this->schedule($group);
         return redirect()->route('group.show', $group->id)->with('success', 'Group created successfully');
+    }
+
+    public function schedule($group)
+    {
+        $group_teachers = GroupTeacher::where('group_id',$group->id)->get();
+        foreach ($group_teachers as $group_teacher){
+            $start_date = date('Y-m-d', strtotime('-2 weeks'));
+            $end_date = date('Y-m-d', strtotime($start_date." + ".$group_teacher->group->cource->during." months"));
+            $daysDB = Day::select('list')->where('id',$group_teacher->group->day_id)->get()->toArray();
+            $days = [];
+            foreach ($daysDB as $d){
+                $days = array_merge($days, json_decode($d['list'],true));
+            }
+            $diff = (int)(strtotime($end_date) - strtotime($start_date)) / (60 * 60 * 24);
+            $group_students = GroupStudent::where('group_id',$group_teacher->group_id)->get();
+            for($i = 0; $i < $diff; $i++){
+                foreach ($group_students as $group_student){
+                    $dd = date("D", strtotime("$start_date + $i days"));
+                    if (in_array($dd, $days)){
+                        GroupSchedule::create([
+                            'group_id' => $group_teacher->group_id,
+                            'teacher_id' => $group_teacher->teacher_id,
+                            'date' => date("Y-m-d", strtotime("$start_date + $i days")),
+                            'begin_time' => $group_teacher->begin_time,
+                            'end_time' => $group_teacher->end_time,
+                            'room_id' => $group_teacher->room_id,
+                            'direction_id' => $group_teacher->direction_id,
+                            'day_id' => $group_teacher->day_id,
+                            'student_id' => $group_student->student_id,
+                            'attend' => 2,
+                            'homework' => 2,
+                            'ball' => 0,
+                        ]);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -217,5 +257,15 @@ class GroupController extends Controller
     {
         $group->delete();
         return redirect()->route('group.index')->with('success','Group delete successfuly');
+    }
+
+    public function studentDestroy($id)
+    {
+        $g = GroupStudent::find($id);
+        $g->update([
+            'closed_at' => date("Y-m-d"),
+            'status' => 0,
+        ]);
+        return redirect()->route('group.show',$g->group_id)->with('success','Student delete successfuly');
     }
 }

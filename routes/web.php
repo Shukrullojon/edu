@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('student', \App\Http\Controllers\StudentController::class);
     Route::resource('staff', \App\Http\Controllers\StaffController::class);
     Route::resource('group', \App\Http\Controllers\GroupController::class);
+    Route::get("group/studentDestroy/{id}",[\App\Http\Controllers\GroupController::class,'studentDestroy'])->name("group.studentDestroy");
 
     Route::resource('attendance', \App\Http\Controllers\AttendanceController::class);
     Route::post("attendance/change",[\App\Http\Controllers\AttendanceController::class,'attendanceChange'])->name("attendanceChange");

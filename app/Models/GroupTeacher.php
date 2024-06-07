@@ -33,4 +33,8 @@ class GroupTeacher extends Model
         return $this->belongsTo(Day::class);
     }
 
+    public function direction()
+    {
+        return $this->belongsTo(Direction::class);
+    }
 }

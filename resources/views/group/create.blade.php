@@ -120,14 +120,14 @@
                             </div>
                         </div>
                         <hr>
-                        <input type="hidden" name="teacher_counter" value="1" id="teacher_counter">
+                        <input type="hidden" name="teacher_counter" value="2" id="teacher_counter">
                         <div class="row" id="teacher_part" style="display: none">
                             <div class="col-xs-2 col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="begin_hour"><strong>Begin Hour</strong></label>
-                                            <select name="teacher[1][begin_hour]" id="begin_hour" class="form-control begin_hour_class">
+                                            <label for="begin_hour"><strong>Hour</strong></label>
+                                            <select name="teacher[2][begin_hour]" id="begin_hour" class="form-control begin_hour_class">
                                                 <option value="06">06</option>
                                                 <option value="07">07</option>
                                                 <option value="08">08</option>
@@ -149,7 +149,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="begin_minute"><strong>Begin Min</strong></label>
-                                            <select name="teacher[1][begin_minute]" id="begin_minute" class="form-control begin_minute_class">
+                                            <select name="teacher[2][begin_minute]" id="begin_minute" class="form-control begin_minute_class">
                                                 <option value="00">00</option>
                                                 <option value="15">15</option>
                                                 <option value="30">30</option>
@@ -165,7 +165,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label for="end_hour"><strong>End Hour</strong></label>
-                                            <select name="teacher[1][end_hour]" id="end_hour" class="form-control end_hour_class">
+                                            <select name="teacher[2][end_hour]" id="end_hour" class="form-control end_hour_class">
                                                 <option value="06">06</option>
                                                 <option value="07">07</option>
                                                 <option value="08">08</option>
@@ -187,7 +187,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="begin_minute"><strong>End Min</strong></label>
-                                            <select name="teacher[1][end_minute]" id="end_minute" class="form-control end_minute_class">
+                                            <select name="teacher[2][end_minute]" id="end_minute" class="form-control end_minute_class">
                                                 <option value="00">00</option>
                                                 <option value="15">15</option>
                                                 <option value="30">30</option>
@@ -201,21 +201,21 @@
                             <div class="col-xs-2 col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <label for="teacher"><strong>Teacher</strong></label>
-                                    {!! Form::select('teacher[1][teacher_id]',$teachers, null, ['id'=>'teacher','class' => 'form-control teacher_id_class', 'data-control'=>"select2"]) !!}
+                                    {!! Form::select('teacher[2][teacher_id]',$teachers, null, ['id'=>'teacher','class' => 'form-control teacher_id_class', 'data-control'=>"select2"]) !!}
                                 </div>
                             </div>
 
                             <div class="col-xs-2 col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <label for="direction_id"><strong>Direction</strong></label>
-                                    {!! Form::select('teacher[1][direction_id]',$directions, null, ['id'=>'direction_id','class' => 'form-control direction_id_class']) !!}
+                                    {!! Form::select('teacher[2][direction_id]',$directions, null, ['id'=>'direction_id','class' => 'form-control direction_id_class']) !!}
                                 </div>
                             </div>
 
                             <div class="col-xs-2 col-sm-2 col-md-2">
                                 <div class="form-group">
                                     <label for="room_id"><strong>Room</strong></label>
-                                    {!! Form::select('teacher[1][room_id]', $rooms,null, ['id'=>'room_id','class' => 'form-control room_id_class']) !!}
+                                    {!! Form::select('teacher[2][room_id]', $rooms,null, ['id'=>'room_id','class' => 'form-control room_id_class']) !!}
                                 </div>
                             </div>
                         </div>
@@ -227,8 +227,8 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <label for="begin_hour"><strong>Begin Hour</strong></label>
-                                                    <select name="teacher[0][begin_hour]" id="begin_hour" class="form-control">
+                                                    <label for="begin_hour"><strong>Hour</strong></label>
+                                                    <select name="teacher[1][begin_hour]" id="begin_hour" class="form-control">
                                                         <option value="06">06</option>
                                                         <option value="07">07</option>
                                                         <option value="08">08</option>
@@ -250,7 +250,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="begin_minute"><strong>Begin Min</strong></label>
-                                                    <select name="teacher[0][begin_minute]" id="begin_hour" class="form-control">
+                                                    <select name="teacher[1][begin_minute]" id="begin_hour" class="form-control">
                                                         <option value="00">00</option>
                                                         <option value="15">15</option>
                                                         <option value="30">30</option>
@@ -266,7 +266,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label for="end_hour"><strong>End Hour</strong></label>
-                                                    <select name="teacher[0][end_hour]" id="end_hour" class="form-control">
+                                                    <select name="teacher[1][end_hour]" id="end_hour" class="form-control">
                                                         <option value="06">06</option>
                                                         <option value="07">07</option>
                                                         <option value="08">08</option>
@@ -288,7 +288,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="end_min"><strong>End Min</strong></label>
-                                                    <select name="teacher[0][end_minute]" id="end_minute" class="form-control">
+                                                    <select name="teacher[1][end_minute]" id="end_minute" class="form-control">
                                                         <option value="00">00</option>
                                                         <option value="15">15</option>
                                                         <option value="30">30</option>
@@ -302,21 +302,21 @@
                                     <div class="col-xs-2 col-sm-2 col-md-2">
                                         <div class="form-group">
                                             <label for="teacher"><strong>Teacher</strong></label>
-                                            {!! Form::select('teacher[0][teacher_id]',$teachers, null, ['id'=>'teacher','class' => 'form-control', 'data-control'=>"select2"]) !!}
+                                            {!! Form::select('teacher[1][teacher_id]',$teachers, null, ['id'=>'teacher','class' => 'form-control', 'data-control'=>"select2"]) !!}
                                         </div>
                                     </div>
 
                                     <div class="col-xs-2 col-sm-2 col-md-2">
                                         <div class="form-group">
                                             <label for="teacher"><strong>Direction</strong></label>
-                                            {!! Form::select('teacher[0][direction_id]',$directions, null, ['id'=>'direction','class' => 'form-control', 'data-control'=>"select2"]) !!}
+                                            {!! Form::select('teacher[1][direction_id]',$directions, null, ['id'=>'direction','class' => 'form-control', 'data-control'=>"select2"]) !!}
                                         </div>
                                     </div>
 
                                     <div class="col-xs-2 col-sm-2 col-md-2">
                                         <div class="form-group">
                                             <label for="room"><strong>Room</strong></label>
-                                            {!! Form::select('teacher[0][room_id]', $rooms,null, ['id'=>'room','class' => 'form-control', 'data-control'=>"select2"]) !!}
+                                            {!! Form::select('teacher[1][room_id]', $rooms,null, ['id'=>'room','class' => 'form-control', 'data-control'=>"select2"]) !!}
                                         </div>
                                     </div>
 
@@ -330,13 +330,15 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
+
+                        <hr style="margin: 0px">
                         <input type="hidden" name="student_counter" value="1" id="student_counter">
                         <div class="row" id="student_part_show">
                             <div class="col-xs-12 col-sm-12 col-md-12" style="margin-top: 10px" id="p_2_0">
                                 <div class="form-group">
-                                    <select class="form-control student_select2" name="students[]" id="choose_student" data-control="select2" multiple>
-                                        <option value="">Select students</option>
+                                    <p style="margin: 0px">Students</p>
+                                    <select class="form-control select2" name="students[]" id="choose_student" multiple="multiple">
+                                        <option value=""></option>
                                         @foreach($students as $student)
                                             <option
                                                 value="{{ $student->id }}">{{ $student->name }} {{ $student->surname }} {{ $student->phone }} {{ $student->id_code }}</option>
@@ -363,35 +365,22 @@
     <script language="JavaScript" type="text/javascript">
         $(document).on("click", ".btn_plus_teacher", function () {
             var teacher_counter = parseInt($("#teacher_counter").val());
-            var counter = teacher_counter + 1;
+            teacher_counter ++;
+            console.log(teacher_counter);
             var part = $("#teacher_part").html();
             $("#teacher_append").append(
                 '<div class="div_helper_' + teacher_counter + '"><div class="row">' + part +
                 '<div class="col-xs-2 col-sm-2 col-md-2"><div class="form-group"><br><p class="btn btn-success btn_plus_teacher"><i class="fa fa-plus"></i></p> <p class="btn btn-danger"><i class="fa fa-minus"></i></p></div></div><div></div>'
             );
-            $('#begin_hour').attr('name', 'teacher[' + counter + '][begin_hour]');
-            $('#begin_minute').attr('name', 'teacher[' + counter + '][begin_minute]');
-            $('#end_hour').attr('name', 'teacher[' + counter + '][end_hour]');
-            $('#end_minute').attr('name', 'teacher[' + counter + '][end_minute]');
-            $('#teacher').attr('name', 'teacher[' + counter + '][teacher_id]');
-            $('#direction_id').attr('name', 'teacher[' + counter + '][direction_id]');
-            $('#room_id').attr('name', 'teacher[' + counter + '][room_id]');
-            $("#teacher_counter").val(c);
-            /*$('.teacher_id_class').select2();
-            $('.room_id_class').select2();*/
+            $('#begin_hour').attr('name', 'teacher[' + teacher_counter + '][begin_hour]');
+            $('#begin_minute').attr('name', 'teacher[' + teacher_counter + '][begin_minute]');
+            $('#end_hour').attr('name', 'teacher[' + teacher_counter + '][end_hour]');
+            $('#end_minute').attr('name', 'teacher[' + teacher_counter + '][end_minute]');
+            $('#teacher').attr('name', 'teacher[' + teacher_counter + '][teacher_id]');
+            $('#direction_id').attr('name', 'teacher[' + teacher_counter + '][direction_id]');
+            $('#room_id').attr('name', 'teacher[' + teacher_counter + '][room_id]');
+            $("#teacher_counter").val(teacher_counter);
         });
-
-        /*$(document).on("click", ".student_add_new", function () {
-            var part = $("#student_part").html();
-            var student_counter = $("#student_counter").val();
-            $("#student_part_show").append(
-                '<div class="col-xs-2 col-sm-2 col-md-2" style="margin-top: 10px" id="p_2_' + student_counter + '">'
-                + part + '</div>');
-            $("#student_part_show").append(
-                '<div class="col-xs-1 col-sm-1 col-md-1" style="margin-top: 10px" id="p_1_' + student_counter + '"><div class="form-group"><p class="btn btn-danger btn_danger" unk_id="' + student_counter + '"><i class="fa fa-minus"></i></p></div>');
-            $('.student_select2').select2();
-            $("#student_counter").val(++student_counter);
-        });*/
 
         $(document).on("click", ".btn_danger", function () {
             var unk_id = $(this).attr("unk_id");

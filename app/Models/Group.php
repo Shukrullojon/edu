@@ -36,7 +36,7 @@ class Group extends Model
 
     public function students()
     {
-        return $this->hasMany(GroupStudent::class, 'group_id','id');
+        return $this->hasMany(GroupStudent::class, 'group_id','id')->orderByDesc('status');
     }
 
     public function teachers()
