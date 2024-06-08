@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("day_id");
             $table->time("begin_time");
             $table->time("end_time");
+            $table->date("closed_at")->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

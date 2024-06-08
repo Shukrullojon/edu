@@ -71,13 +71,6 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('group-edit')
-                                                    <a class="" href="{{ route('group.edit',$group->id) }}"
-                                                       style="margin-right: 2px">
-                                                        <span class="fa fa-edit" style="color: #562bb0"></span>
-                                                    </a>
-                                                @endcan
-
                                                 @can('group-destroy')
                                                     <form action="{{ route("group.destroy", $group->id) }}" method="POST">
                                                         @csrf

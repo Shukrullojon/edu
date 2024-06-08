@@ -28,6 +28,11 @@ class GroupSchedule extends Model
         return $this->belongsTo(Day::class);
     }
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
     public function direction()
     {
         return $this->belongsTo(Direction::class);

@@ -229,8 +229,12 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
+        $schedules = GroupSchedule::where('group_id', $group->id)
+            ->groupBy(['teacher_id', 'date'])
+            ->get();
         return view('group.show',[
             'group' => $group,
+            'schedules' => $schedules,
         ]);
     }
 
@@ -267,5 +271,142 @@ class GroupController extends Controller
             'status' => 0,
         ]);
         return redirect()->route('group.show',$g->group_id)->with('success','Student delete successfuly');
+    }
+
+    public function teacherDestroy($id)
+    {
+        $t = GroupTeacher::find($id);
+        $t->update([
+            'closed_at' => date("Y-m-d"),
+            'status' => 0,
+        ]);
+        return redirect()->route('group.show',$t->group_id)->with('success','Teacher delete successfuly');
+    }
+
+    public function createStudent($id)
+    {
+        $students = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.id_code as id_code',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Student')
+            ->where('model_has_roles.model_type', User::class)
+            ->whereIn('users.status', [1,2,3,4,5,6])
+            ->latest('users.updated_at')
+            ->groupBy('users.id')
+            ->get();
+        return view('group.create_student',[
+            'id' => $id,
+            'students' => $students,
+        ]);
+    }
+
+    public function storeStudent(Request $request, $id)
+    {
+        foreach ($request->students as $student){
+            GroupStudent::firstOrCreate(
+                [
+                    'group_id' => $id,
+                    'student_id' => $student,
+                    'status' => 1,
+                ],
+                [
+                    'closed_at' => '0000-00-00',
+                ],
+            );
+        }
+        return redirect()->route('group.show',$id)->with('success','Students create successfuly');
+    }
+
+    public function createTeacher($id)
+    {
+        $teachers = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Teacher')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 1)
+            ->latest('users.updated_at')
+            ->get();
+        $directions = Direction::latest()->get()->pluck('name', 'id');
+        $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
+        return view('group.create_teacher',[
+            'id' => $id,
+            'teachers' => $teachers,
+            'directions' => $directions,
+            'rooms' => $rooms,
+        ]);
+    }
+
+    public function storeTeacher(Request $request, $id)
+    {
+        $group = Group::find($id);
+        GroupTeacher::create([
+            'group_id' => $id,
+            'room_id' => $request->room_id,
+            'teacher_id' => $request->teacher_id,
+            'direction_id' => $request->direction_id,
+            'day_id' => $group->day_id,
+            'begin_time' => date("H:i:s", strtotime($request->begin_hour.':'.$request->begin_minute)),
+            'end_time' => date("H:i:s", strtotime($request->begin_hour.':'.$request->begin_minute)),
+            'status' => 1,
+        ]);
+        return redirect()->route('group.show',$id)->with('success','Teacher create successfuly');
+    }
+
+    public function editSchedule($id)
+    {
+        $teachers = User::select(
+            'users.id as id',
+            'users.name as name',
+            'users.surname as surname',
+            'users.phone as phone',
+            'users.status as status',
+        )
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', 'Teacher')
+            ->where('model_has_roles.model_type', User::class)
+            ->where('users.status', 1)
+            ->latest('users.updated_at')
+            ->get();
+
+        $schedule = GroupSchedule::find($id);
+        $directions = Direction::latest()->get()->pluck('name', 'id');
+        $rooms = Room::where('status', 1)->latest()->get()->pluck('name', 'id');
+        return view('group.edit_schedule',[
+            'teachers' => $teachers,
+            'schedule' => $schedule,
+            'directions' => $directions,
+            'rooms' => $rooms,
+        ]);
+    }
+
+    public function updateSchedule(Request $request, $id)
+    {
+        $schedule = GroupSchedule::find($id);
+        GroupSchedule::where('group_id',$schedule->group_id)
+            ->where('teacher_id',$schedule->teacher_id)
+            ->where('date',$schedule->date)
+            ->update([
+                'teacher_id' => $request->teacher_id,
+                'begin_time' => date("H:i:s", strtotime($request->begin_hour.':'.$request->begin_minute)),
+                'end_time' => date("H:i:s", strtotime($request->end_hour.':'.$request->end_minute)),
+                'room_id' => $request->room_id,
+                'direction_id' => $request->direction_id,
+            ]);
+        return redirect()->route('group.show',$schedule->group_id)->with('success','Schedule update successfuly');
     }
 }

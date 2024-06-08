@@ -9,6 +9,11 @@ class GroupTeacher extends Model
 {
     use HasFactory;
 
+    static $group_teacher_status = [
+        1 => '✅ Active',
+        0 => '❌ Archive',
+    ];
+
     protected $table = 'group_teachers';
 
     protected $guarded = [];
